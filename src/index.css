@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.ql-container {
+  min-height: 500px;
+  border-radius: 0 0 10px 10px;
+}
+.ql-editor {
+  min-height: 500px;
+}
