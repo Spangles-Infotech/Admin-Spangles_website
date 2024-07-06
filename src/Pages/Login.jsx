@@ -30,7 +30,9 @@ function Login() {
       console.error(error);
       setResponse(true);
       setResponseColor("text-red-600");
-      setResponseMessage(error.response.data.message);
+      setResponseMessage(
+        error.response ? error.response.data.message : error.message
+      );
       setTimeout(() => {
         setResponse(false);
       }, 5000);
@@ -38,13 +40,13 @@ function Login() {
   };
   return (
     <React.Fragment>
-      <section className="bg-[url('./assets/login-bg-min.png')] bg-cover bg-center bg-no-repeat bg-teal-800 w-screen h-screen flex-col flex items-center justify-center">
+      <section className="bg-[url('./assets/login-bg-min.png')] bg-cover bg-center bg-no-repeat bg-spangles-800 w-screen h-screen flex-col flex items-center justify-center">
         <div className="w-full max-w-xs 2xl:max-w-lg lg:max-w-sm xl:max-w-md lg:p-10 xl:p-12 p-8 bg-white border border-gray-200 rounded-3xl shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
           <form
             className="space-y-6 lg:space-y-8 xl:space-y-10 2xl:space-y-12"
             onSubmit={handleSubmit}
           >
-            <h5 className="text-xl text-center font-bold text-teal-900 dark:text-white">
+            <h5 className="text-xl text-center font-bold text-spangles-900 dark:text-white">
               LOG IN
             </h5>
             <div className="relative">
@@ -53,13 +55,13 @@ function Login() {
                 name="username"
                 id="username"
                 autoComplete="username"
-                className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-teal-500 focus:outline-none focus:ring-0 focus:border-teal-600 peer"
+                className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-spangles-500 focus:outline-none focus:ring-0 focus:border-spangles-600 peer"
                 placeholder=" "
                 required
               />
               <label
                 htmlFor="username"
-                className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
+                className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-spangles-600 peer-focus:dark:text-spangles-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
               >
                 Username
               </label>
@@ -69,13 +71,13 @@ function Login() {
                 type={PasswordVisible ? "text" : "password"}
                 name="password"
                 id="password"
-                className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-teal-500 focus:outline-none focus:ring-0 focus:border-teal-600 peer"
+                className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-spangles-500 focus:outline-none focus:ring-0 focus:border-spangles-600 peer"
                 placeholder=" "
                 required
               />
               <label
                 htmlFor="password"
-                className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
+                className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-spangles-600 peer-focus:dark:text-spangles-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
               >
                 Password
               </label>
@@ -83,12 +85,12 @@ function Login() {
                 {PasswordVisible ? (
                   <i
                     onClick={() => setPasswordVisible(false)}
-                    className="fa-solid fa-eye text-teal-800"
+                    className="fa-solid fa-eye text-spangles-800"
                   ></i>
                 ) : (
                   <i
                     onClick={() => setPasswordVisible(true)}
-                    className="fa-solid fa-eye-slash text-teal-800"
+                    className="fa-solid fa-eye-slash text-spangles-800"
                   ></i>
                 )}
               </div>
@@ -102,7 +104,7 @@ function Login() {
             </div>
             <button
               type="submit"
-              className="w-full text-white bg-teal-700 hover:bg-teal-800 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-base px-5 py-2.5 text-center dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800"
+              className="w-full text-white bg-spangles-700 hover:bg-spangles-800 focus:ring-4 focus:outline-none focus:ring-spangles-300 font-medium rounded-lg text-base px-5 py-2.5 text-center dark:bg-spangles-600 dark:hover:bg-spangles-700 dark:focus:ring-spangles-800"
             >
               Login
             </button>

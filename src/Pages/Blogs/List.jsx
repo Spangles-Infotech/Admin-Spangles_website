@@ -41,21 +41,17 @@ function List() {
       setTotalPages(response.data.TotalPages);
     } catch (error) {
       console.error(error);
+      setResponse({
+        status: "Failed",
+        message: error.response ? error.response.data.message : error.message,
+      });
       if (error.response.status === 401) {
-        setResponse({
-          status: "Failed",
-          message: "Un Authorized! Please Login Again.",
-        });
         setTimeout(() => {
           window.localStorage.clear();
           navigate("/");
         }, 5000);
       }
       if (error.response.status === 500) {
-        setResponse({
-          status: "Failed",
-          message: "Server Unavailable!",
-        });
         setTimeout(() => {
           setResponse({
             status: null,
@@ -89,7 +85,7 @@ function List() {
       setData(response.data.blogs);
       setResponse({
         status: "Success",
-        message: "Blog Deleted Successfully.",
+        message: response.data.message,
       });
       setTimeout(() => {
         setResponse({
@@ -99,22 +95,17 @@ function List() {
       }, 5000);
     } catch (error) {
       console.error(error);
-      setDelete(null);
+      setResponse({
+        status: "Failed",
+        message: error.response ? error.response.data.message : error.message,
+      });
       if (error.response.status === 401) {
-        setResponse({
-          status: "Failed",
-          message: error.response.data.message,
-        });
         setTimeout(() => {
           window.localStorage.clear();
           navigate("/");
         }, 5000);
       }
       if (error.response.status === 500) {
-        setResponse({
-          status: "Failed",
-          message: error.response.data.message,
-        });
         setTimeout(() => {
           setResponse({
             status: null,
@@ -129,7 +120,7 @@ function List() {
     <React.Fragment>
       <div className="flex flex-col bg-white p-5 space-y-10 rounded-t-lg">
         <div className="flex flex-wrap space-y-5 items-center justify-between">
-          <h1 className="font-semibold text-lg text-teal-700">Blogs</h1>
+          <h1 className="font-semibold text-lg text-spangles-700">Blogs</h1>
           <div className="flex items-center space-x-5">
             <div className="">
               <label
@@ -159,7 +150,7 @@ function List() {
                 <input
                   type="search"
                   id="default-search"
-                  className="block w-40 py-1 ps-8 text-sm text-gray-900 rounded bg-gray-50 focus:ring-teal-800 focus:border-teal-800 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-teal-800 dark:focus:border-teal-800"
+                  className="block w-40 py-1 ps-8 text-sm text-gray-900 rounded bg-gray-50 focus:ring-spangles-800 focus:border-spangles-800 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-800 dark:focus:border-spangles-800"
                   placeholder="Search..."
                   onChange={(e) => setSearch(e.target.value)}
                 />
@@ -167,7 +158,7 @@ function List() {
             </div>
             <Link
               to="/admin/blogs/add/new"
-              className="px-3 py-1 text-white bg-teal-700 rounded text-sm space-x-2 hover:bg-teal-800 focus:ring-4 focus:ring-teal-200"
+              className="px-3 py-1 text-white bg-spangles-700 rounded text-sm space-x-2 hover:bg-spangles-800 focus:ring-4 focus:ring-spangles-200"
             >
               <span>
                 <i className="fa-solid fa-plus"></i> New Blog
@@ -213,7 +204,7 @@ function List() {
                         </button>
                         <Link
                           to={`/admin/blogs/${item._id}/edit`}
-                          className="w-full text-center py-2.5 px-5 text-sm font-medium text-teal-700 focus:outline-none rounded-ee-lg bg-white border border-gray-200 hover:bg-teal-700 hover:text-white focus:z-10 focus:ring-4 focus:ring-teal-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                          className="w-full text-center py-2.5 px-5 text-sm font-medium text-spangles-700 focus:outline-none rounded-ee-lg bg-white border border-gray-200 hover:bg-spangles-700 hover:text-white focus:z-10 focus:ring-4 focus:ring-spangles-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
                         >
                           <i className="fa-regular fa-pen-to-square"></i> Edit
                         </Link>
@@ -280,7 +271,7 @@ function List() {
                 <button
                   onClick={() => setDelete(null)}
                   type="button"
-                  className="py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-teal-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                  className="py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-spangles-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
                 >
                   Cancel
                 </button>

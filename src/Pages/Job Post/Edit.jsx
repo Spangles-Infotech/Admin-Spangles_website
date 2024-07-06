@@ -38,21 +38,17 @@ function Edit() {
       setData(response.data.jobs);
     } catch (error) {
       console.error(error);
+      setResponse({
+        status: "Failed",
+        message: error.response ? error.response.data.message : error.message,
+      });
       if (error.response.status === 401) {
-        setResponse({
-          status: "Failed",
-          message: "Un Authorized! Please Login Again.",
-        });
         setTimeout(() => {
           window.localStorage.clear();
           navigate("/");
         }, 5000);
       }
       if (error.response.status === 500) {
-        setResponse({
-          status: "Failed",
-          message: "Server Unavailable!",
-        });
         setTimeout(() => {
           setResponse({
             status: null,
@@ -116,36 +112,35 @@ function Edit() {
       status: Status,
     };
     try {
-      const response = await axios.put(`${URL}/api/job/${params.id}/update`, data, {
-        headers: {
-          Authorization: token,
-        },
-      });
+      const response = await axios.put(
+        `${URL}/api/job/${params.id}/update`,
+        data,
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
       setResponse({
         status: "Success",
-        message: "Job Details Updated Successfully.",
+        message: response.data.message,
       });
       setTimeout(() => {
         navigate(`/admin/job-post/${params.id}/preview`);
       }, 5000);
     } catch (error) {
       console.error(error);
+      setResponse({
+        status: "Failed",
+        message: error.response ? error.response.data.message : error.message,
+      });
       if (error.response.status === 401) {
-        setResponse({
-          status: "Failed",
-          message: "Un Authorized! Please Login Again.",
-        });
         setTimeout(() => {
-          dispatch(Logout());
           window.localStorage.clear();
           navigate("/");
         }, 5000);
       }
       if (error.response.status === 500) {
-        setResponse({
-          status: "Failed",
-          message: "Server Unavailable!",
-        });
         setTimeout(() => {
           setResponse({
             status: null,
@@ -159,7 +154,7 @@ function Edit() {
   return (
     <React.Fragment>
       <div className="flex flex-col bg-white p-5 space-y-10 rounded-t-lg">
-        <h1 className="font-semibold text-lg text-teal-700">
+        <h1 className="font-semibold text-lg text-spangles-700">
           Update Job Details
         </h1>
         <form onSubmit={handleSubmit} className="space-y-36">
@@ -175,7 +170,7 @@ function Edit() {
                 type="text"
                 id="category"
                 name="category"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-spangles-500 focus:border-spangles-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                 placeholder=""
                 required
                 onChange={(e) => setCategory(e.target.value)}
@@ -320,7 +315,7 @@ function Edit() {
                   id="preferred_skills"
                   name="preferred_skills"
                   onChange={(event) => setPreferredSkills(event.target.value)}
-                  className="block w-full p-4 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-teal-500 focus:border-teal-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-teal-500 dark:focus:border-teal-500"
+                  className="block w-full p-4 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-spangles-500 focus:border-spangles-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-500 dark:focus:border-spangles-500"
                   placeholder="Enter Preferred Skills"
                   value={PreferredSkills}
                 />
@@ -335,7 +330,7 @@ function Edit() {
                       setPreferredSkills("");
                     }
                   }}
-                  className="text-white absolute end-2.5 bottom-2.5 bg-teal-700 hover:bg-teal-800 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800"
+                  className="text-white absolute end-2.5 bottom-2.5 bg-spangles-700 hover:bg-spangles-800 focus:ring-4 focus:outline-none focus:ring-spangles-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-spangles-600 dark:hover:bg-spangles-700 dark:focus:ring-spangles-800"
                 >
                   Add
                 </button>
@@ -347,7 +342,7 @@ function Edit() {
                   {PreferredSkillsList.map((elem, idx) => (
                     <li
                       key={idx}
-                      className="px-2 py-1 border border-teal-600 rounded-md inline-flex items-center gap-2 text-sm"
+                      className="px-2 py-1 border border-spangles-600 rounded-md inline-flex items-center gap-2 text-sm"
                     >
                       {elem}&nbsp;
                       <i
@@ -375,7 +370,7 @@ function Edit() {
                   id="responsibilities_and_duties"
                   name="responsibilities_and_duties"
                   onChange={(event) => setResAndDuties(event.target.value)}
-                  className="block w-full p-4 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-teal-500 focus:border-teal-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-teal-500 dark:focus:border-teal-500"
+                  className="block w-full p-4 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-spangles-500 focus:border-spangles-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-500 dark:focus:border-spangles-500"
                   placeholder="Enter Responsibilities and Duties"
                   value={ResAndDuties}
                 />
@@ -390,7 +385,7 @@ function Edit() {
                       setResAndDuties("");
                     }
                   }}
-                  className="text-white absolute end-2.5 bottom-2.5 bg-teal-700 hover:bg-teal-800 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800"
+                  className="text-white absolute end-2.5 bottom-2.5 bg-spangles-700 hover:bg-spangles-800 focus:ring-4 focus:outline-none focus:ring-spangles-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-spangles-600 dark:hover:bg-spangles-700 dark:focus:ring-spangles-800"
                 >
                   Add
                 </button>
@@ -429,7 +424,7 @@ function Edit() {
                   onChange={(event) =>
                     setExpAndQualification(event.target.value)
                   }
-                  className="block w-full p-4 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-teal-500 focus:border-teal-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-teal-500 dark:focus:border-teal-500"
+                  className="block w-full p-4 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-spangles-500 focus:border-spangles-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-500 dark:focus:border-spangles-500"
                   placeholder="Enter Experience and Qualifications"
                   value={ExpAndQualification}
                 />
@@ -444,7 +439,7 @@ function Edit() {
                       setExpAndQualification("");
                     }
                   }}
-                  className="text-white absolute end-2.5 bottom-2.5 bg-teal-700 hover:bg-teal-800 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800"
+                  className="text-white absolute end-2.5 bottom-2.5 bg-spangles-700 hover:bg-spangles-800 focus:ring-4 focus:outline-none focus:ring-spangles-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-spangles-600 dark:hover:bg-spangles-700 dark:focus:ring-spangles-800"
                 >
                   Add
                 </button>
@@ -545,7 +540,7 @@ function Edit() {
             </Link>
             <button
               type="submit"
-              className="inline-flex items-center px-14 py-2.5 mt-4 sm:mt-6 text-base font-semibold text-center text-white bg-teal-700 rounded-lg focus:ring-4 hover:bg-teal-800  focus:ring-teal-200"
+              className="inline-flex items-center px-14 py-2.5 mt-4 sm:mt-6 text-base font-semibold text-center text-white bg-spangles-700 rounded-lg focus:ring-4 hover:bg-spangles-800  focus:ring-spangles-200"
             >
               Continue
             </button>

@@ -56,7 +56,7 @@ function Navbar() {
               <div className="pe-20 flex items-center space-x-2 sm:space-x-4 md:space-x-5">
                 <button
                   type="button"
-                  className="rounded-full focus:ring-2 focus:ring-teal-500"
+                  className="rounded-full focus:ring-2 focus:ring-spangles-500"
                   id="user-menu-button"
                 >
                   <img

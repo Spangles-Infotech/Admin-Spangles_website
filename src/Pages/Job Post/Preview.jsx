@@ -39,21 +39,17 @@ function Preview() {
       setData(response.data.jobs);
     } catch (error) {
       console.error(error);
+      setResponse({
+        status: "Failed",
+        message: error.response ? error.response.data.message : error.message,
+      });
       if (error.response.status === 401) {
-        setResponse({
-          status: "Failed",
-          message: "Un Authorized! Please Login Again.",
-        });
         setTimeout(() => {
           window.localStorage.clear();
           navigate("/");
         }, 5000);
       }
       if (error.response.status === 500) {
-        setResponse({
-          status: "Failed",
-          message: "Server Unavailable!",
-        });
         setTimeout(() => {
           setResponse({
             status: null,
@@ -71,7 +67,7 @@ function Preview() {
           <i className="fa-solid fa-arrow-left-long text-2xl"></i>
         </Link>
         <div className="flex items-center justify-between">
-          <h3 className="font-semibold text-lg text-teal-700">Job Details</h3>
+          <h3 className="font-semibold text-lg text-spangles-700">Job Details</h3>
           <div className="inline-flex space-x-10">
             <h6
               className={`${
@@ -86,7 +82,7 @@ function Preview() {
             </h6>
             <Link
               to={`/admin/job-post/${Data && Data._id}/edit`}
-              className="text-teal-700 hover:text-teal-500 text-sm font-medium"
+              className="text-spangles-700 hover:text-spangles-500 text-sm font-medium"
             >
               <i className="fa-solid fa-pen-to-square"></i> Edit
             </Link>

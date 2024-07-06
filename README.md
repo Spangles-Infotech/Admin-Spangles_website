@@ -1,8 +1,19 @@
-# React + Vite
+## Running the Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Follow these steps to run the application locally:
 
-Currently, two official plugins are available:
+Open `git bash` Cli,
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+1. Clone the repository:
+   `git clone https://github.com/Spangles-Infotech/Spangles_website-Backend/tree/front-end`
+
+   `cd project-directory`
+
+2. Install dependencies using Yarn:
+   `yarn install`
+
+3. Start the development server:
+   `yarn dev`
+
+4. Access the application in your browser at
+   `http://localhost:3000`

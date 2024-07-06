@@ -153,8 +153,8 @@ function UploadFiles({ setData }) {
               </h1>
               <div
                 {...getRootProps()}
-                className={`border-2 border-dashed border-teal-500 rounded p-20 text-center cursor-pointer ${
-                  isDragActive ? "bg-teal-100" : ""
+                className={`border-2 border-dashed border-spangles-500 rounded p-20 text-center cursor-pointer ${
+                  isDragActive ? "bg-spangles-100" : ""
                 }`}
               >
                 <input {...getInputProps({ multiple: false })} />
@@ -192,7 +192,7 @@ function UploadFiles({ setData }) {
               <button
                 disabled={files.length === 0}
                 type="submit"
-                className="text-white ms-3 disabled:bg-opacity-70 bg-teal-700 hover:bg-teal-800 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-10 py-2.5 text-center dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800"
+                className="text-white ms-3 disabled:bg-opacity-70 bg-spangles-700 hover:bg-spangles-800 focus:ring-4 focus:outline-none focus:ring-spangles-300 font-medium rounded-lg text-sm px-10 py-2.5 text-center dark:bg-spangles-600 dark:hover:bg-spangles-700 dark:focus:ring-spangles-800"
               >
                 Upload
               </button>

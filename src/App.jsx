@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Login from "./Pages/Login";
-import ContainerWrapper from "./Pages/Admin/Container";
+import ContainerWrapper from "./Pages/Container";
 import JobContainer from "./Pages/Job Post/Container";
 import JobList from "./Pages/Job Post/List";
 import JobAddNew from "./Pages/Job Post/AddNew";

@@ -50,21 +50,17 @@ function List() {
       setCurrentPage(response.data.CurrentPage);
     } catch (error) {
       console.error(error);
+      setResponse({
+        status: "Failed",
+        message: error.response ? error.response.data.message : error.message,
+      });
       if (error.response.status === 401) {
-        setResponse({
-          status: "Failed",
-          message: "Un Authorized! Please Login Again.",
-        });
         setTimeout(() => {
           window.localStorage.clear();
           navigate("/");
         }, 5000);
       }
       if (error.response.status === 500) {
-        setResponse({
-          status: "Failed",
-          message: "Server Unavailable!",
-        });
         setTimeout(() => {
           setResponse({
             status: null,
@@ -266,7 +262,7 @@ function List() {
       <div className="flex flex-col bg-white p-5 space-y-10 rounded-t-lg">
         <div className="flex flex-wrap space-y-5 items-center justify-between">
           <div className="inline-flex space-x-3">
-            <h1 className="font-semibold text-lg text-teal-700">Jobs List</h1>
+            <h1 className="font-semibold text-lg text-spangles-700">Jobs List</h1>
             <button
               onClick={() => {
                 setFilter((prev) => !prev);
@@ -274,7 +270,7 @@ function List() {
                 setDesignation("All");
                 setStatus("All");
               }}
-              className="bg-gray-50 border text-teal-800 text-xs font-semibold rounded focus:ring-teal-800 focus:border-teal-800 block w-fit px-2 py-0.5 hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-teal-800 dark:focus:border-teal-800"
+              className="bg-gray-50 border text-spangles-800 text-xs font-semibold rounded focus:ring-spangles-800 focus:border-spangles-800 block w-fit px-2 py-0.5 hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-800 dark:focus:border-spangles-800"
             >
               <div className="inline-flex items-center gap-2">
                 <img src={filterIcon} alt="" /> Filters
@@ -289,7 +285,7 @@ function List() {
                     id="category"
                     defaultValue={"All"}
                     onChange={(e) => setCategory(e.target.value)}
-                    className="bg-gray-50 border text-teal-800 text-xs font-semibold rounded focus:ring-teal-800 focus:border-teal-800 block w-fit px-2 py-1 hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-teal-800 dark:focus:border-teal-800"
+                    className="bg-gray-50 border text-spangles-800 text-xs font-semibold rounded focus:ring-spangles-800 focus:border-spangles-800 block w-fit px-2 py-1 hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-800 dark:focus:border-spangles-800"
                   >
                     {CategoryList &&
                       CategoryList.map((items, index) => (
@@ -305,7 +301,7 @@ function List() {
                     id="designation"
                     defaultValue={"All"}
                     onChange={(e) => setDesignation(e.target.value)}
-                    className="bg-gray-50 border text-teal-800 text-xs font-semibold rounded focus:ring-teal-800 focus:border-teal-800 block w-fit px-2 py-1 hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-teal-800 dark:focus:border-teal-800"
+                    className="bg-gray-50 border text-spangles-800 text-xs font-semibold rounded focus:ring-spangles-800 focus:border-spangles-800 block w-fit px-2 py-1 hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-800 dark:focus:border-spangles-800"
                   >
                     {DesignationList &&
                       DesignationList.map((items, index) => (
@@ -321,7 +317,7 @@ function List() {
                     id="status"
                     defaultValue={"All"}
                     onChange={(e) => setStatus(e.target.value)}
-                    className="bg-gray-50 border text-teal-800 text-xs font-semibold rounded focus:ring-teal-800 focus:border-teal-800 block w-fit px-2 py-1 hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-teal-800 dark:focus:border-teal-800"
+                    className="bg-gray-50 border text-spangles-800 text-xs font-semibold rounded focus:ring-spangles-800 focus:border-spangles-800 block w-fit px-2 py-1 hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-800 dark:focus:border-spangles-800"
                   >
                     {["All", "Active", "On Hold", "In Active"].map(
                       (items, index) => (
@@ -364,7 +360,7 @@ function List() {
                 <input
                   type="search"
                   id="default-search"
-                  className="block w-40 py-1 ps-8 text-sm text-gray-900 rounded bg-gray-50 focus:ring-teal-800 focus:border-teal-800 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-teal-800 dark:focus:border-teal-800"
+                  className="block w-40 py-1 ps-8 text-sm text-gray-900 rounded bg-gray-50 focus:ring-spangles-800 focus:border-spangles-800 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-800 dark:focus:border-spangles-800"
                   placeholder="Search..."
                   onChange={(e) => setSearch(e.target.value)}
                 />
@@ -372,7 +368,7 @@ function List() {
             </div>
             <Link
               to={`/admin/job-post/add/new`}
-              className="px-3 py-1 text-white bg-teal-700 rounded text-sm space-x-2 hover:bg-teal-800 focus:ring-4 focus:ring-teal-200"
+              className="px-3 py-1 text-white bg-spangles-700 rounded text-sm space-x-2 hover:bg-spangles-800 focus:ring-4 focus:ring-spangles-200"
             >
               <span>
                 <i className="fa-solid fa-plus"></i> New Job
@@ -453,7 +449,7 @@ function List() {
             disabled
             className={`px-4 py-2 rounded ${
               CurrentPage
-                ? "bg-teal-600 text-white"
+                ? "bg-spangles-600 text-white"
                 : "bg-gray-200 text-gray-700"
             }`}
           >

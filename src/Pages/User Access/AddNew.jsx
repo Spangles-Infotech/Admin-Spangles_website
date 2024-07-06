@@ -29,7 +29,7 @@ function AddNew() {
       });
       setResponse({
         status: "Success",
-        message: "Job Posted Successfully.",
+        message: response.data.message,
       });
       setTimeout(() => {
         navigate("/admin/user-access/list");
@@ -38,7 +38,7 @@ function AddNew() {
       console.error(error);
       setResponse({
         status: "Failed",
-        message: error.response.data.message,
+        message: error.response ? error.response.data.message : error.message,
       });
       if (error.response.status === 401) {
         setTimeout(() => {
@@ -54,19 +54,12 @@ function AddNew() {
           });
         }, 5000);
       }
-    } finally {
-      setTimeout(() => {
-        setResponse({
-          status: null,
-          message: "",
-        });
-      }, 5000);
     }
   };
   return (
     <React.Fragment>
       <div className="flex flex-col bg-white p-5 space-y-10 rounded-t-lg">
-        <h1 className="font-semibold text-lg text-teal-700">New User</h1>
+        <h1 className="font-semibold text-lg text-spangles-700">New User</h1>
         <form onSubmit={handleSubmit} className="space-y-36">
           <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
             <div className="w-full">
@@ -80,7 +73,7 @@ function AddNew() {
                 type="text"
                 id="name"
                 name="name"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-spangles-500 focus:border-spangles-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                 placeholder=""
                 required
                 onChange={(ev) => {
@@ -105,7 +98,7 @@ function AddNew() {
                 type="Number"
                 name="phone_number"
                 id="phone_number"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-spangles-500 focus:border-spangles-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                 placeholder=""
                 required
                 onChange={(ev) => {
@@ -130,7 +123,7 @@ function AddNew() {
                 type="text"
                 name="username"
                 id="username"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-spangles-500 focus:border-spangles-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                 placeholder=""
                 required
                 onChange={(ev) => {
@@ -155,7 +148,7 @@ function AddNew() {
                 type={PasswordVisible ? "text" : "password"}
                 name="password"
                 id="password"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-spangles-500 focus:border-spangles-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                 placeholder=" "
                 required
                 onChange={(ev) => {
@@ -172,12 +165,12 @@ function AddNew() {
                 {PasswordVisible ? (
                   <i
                     onClick={() => setPasswordVisible(false)}
-                    className="fa-solid fa-eye text-teal-800"
+                    className="fa-solid fa-eye text-spangles-800"
                   ></i>
                 ) : (
                   <i
                     onClick={() => setPasswordVisible(true)}
-                    className="fa-solid fa-eye-slash text-teal-800"
+                    className="fa-solid fa-eye-slash text-spangles-800"
                   ></i>
                 )}
               </div>
@@ -216,11 +209,11 @@ function AddNew() {
                           }
                         }}
                         checked={Data.access_to.includes("Job Post")}
-                        className="w-4 h-4 text-teal-600 bg-gray-100 border-teal-600 focus:ring-teal-500 dark:focus:ring-teal-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                        className="w-4 h-4 text-spangles-600 bg-gray-100 border-spangles-600 focus:ring-spangles-500 dark:focus:ring-spangles-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                       />
                       <label
                         htmlFor="job_post"
-                        className="w-full py-3 ms-2 text-sm font-medium text-teal-600 dark:text-gray-300"
+                        className="w-full py-3 ms-2 text-sm font-medium text-spangles-600 dark:text-gray-300"
                       >
                         Job Post
                       </label>
@@ -255,11 +248,11 @@ function AddNew() {
                         }}
                         checked={Data.access_to.includes("Blogs")}
                         name="blogs"
-                        className="w-4 h-4 text-teal-600 bg-gray-100 border-teal-600 focus:ring-teal-500 dark:focus:ring-teal-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                        className="w-4 h-4 text-spangles-600 bg-gray-100 border-spangles-600 focus:ring-spangles-500 dark:focus:ring-spangles-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                       />
                       <label
                         htmlFor="blogs"
-                        className="w-full py-3 ms-2 text-sm font-medium text-teal-500 dark:text-gray-300"
+                        className="w-full py-3 ms-2 text-sm font-medium text-spangles-500 dark:text-gray-300"
                       >
                         Blogs
                       </label>
@@ -293,11 +286,11 @@ function AddNew() {
                         }}
                         checked={Data.access_to.includes("Gallery")}
                         name="gallery"
-                        className="w-4 h-4 text-teal-600 bg-gray-100 border-teal-600 focus:ring-teal-500 dark:focus:ring-teal-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                        className="w-4 h-4 text-spangles-600 bg-gray-100 border-spangles-600 focus:ring-spangles-500 dark:focus:ring-spangles-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                       />
                       <label
                         htmlFor="gallery"
-                        className="w-full py-3 ms-2 text-sm font-medium text-teal-600 dark:text-gray-300"
+                        className="w-full py-3 ms-2 text-sm font-medium text-spangles-600 dark:text-gray-300"
                       >
                         Gallery
                       </label>
@@ -316,7 +309,7 @@ function AddNew() {
             </Link>
             <button
               type="submit"
-              className="inline-flex items-center px-14 py-2.5 mt-4 sm:mt-6 text-base font-semibold text-center text-white bg-teal-700 rounded-lg focus:ring-4 hover:bg-teal-800  focus:ring-teal-200"
+              className="inline-flex items-center px-14 py-2.5 mt-4 sm:mt-6 text-base font-semibold text-center text-white bg-spangles-700 rounded-lg focus:ring-4 hover:bg-spangles-800  focus:ring-spangles-200"
             >
               Set Access
             </button>

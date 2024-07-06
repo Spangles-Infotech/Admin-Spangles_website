@@ -40,21 +40,17 @@ function Preview() {
       setData(response.data.user);
     } catch (error) {
       console.error(error);
+      setResponse({
+        status: "Failed",
+        message: error.response ? error.response.data.message : error.message,
+      });
       if (error.response.status === 401) {
-        setResponse({
-          status: "Failed",
-          message: "Un Authorized! Please Login Again.",
-        });
         setTimeout(() => {
           window.localStorage.clear();
           navigate("/");
         }, 5000);
       }
       if (error.response.status === 500) {
-        setResponse({
-          status: "Failed",
-          message: "Server Unavailable!",
-        });
         setTimeout(() => {
           setResponse({
             status: null,
@@ -78,7 +74,7 @@ function Preview() {
       );
       setResponse({
         status: "Success",
-        message: "Job Posted Successfully.",
+        message: response.data.message,
       });
       setTimeout(() => {
         navigate("/admin/user-access/list");
@@ -87,7 +83,7 @@ function Preview() {
       console.error(error);
       setResponse({
         status: "Failed",
-        message: error.response.data.message,
+        message: error.response ? error.response.data.message : error.message,
       });
       if (error.response.status === 401) {
         setTimeout(() => {
@@ -103,13 +99,6 @@ function Preview() {
           });
         }, 5000);
       }
-    } finally {
-      setTimeout(() => {
-        setResponse({
-          status: null,
-          message: "",
-        });
-      }, 5000);
     }
   };
   const decryptPassword = (encrypted) => {
@@ -133,7 +122,7 @@ function Preview() {
           <i className="fa-solid fa-arrow-left-long text-2xl"></i>
         </Link>
         <div className="flex items-center justify-between">
-          <h3 className="font-semibold text-lg text-teal-700">User Details</h3>
+          <h3 className="font-semibold text-lg text-spangles-700">User Details</h3>
         </div>
         <table className="w-fit text-xs text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <tbody className="">
@@ -201,11 +190,11 @@ function Preview() {
                       }
                     }}
                     checked={Data.access_to.includes("Job Post")}
-                    className="w-4 h-4 text-teal-600 bg-gray-100 border-teal-600 focus:ring-teal-500 dark:focus:ring-teal-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                    className="w-4 h-4 text-spangles-600 bg-gray-100 border-spangles-600 focus:ring-spangles-500 dark:focus:ring-spangles-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                   />
                   <label
                     for="job_post"
-                    className="w-full py-3 ms-2 text-base font-medium text-teal-600 dark:text-gray-300"
+                    className="w-full py-3 ms-2 text-base font-medium text-spangles-600 dark:text-gray-300"
                   >
                     Job Post
                   </label>
@@ -240,11 +229,11 @@ function Preview() {
                     }}
                     checked={Data.access_to.includes("Blogs")}
                     name="blogs"
-                    className="w-4 h-4 text-teal-600 bg-gray-100 border-teal-600 focus:ring-teal-500 dark:focus:ring-teal-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                    className="w-4 h-4 text-spangles-600 bg-gray-100 border-spangles-600 focus:ring-spangles-500 dark:focus:ring-spangles-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                   />
                   <label
                     for="blogs"
-                    className="w-full py-3 ms-2 text-base font-medium text-teal-500 dark:text-gray-300"
+                    className="w-full py-3 ms-2 text-base font-medium text-spangles-500 dark:text-gray-300"
                   >
                     Blogs
                   </label>
@@ -278,11 +267,11 @@ function Preview() {
                     }}
                     checked={Data.access_to.includes("Gallery")}
                     name="gallery"
-                    className="w-4 h-4 text-teal-600 bg-gray-100 border-teal-600 focus:ring-teal-500 dark:focus:ring-teal-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                    className="w-4 h-4 text-spangles-600 bg-gray-100 border-spangles-600 focus:ring-spangles-500 dark:focus:ring-spangles-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                   />
                   <label
                     for="gallery"
-                    className="w-full py-3 ms-2 text-base font-medium text-teal-600 dark:text-gray-300"
+                    className="w-full py-3 ms-2 text-base font-medium text-spangles-600 dark:text-gray-300"
                   >
                     Gallery
                   </label>
@@ -293,7 +282,7 @@ function Preview() {
           <div className="w-full flex items-center justify-end space-x-5">
             <button
               type="submit"
-              className="inline-flex items-center px-14 py-2.5 mt-4 sm:mt-6 text-base font-semibold text-center text-white bg-teal-700 rounded-lg focus:ring-4 hover:bg-teal-800  focus:ring-teal-200"
+              className="inline-flex items-center px-14 py-2.5 mt-4 sm:mt-6 text-base font-semibold text-center text-white bg-spangles-700 rounded-lg focus:ring-4 hover:bg-spangles-800  focus:ring-spangles-200"
             >
               Update
             </button>

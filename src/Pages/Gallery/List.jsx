@@ -44,21 +44,17 @@ function List() {
       setTotalPages(response.data.TotalPages);
     } catch (error) {
       console.error(error);
+      setResponse({
+        status: "Failed",
+        message: error.response ? error.response.data.message : error.message,
+      });
       if (error.response.status === 401) {
-        setResponse({
-          status: "Failed",
-          message: "Un Authorized! Please Login Again.",
-        });
         setTimeout(() => {
           window.localStorage.clear();
           navigate("/");
         }, 5000);
       }
       if (error.response.status === 500) {
-        setResponse({
-          status: "Failed",
-          message: "Server Unavailable!",
-        });
         setTimeout(() => {
           setResponse({
             status: null,
@@ -79,7 +75,7 @@ function List() {
       setData(response.data.galleryData);
       setResponse({
         status: "Success",
-        message: "Blog Deleted Successfully.",
+        message: response.data.message,
       });
       setTimeout(() => {
         setResponse({
@@ -89,22 +85,17 @@ function List() {
       }, 5000);
     } catch (error) {
       console.error(error);
-      setDelete(null);
+      setResponse({
+        status: "Failed",
+        message: error.response ? error.response.data.message : error.message,
+      });
       if (error.response.status === 401) {
-        setResponse({
-          status: "Failed",
-          message: error.response.data.message,
-        });
         setTimeout(() => {
           window.localStorage.clear();
           navigate("/");
         }, 5000);
       }
       if (error.response.status === 500) {
-        setResponse({
-          status: "Failed",
-          message: error.response.data.message,
-        });
         setTimeout(() => {
           setResponse({
             status: null,
@@ -119,11 +110,11 @@ function List() {
     <React.Fragment>
       <div className="flex flex-col bg-white p-5 space-y-10 rounded-t-lg">
         <div className="flex flex-wrap space-y-5 items-center justify-between">
-          <h1 className="font-semibold text-lg text-teal-700">Gallery</h1>
+          <h1 className="font-semibold text-lg text-spangles-700">Gallery</h1>
           <div className="flex items-center space-x-5">
             <button
               type="button"
-              className="px-3 py-1 text-white bg-teal-700 rounded text-sm space-x-2 hover:bg-teal-800 focus:ring-4 focus:ring-teal-200"
+              className="px-3 py-1 text-white bg-spangles-700 rounded text-sm space-x-2 hover:bg-spangles-800 focus:ring-4 focus:ring-spangles-200"
               data-modal-target="link-modal"
               data-modal-toggle="link-modal"
             >
@@ -133,7 +124,7 @@ function List() {
             </button>
             <button
               type="button"
-              className="px-3 py-1 text-white bg-teal-700 rounded text-sm space-x-2 hover:bg-teal-800 focus:ring-4 focus:ring-teal-200"
+              className="px-3 py-1 text-white bg-spangles-700 rounded text-sm space-x-2 hover:bg-spangles-800 focus:ring-4 focus:ring-spangles-200"
               data-modal-target="files-modal"
               data-modal-toggle="files-modal"
             >
@@ -147,7 +138,10 @@ function List() {
           <div className="w-full grid grid-cols-2 md:grid-cols-4 gap-5">
             {Data &&
               Data.map((item, index) => (
-                <div key={index} className="w-full h-full flex flex-col bg-transparent rounded-xl hover:shadow-xl">
+                <div
+                  key={index}
+                  className="w-full h-full flex flex-col bg-transparent rounded-xl hover:shadow-xl"
+                >
                   {!item.path.includes("http") &&
                   !item.path.includes(".mp4") ? (
                     <img
@@ -239,7 +233,7 @@ function List() {
                 <button
                   onClick={() => setDelete(null)}
                   type="button"
-                  className="py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-teal-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                  className="py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-spangles-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
                 >
                   Cancel
                 </button>

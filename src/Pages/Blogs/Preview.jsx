@@ -28,21 +28,17 @@ function Preview() {
       setData(response.data.blogs);
     } catch (error) {
       console.error(error);
+      setResponse({
+        status: "Failed",
+        message: error.response ? error.response.data.message : error.message,
+      });
       if (error.response.status === 401) {
-        setResponse({
-          status: "Failed",
-          message: "Un Authorized! Please Login Again.",
-        });
         setTimeout(() => {
           window.localStorage.clear();
           navigate("/");
         }, 5000);
       }
       if (error.response.status === 500) {
-        setResponse({
-          status: "Failed",
-          message: "Server Unavailable!",
-        });
         setTimeout(() => {
           setResponse({
             status: null,
@@ -59,7 +55,7 @@ function Preview() {
         <Link to={"/admin/blogs/list"}>
           <i className="fa-solid fa-arrow-left-long text-2xl"></i>
         </Link>
-        <h6 className="mt-2 px-5 text-3xl font-bold tracking-tight text-teal-700 dark:text-white">
+        <h6 className="mt-2 px-5 text-3xl font-bold tracking-tight text-spangles-700 dark:text-white">
           {Data.title}
         </h6>
         <p className="mt-5 px-5 font-normal text-gray-700 dark:text-gray-400">

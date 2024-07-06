@@ -34,21 +34,17 @@ function AddNew() {
       setData({ ...response.data.blogs });
     } catch (error) {
       console.error(error);
+      setResponse({
+        status: "Failed",
+        message: error.response ? error.response.data.message : error.message,
+      });
       if (error.response.status === 401) {
-        setResponse({
-          status: "Failed",
-          message: "Un Authorized! Please Login Again.",
-        });
         setTimeout(() => {
           window.localStorage.clear();
           navigate("/");
         }, 5000);
       }
       if (error.response.status === 500) {
-        setResponse({
-          status: "Failed",
-          message: "Server Unavailable!",
-        });
         setTimeout(() => {
           setResponse({
             status: null,
@@ -82,28 +78,24 @@ function AddNew() {
       );
       setResponse({
         status: "Success",
-        message: "Blog Updated Successfully.",
+        message: response.data.message,
       });
       setTimeout(() => {
         navigate("/admin/blogs/list");
       }, 5000);
     } catch (error) {
       console.error(error);
+      setResponse({
+        status: "Failed",
+        message: error.response ? error.response.data.message : error.message,
+      });
       if (error.response.status === 401) {
-        setResponse({
-          status: "Failed",
-          message: error.response.data.message,
-        });
         setTimeout(() => {
           window.localStorage.clear();
           navigate("/");
         }, 5000);
       }
       if (error.response.status === 500) {
-        setResponse({
-          status: "Failed",
-          message: error.response.data.message,
-        });
         setTimeout(() => {
           setResponse({
             status: null,
@@ -168,7 +160,7 @@ function AddNew() {
   return (
     <React.Fragment>
       <div className="flex flex-col bg-white p-5 space-y-10 rounded-t-lg">
-        <h1 className="font-semibold text-lg text-teal-700">
+        <h1 className="font-semibold text-lg text-spangles-700">
           Update Blog Details
         </h1>
         <form onSubmit={handleSubmit} className="space-y-20">
@@ -184,7 +176,7 @@ function AddNew() {
                 type="text"
                 id="title"
                 name="title"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-spangles-500 focus:border-spangles-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                 placeholder=""
                 required
                 onChange={(ev) => setData({ ...Data, title: ev.target.value })}
@@ -215,8 +207,8 @@ function AddNew() {
                 </label>
                 <div
                   {...getRootProps()}
-                  className={`border-2 border-dashed border-teal-500 rounded p-16 text-center cursor-pointer ${
-                    isDragActive ? "bg-teal-100" : ""
+                  className={`border-2 border-dashed border-spangles-500 rounded p-16 text-center cursor-pointer ${
+                    isDragActive ? "bg-spangles-100" : ""
                   }`}
                 >
                   <input {...getInputProps({ multiple: false })} />
@@ -241,7 +233,7 @@ function AddNew() {
             </Link>
             <button
               type="submit"
-              className="inline-flex items-center px-14 py-2.5 mt-4 sm:mt-6 text-base font-semibold text-center text-white bg-teal-700 rounded-lg focus:ring-4 hover:bg-teal-800  focus:ring-teal-200"
+              className="inline-flex items-center px-14 py-2.5 mt-4 sm:mt-6 text-base font-semibold text-center text-white bg-spangles-700 rounded-lg focus:ring-4 hover:bg-spangles-800  focus:ring-spangles-200"
             >
               Upload
             </button>
