@@ -122,7 +122,9 @@ function Preview() {
           <i className="fa-solid fa-arrow-left-long text-2xl"></i>
         </Link>
         <div className="flex items-center justify-between">
-          <h3 className="font-semibold text-lg text-spangles-700">User Details</h3>
+          <h3 className="font-semibold text-lg text-spangles-700">
+            User Details
+          </h3>
         </div>
         <table className="w-fit text-xs text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <tbody className="">
@@ -193,7 +195,7 @@ function Preview() {
                     className="w-4 h-4 text-spangles-600 bg-gray-100 border-spangles-600 focus:ring-spangles-500 dark:focus:ring-spangles-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                   />
                   <label
-                    for="job_post"
+                    htmlFor="job_post"
                     className="w-full py-3 ms-2 text-base font-medium text-spangles-600 dark:text-gray-300"
                   >
                     Job Post
@@ -232,7 +234,7 @@ function Preview() {
                     className="w-4 h-4 text-spangles-600 bg-gray-100 border-spangles-600 focus:ring-spangles-500 dark:focus:ring-spangles-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                   />
                   <label
-                    for="blogs"
+                    htmlFor="blogs"
                     className="w-full py-3 ms-2 text-base font-medium text-spangles-500 dark:text-gray-300"
                   >
                     Blogs
@@ -270,7 +272,7 @@ function Preview() {
                     className="w-4 h-4 text-spangles-600 bg-gray-100 border-spangles-600 focus:ring-spangles-500 dark:focus:ring-spangles-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                   />
                   <label
-                    for="gallery"
+                    htmlFor="gallery"
                     className="w-full py-3 ms-2 text-base font-medium text-spangles-600 dark:text-gray-300"
                   >
                     Gallery

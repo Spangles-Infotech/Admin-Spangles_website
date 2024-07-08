@@ -23,12 +23,12 @@ function Sidebar() {
     <React.Fragment>
       <aside
         id="logo-sidebar"
-        className="fixed top-0 left-0 z-40 w-64 lg:w-80 h-screen pt-28 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
+        className="fixed top-0 left-0 z-40 w-64 lg:w-80 h-screen pt-28 transition-transform -translate-x-full sm:translate-x-0 bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700"
         aria-label="Sidebar"
       >
         <div className="h-full flex flex-col justify-between px-5 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
           <ul className="space-y-6 font-medium">
-            {user && (user.access_to.includes("Job Post") || user.isAdmin) ? (
+            {user && (user.access_to.includes("Job Post") || user.isAdmin) && (
               <li>
                 <Link
                   to="/admin/job-post/list"
@@ -36,15 +36,16 @@ function Sidebar() {
                 >
                   <img
                     src={jobPost}
-                    className="flex-shrink-0 w-7 h-7 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                    alt="jobPost icon"
+                    className="flex-shrink-0 w-7 h-7 transition duration-75 group-hover:text-gray-900 dark:group-hover:text-white"
+                    alt="Job Post icon"
                   />
-
-                  <span className="flex-1 ms-3 whitespace-nowrap">Job Post</span>
+                  <span className="flex-1 ms-3 whitespace-nowrap">
+                    Job Post
+                  </span>
                 </Link>
               </li>
-            ) : null}
-            {user && (user.access_to.includes("Blogs") || user.isAdmin) ? (
+            )}
+            {user && (user.access_to.includes("Blogs") || user.isAdmin) && (
               <li>
                 <Link
                   to="/admin/blogs/list"
@@ -52,14 +53,14 @@ function Sidebar() {
                 >
                   <img
                     src={blogs}
-                    className="flex-shrink-0 w-7 h-7 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                    alt="jobPost icon"
+                    className="flex-shrink-0 w-7 h-7 transition duration-75 group-hover:text-gray-900 dark:group-hover:text-white"
+                    alt="Blogs icon"
                   />
                   <span className="flex-1 ms-3 whitespace-nowrap">Blogs</span>
                 </Link>
               </li>
-            ) : null}
-            {user && (user.access_to.includes("Gallery") || user.isAdmin) ? (
+            )}
+            {user && (user.access_to.includes("Gallery") || user.isAdmin) && (
               <li>
                 <Link
                   to="/admin/gallery/list"
@@ -67,14 +68,14 @@ function Sidebar() {
                 >
                   <img
                     src={gallery}
-                    className="flex-shrink-0 w-7 h-7 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                    alt="jobPost icon"
+                    className="flex-shrink-0 w-7 h-7 transition duration-75 group-hover:text-gray-900 dark:group-hover:text-white"
+                    alt="Gallery icon"
                   />
                   <span className="flex-1 ms-3 whitespace-nowrap">Gallery</span>
                 </Link>
               </li>
-            ) : null}
-            {user && user.isAdmin ? (
+            )}
+            {user && user.isAdmin && (
               <li>
                 <Link
                   to="/admin/user-access/list"
@@ -82,13 +83,15 @@ function Sidebar() {
                 >
                   <img
                     src={userAccess}
-                    className="flex-shrink-0 w-7 h-7 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                    alt="jobPost icon"
+                    className="flex-shrink-0 w-7 h-7 transition duration-75 group-hover:text-gray-900 dark:group-hover:text-white"
+                    alt="User Access icon"
                   />
-                  <span className="flex-1 ms-3 whitespace-nowrap">User Access</span>
+                  <span className="flex-1 ms-3 whitespace-nowrap">
+                    User Access
+                  </span>
                 </Link>
               </li>
-            ) : null}
+            )}
           </ul>
           <div className="mb-10">
             <button
@@ -99,8 +102,8 @@ function Sidebar() {
             >
               <img
                 src={logout}
-                className="flex-shrink-0 w-7 h-7 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                alt="jobPost icon"
+                className="flex-shrink-0 w-7 h-7 transition duration-75 group-hover:text-gray-900 dark:group-hover:text-white"
+                alt="Log Out icon"
               />
               <span className="flex-1 ms-3 whitespace-nowrap">Log Out</span>
             </button>

@@ -136,8 +136,8 @@ function AddNew() {
                 modules={modules}
               />
             </div>
-            <div className="sm:col-span-2 flex items-start gap-20">
-              <div className="max-w-sm">
+            <div className="sm:col-span-2 flex flex-col sm:flex-row items-start gap-8">
+              <div className="w-full sm:w-auto">
                 <label
                   htmlFor="upload_image"
                   className="block mb-5 font-medium text-gray-900 dark:text-white"
@@ -158,10 +158,14 @@ function AddNew() {
                   </p>
                 </div>
               </div>
-              <div className="w-full">
-                {Files.length > 0 ? (
-                  <img src={FileSrc} alt="" className="w-64 h-64" />
-                ) : null}
+              <div className="w-full sm:w-auto">
+                {Files.length > 0 && (
+                  <img
+                    src={FileSrc}
+                    alt=""
+                    className="w-64 h-64 object-cover"
+                  />
+                )}
               </div>
             </div>
           </div>
@@ -174,13 +178,14 @@ function AddNew() {
             </Link>
             <button
               type="submit"
-              className="inline-flex items-center px-14 py-2.5 mt-4 sm:mt-6 text-base font-semibold text-center text-white bg-spangles-700 rounded-lg focus:ring-4 hover:bg-spangles-800  focus:ring-spangles-200"
+              className="inline-flex items-center px-14 py-2.5 mt-4 sm:mt-6 text-base font-semibold text-center text-white bg-spangles-700 rounded-lg focus:ring-4 hover:bg-spangles-800 focus:ring-spangles-200"
             >
               Upload
             </button>
           </div>
         </form>
       </div>
+
       {Response.status !== null ? (
         Response.status === "Success" ? (
           <SuccessMessage Message={Response.message} />

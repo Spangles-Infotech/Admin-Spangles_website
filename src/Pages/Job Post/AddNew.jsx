@@ -17,7 +17,49 @@ function AddNew() {
   const [PreferredSkillsList, setPreferredSkillsList] = useState([]);
   const [ResAndDutiesList, setResAndDutiesList] = useState([]);
   const [ExpAndQualificationList, setExpAndQualificationList] = useState([]);
+  const [CategoryList, setCategoryList] = useState([]);
+  const [Category, setCategory] = useState("");
 
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(`${URL}/api/job/category/list`, {
+        headers: {
+          Authorization: token,
+        },
+      });
+      setCategoryList(response.data.category);
+    } catch (error) {
+      console.error(error);
+      setResponse({
+        status: "Failed",
+        message: error.response ? error.response.data.message : error.message,
+      });
+      if (error.response.status === 401) {
+        setTimeout(() => {
+          window.localStorage.clear();
+          navigate("/");
+        }, 5000);
+      }
+      if (error.response.status === 500) {
+        setTimeout(() => {
+          setResponse({
+            status: null,
+            message: "",
+          });
+        }, 5000);
+      }
+    }
+  };
+  const handleAdd = () => {
+    if (!CategoryList.includes(Category)) {
+      setCategoryList((previous) => [...previous, Category]);
+    }
+    setCategory("");
+  };
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = {
@@ -80,41 +122,35 @@ function AddNew() {
         <form onSubmit={handleSubmit} className="space-y-36">
           <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
             <div className="w-full">
-              <label
-                htmlFor="category"
-                className="block mb-2 font-medium text-gray-900 dark:text-white"
-              >
-                Category
-              </label>
-              <input
-                type="text"
+              <div className="w-full inline-flex justify-between items-center mb-3">
+                <label
+                  htmlFor="category"
+                  className="block mb-2 font-medium text-gray-900 dark:text-white"
+                >
+                  Category
+                </label>
+                <button
+                  data-modal-target="category-modal"
+                  data-modal-toggle="category-modal"
+                  class="block text-spangles-600 text-xs font-medium underline"
+                  type="button"
+                >
+                  Add Category
+                </button>
+              </div>
+              <select
                 id="category"
                 name="category"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-spangles-500 focus:border-spangles-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                placeholder=""
                 required
-                data-popover-target="category-popover-hover"
-                data-popover-trigger="hover"
-              />
-              <div
-                data-popover
-                id="category-popover-hover"
-                role="tooltip"
-                className="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-spangles-500 focus:border-spangles-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
               >
-                <div className="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
-                  <h3 className="font-semibold text-gray-900 dark:text-white">
-                    Field Instruction
-                  </h3>
-                </div>
-                <div className="px-3 py-2">
-                  <p>
-                    Double-check your spelling for accuracy before typing to
-                    ensure error-free input.
-                  </p>
-                </div>
-                <div data-popper-arrow></div>
-              </div>
+                {CategoryList &&
+                  CategoryList.map((category, index) => (
+                    <option value={category} key={index}>
+                      {category}
+                    </option>
+                  ))}
+              </select>
             </div>
 
             <div className="w-full">
@@ -378,6 +414,90 @@ function AddNew() {
             </button>
           </div>
         </form>
+      </div>
+      <div
+        id="category-modal"
+        tabindex="-1"
+        aria-hidden="true"
+        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+      >
+        <div class="relative p-4 w-full max-w-xl max-h-full">
+          <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <div class="flex items-center justify-between p-4 md:p-5 rounded-t dark:border-gray-600">
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                New Category
+              </h3>
+              <button
+                type="button"
+                class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                data-modal-hide="category-modal"
+              >
+                <svg
+                  class="w-3 h-3"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 14 14"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                  />
+                </svg>
+                <span class="sr-only">Close modal</span>
+              </button>
+            </div>
+            <div class="p-4 md:p-5">
+              <div class="space-y-4">
+                <div>
+                  <input
+                    type="text"
+                    name="new_category"
+                    id="new_category"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-spangles-500 focus:border-spangles-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                    placeholder=""
+                    required
+                    onChange={(e) => setCategory(e.target.value)}
+                    value={Category}
+                    data-popover-target="category-popover-hover"
+                    data-popover-trigger="hover"
+                  />
+                </div>
+                <button
+                  type="button"
+                  disabled={Category === ""}
+                  onClick={() => handleAdd()}
+                  class="w-fit text-white bg-spangles-700 disabled:bg-spangles-500 hover:bg-spangles-800 focus:ring-4 focus:outline-none focus:ring-spangles-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-spangles-600 dark:hover:bg-spangles-700 dark:focus:ring-spangles-800"
+                  data-modal-hide="category-modal"
+                >
+                  Save
+                </button>
+              </div>
+              <div
+                data-popover
+                id="category-popover-hover"
+                role="tooltip"
+                className="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
+              >
+                <div className="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
+                  <h3 className="font-semibold text-gray-900 dark:text-white">
+                    Field Instruction
+                  </h3>
+                </div>
+                <div className="px-3 py-2">
+                  <p>
+                    Double-check your spelling for accuracy before typing to
+                    ensure error-free input.
+                  </p>
+                </div>
+                <div data-popper-arrow></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       {Response.status !== null ? (
         Response.status === "Success" ? (
