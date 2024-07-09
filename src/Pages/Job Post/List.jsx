@@ -666,7 +666,7 @@ function List() {
           </button>
           <button
             onClick={() => setCurrentPage(CurrentPage + 1)}
-            disabled={CurrentPage === TotalPages}
+            disabled={CurrentPage === TotalPages || TotalPages === 0}
             className="px-4 py-2 bg-gray-200 text-gray-700 rounded disabled:opacity-50"
           >
             Next
