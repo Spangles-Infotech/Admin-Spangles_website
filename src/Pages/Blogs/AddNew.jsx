@@ -33,7 +33,7 @@ function AddNew() {
     }
 
     try {
-      const response = await axios.post(`${URL}/api/blogs/add/new`, formData, {
+      const response = await axios.post(`${URL}/api/blog/add/new`, formData, {
         headers: {
           Authorization: token,
         },

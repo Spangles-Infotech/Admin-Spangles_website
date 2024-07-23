@@ -20,7 +20,7 @@ function Preview() {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`${URL}/api/blogs/${params.id}/data`, {
+      const response = await axios.get(`${URL}/api/blog/${params.id}/data`, {
         headers: {
           Authorization: token,
         },
@@ -51,14 +51,14 @@ function Preview() {
 
   return (
     <React.Fragment>
-      <div className="flex flex-col bg-white p-5 mb-20 space-y-10 rounded-t-lg">
+      <div className="w-full flex flex-col bg-white p-5 mb-20 space-y-10 rounded-t-lg">
         <Link to={"/admin/blogs/list"}>
           <i className="fa-solid fa-arrow-left-long text-2xl"></i>
         </Link>
-        <h6 className="mt-2 px-5 text-3xl font-bold tracking-tight text-spangles-700 dark:text-white">
+        <h6 className="mt-2 text-3xl font-bold tracking-tight text-spangles-700 dark:text-white">
           {Data.title}
         </h6>
-        <p className="mt-5 px-5 font-normal text-gray-700 dark:text-gray-400">
+        <p className="mt-5 font-normal text-gray-700 dark:text-gray-400">
           <i className="fa-regular fa-clock"></i>
           &nbsp;&nbsp;&nbsp;&nbsp;
           {new Date(Data.posted_on).toUTCString()}
@@ -68,7 +68,7 @@ function Preview() {
           src={`${URL}/${Data.image}`}
           alt=""
         />
-        <div className="prose w-full">
+        <div className="w-full text-justify">
           {HtmlParser(`${Data && Data.content}`)}
         </div>
       </div>

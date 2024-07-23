@@ -26,7 +26,7 @@ function AddNew() {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`${URL}/api/blogs/${params.id}/data`, {
+      const response = await axios.get(`${URL}/api/blog/${params.id}/data`, {
         headers: {
           Authorization: token,
         },
@@ -68,7 +68,7 @@ function AddNew() {
     }
     try {
       const response = await axios.put(
-        `${URL}/api/blogs/${params.id}/update`,
+        `${URL}/api/blog/${params.id}/update`,
         formData,
         {
           headers: {

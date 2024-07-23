@@ -135,7 +135,7 @@ function List() {
           </div>
         </div>
         {Data && Data.length > 0 ? (
-          <div className="w-full grid grid-cols-2 md:grid-cols-4 gap-5">
+          <div className="w-full grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-5">
             {Data &&
               Data.map((item, index) => (
                 <div

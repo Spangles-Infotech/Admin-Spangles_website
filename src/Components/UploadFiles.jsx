@@ -51,6 +51,7 @@ function UploadFiles({ setData }) {
           status: null,
           message: "",
         });
+        setFiles([]);
       }, 5000);
     } catch (error) {
       console.error(error);
@@ -124,6 +125,7 @@ function UploadFiles({ setData }) {
                 Upload File
               </h3>
               <button
+                onClick={() => setFiles([])}
                 type="button"
                 className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
                 data-modal-hide="files-modal"
@@ -182,6 +184,7 @@ function UploadFiles({ setData }) {
             {/* <!-- Modal footer --> */}
             <div className="flex justify-end items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
               <button
+                onClick={() => setFiles([])}
                 id="files-modal-btn"
                 data-modal-hide="files-modal"
                 type="button"

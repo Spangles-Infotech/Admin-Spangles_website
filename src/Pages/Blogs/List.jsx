@@ -29,7 +29,7 @@ function List() {
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        `${URL}/api/blogs/list?page=${CurrentPage}&limit=${20}`,
+        `${URL}/api/blog/list?page=${CurrentPage}&limit=${20}`,
         {
           headers: {
             Authorization: token,
@@ -76,7 +76,7 @@ function List() {
 
   const handleDelete = async (id) => {
     try {
-      const response = await axios.delete(`${URL}/api/blogs/${id}/delete`, {
+      const response = await axios.delete(`${URL}/api/blog/${id}/delete`, {
         headers: {
           Authorization: token,
         },
@@ -118,106 +118,6 @@ function List() {
 
   return (
     <React.Fragment>
-      {/* <div className="flex flex-col bg-white p-5 space-y-10 rounded-t-lg">
-        <div className="flex flex-wrap space-y-5 items-center justify-between">
-          <h1 className="font-semibold text-lg text-spangles-700">Blogs</h1>
-          <div className="flex items-center space-x-5">
-            <div className="">
-              <label
-                htmlFor="default-search"
-                className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
-              >
-                Search
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                  <svg
-                    className="w-3 h-3 text-gray-500 dark:text-gray-400"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-                    />
-                  </svg>
-                </div>
-                <input
-                  type="search"
-                  id="default-search"
-                  className="block w-40 py-1 ps-8 text-sm text-gray-900 rounded bg-gray-50 focus:ring-spangles-800 focus:border-spangles-800 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-800 dark:focus:border-spangles-800"
-                  placeholder="Search..."
-                  onChange={(e) => setSearch(e.target.value)}
-                />
-              </div>
-            </div>
-            <Link
-              to="/admin/blogs/add/new"
-              className="px-3 py-1 text-white bg-spangles-700 rounded text-sm space-x-2 hover:bg-spangles-800 focus:ring-4 focus:ring-spangles-200"
-            >
-              <span>
-                <i className="fa-solid fa-plus"></i> New Blog
-              </span>
-            </Link>
-          </div>
-        </div>
-        {Data && Data.length > 0 ? (
-          <div className="w-full grid grid-cols-2 md:grid-cols-3 gap-5">
-            {FilterData &&
-              FilterData.map((item, index) => (
-                <div
-                  key={index}
-                  className="h-full flex flex-col items-start bg-white border border-gray-200 rounded-lg hover:shadow-xl md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
-                >
-                  <img
-                    onClick={() => navigate(`/admin/blogs/${item._id}/preview`)}
-                    className=" hover:cursor-pointer object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md"
-                    src={`${URL}/${item.image}`}
-                    alt=""
-                  />
-                  <div className="h-full w-full flex flex-col justify-between leading-normal">
-                    <p className="mt-5 px-5 font-normal text-gray-700 dark:text-gray-400">
-                      <i className="fa-regular fa-clock"></i>
-                      &nbsp;&nbsp;&nbsp;&nbsp;
-                      {moment(new Date(item.posted_on)).format("DD MMMM YYYY")}
-                    </p>
-                    <h6
-                      onClick={() =>
-                        navigate(`/admin/blogs/${item._id}/preview`)
-                      }
-                      className=" hover:cursor-pointer mt-2 px-5 text-base font-semibold tracking-tight text-gray-900 dark:text-white"
-                    >
-                      {item.title}
-                    </h6>
-                    <div className="justify-self-end z-50 visible">
-                      <div className="flex items-end">
-                        <button
-                          onClick={() => setDelete(item._id)}
-                          className="w-full text-center py-2.5 px-5 text-sm font-medium text-red-500 focus:outline-none bg-white border border-gray-200 hover:bg-red-100 hover:text-red-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-                        >
-                          <i className="fa-solid fa-trash-can"></i> Delete
-                        </button>
-                        <Link
-                          to={`/admin/blogs/${item._id}/edit`}
-                          className="w-full text-center py-2.5 px-5 text-sm font-medium text-spangles-700 focus:outline-none rounded-ee-lg bg-white border border-gray-200 hover:bg-spangles-700 hover:text-white focus:z-10 focus:ring-4 focus:ring-spangles-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-                        >
-                          <i className="fa-regular fa-pen-to-square"></i> Edit
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-          </div>
-        ) : (
-          <Spinners />
-        )}
-      </div> */}
       <div className="flex flex-col bg-white p-5 space-y-10 rounded-t-lg">
         <div className="flex flex-wrap space-y-5 items-center justify-between">
           <h1 className="font-semibold text-lg text-spangles-700">Blogs</h1>
@@ -267,7 +167,7 @@ function List() {
           </div>
         </div>
         {Data && Data.length > 0 ? (
-          <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+          <div className="w-full grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-5">
             {FilterData &&
               FilterData.map((item, index) => (
                 <div

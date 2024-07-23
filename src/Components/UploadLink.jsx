@@ -40,6 +40,8 @@ function UploadLink({ setData }) {
           status: null,
           message: "",
         });
+        setEmbedLink("");
+        setVideo(false);
       }, 5000);
     } catch (error) {
       console.error(error);
@@ -99,6 +101,10 @@ function UploadLink({ setData }) {
                 Youtube Link
               </h3>
               <button
+                onClick={() => {
+                  setEmbedLink("");
+                  setVideo(false);
+                }}
                 type="button"
                 className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
                 data-modal-hide="link-modal"
@@ -169,6 +175,10 @@ function UploadLink({ setData }) {
             {/* <!-- Modal footer --> */}
             <div className="flex justify-end items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
               <button
+                onClick={() => {
+                  setEmbedLink("");
+                  setVideo(false);
+                }}
                 id="link-modal-btn"
                 data-modal-hide="link-modal"
                 type="button"
