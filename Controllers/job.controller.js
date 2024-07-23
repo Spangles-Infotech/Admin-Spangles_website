@@ -77,5 +77,25 @@ const jobController = {
       });
     }
   },
+  getAllCatogory: async (req, res) => {
+    try {
+      const jobs = await Jobs.find().sort({ _id: -1 }).select("category");
+      const category = [];
+      jobs.forEach((job) => {
+        if (!category.includes(job.category)) {
+          category.push(job.category);
+        }
+      });
+      return res.status(200).json({
+        message: "Data Fetched Successfully",
+        category,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        message: "Internal Server Error",
+      });
+    }
+  },
 };
 module.exports = jobController;
