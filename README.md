@@ -9,11 +9,11 @@ Open `git bash` Cli,
 
    `cd project-directory`
 
-2. Install dependencies using Yarn:
-   `yarn install`
+2. Install dependencies using npm:
+   `npm install`
 
 3. Start the development server:
-   `yarn start`
+   `npm start`
 
 4. Access the application in your browser at
    `http://localhost:5050`
