@@ -65,6 +65,7 @@ function AddNew() {
     const data = {
       category: event.target.category.value,
       designation: event.target.designation.value,
+      location: event.target.location.value,
       work_experience:
         event.target.work_experience_from.value == 0 &&
         event.target.work_experience_to.value == 0
@@ -220,6 +221,22 @@ function AddNew() {
                   max={15}
                 />
               </div>
+            </div>
+            <div className="w-full">
+              <label
+                htmlFor="location"
+                className="block mb-2 font-medium text-gray-900 dark:text-white"
+              >
+                Location
+              </label>
+              <input
+                type="text"
+                name="location"
+                id="location"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-spangles-500 focus:border-spangles-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                placeholder=""
+                required
+              />
             </div>
             <div className="sm:col-span-2">
               <label

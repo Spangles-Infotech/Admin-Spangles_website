@@ -12,6 +12,7 @@ function Edit() {
     _id: "",
     category: "",
     designation: "",
+    location: "",
     work_experience: "",
     preferred_skills: [],
     job_summary: "",
@@ -59,6 +60,7 @@ function Edit() {
     }
   };
   const [Category, setCategory] = useState("");
+  const [Location, setLocation] = useState("");
   const [Designation, setDesignation] = useState("");
   const [WorkExperience, setWorkExperience] = useState({
     from: "",
@@ -77,6 +79,7 @@ function Edit() {
   useEffect(() => {
     setCategory(Data.category);
     setDesignation(Data.designation);
+    setLocation(Data.location);
     setWorkExperience({
       from:
         Data.work_experience === "Fresher"
@@ -100,6 +103,7 @@ function Edit() {
     const data = {
       category: Category,
       designation: Designation,
+      location: Location,
       work_experience:
         WorkExperience.from == 0 && WorkExperience.to == 0
           ? "Fresher"
@@ -284,6 +288,27 @@ function Edit() {
                   max={15}
                 />
               </div>
+            </div>
+            <div className="w-full">
+              <div className="w-full inline-flex justify-between items-center mb-3">
+                <label
+                  htmlFor="location"
+                  className="block font-medium text-gray-900 dark:text-white"
+                >
+                  Location
+                </label>
+                <p className="text-red-600 text-xs"></p>
+              </div>
+              <input
+                type="text"
+                name="location"
+                id="location"
+                className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-slate-600 focus:border-slate-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-slate-500 dark:focus:border-slate-500"
+                placeholder=""
+                required
+                onChange={(e) => setLocation(e.target.value)}
+                value={Location}
+              />
             </div>
             <div className="sm:col-span-2">
               <label

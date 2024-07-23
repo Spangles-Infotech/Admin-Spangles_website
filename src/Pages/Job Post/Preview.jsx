@@ -11,6 +11,7 @@ function Preview() {
   const params = useParams();
   const [Data, setData] = useState({
     _id: "",
+    location: "",
     category: "",
     designation: "",
     work_experience: "",
@@ -67,7 +68,9 @@ function Preview() {
           <i className="fa-solid fa-arrow-left-long text-2xl"></i>
         </Link>
         <div className="flex items-center justify-between">
-          <h3 className="font-semibold text-lg text-spangles-700">Job Details</h3>
+          <h3 className="font-semibold text-lg text-spangles-700">
+            Job Details
+          </h3>
           <div className="inline-flex space-x-10">
             <h6
               className={`${
@@ -109,6 +112,12 @@ function Preview() {
               <td className="px-4 py-3 text-sm ">
                 {Data && Data.work_experience}
               </td>
+            </tr>
+            <tr className="align-top">
+              <td className="px-4 py-3 text-sm font-medium text-gray-700">
+                Location
+              </td>
+              <td className="px-4 py-3 text-sm">{Data && Data.location}</td>
             </tr>
             <tr className="align-top">
               <td className="px-4 py-3 text-sm font-medium  text-gray-700">
