@@ -1,6 +1,6 @@
 const express = require("express");
 const galleryController = require("../Controllers/gallery.controller.js");
-const upload = require("../Utilities/uploads.js");
+const { upload } = require("../Utilities/uploads.js");
 const { authentication } = require("../Middlewares/authentication.js");
 const galleryRouter = express.Router();
 

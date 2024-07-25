@@ -24,7 +24,7 @@ const upload = multer({
 // Check File Type
 function checkFileType(file, cb) {
   // Allowed ext
-  const filetypes = /jpeg|jpg|png|gif|mp4|mov/;
+  const filetypes = /jpeg|jpg|png|gif|pdf|mp4|mov/;
   // Check ext
   const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
   // Check mime
@@ -36,5 +36,20 @@ function checkFileType(file, cb) {
     cb("Error: Images and Videos Only!");
   }
 }
-
-module.exports = upload;
+const storageResume = multer.diskStorage({
+  destination: "./uploads/resume",
+  filename: function (req, file, cb) {
+    cb(
+      null,
+      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+    );
+  },
+});
+const uploadResume = multer({
+  storage: storageResume,
+  limits: { fileSize: 100 * 1024 * 1024 }, // 100MB limit
+  fileFilter: function (req, file, cb) {
+    checkFileType(file, cb);
+  },
+});
+module.exports = { upload, uploadResume };

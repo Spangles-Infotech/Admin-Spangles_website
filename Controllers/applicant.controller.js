@@ -1,6 +1,6 @@
-const Jobs = require("../Models/job.model.js");
+const Applicant = require("../Models/applicant.model.js");
 
-const jobController = {
+const applicantController = {
   getAll: async (req, res) => {
     const {
       page = 1,
@@ -9,8 +9,8 @@ const jobController = {
       category,
       designation,
       status,
-      // from,
-      // to,
+      from,
+      to,
     } = req.query;
     // Ensure page and limit are numbers
     const pageNum = parseInt(page, 10);
@@ -31,32 +31,31 @@ const jobController = {
     if (status) {
       searchConditions.push({ status });
     }
-    // if (from && to) {
-    //   searchConditions.push({
-    //     applied_on: { $gte: new Date(from), $lte: new Date(to) },
-    //   });
-    // }
+    if (from && to) {
+      searchConditions.push({
+        applied_on: { $gte: new Date(from), $lte: new Date(to) },
+      });
+    }
     const queryConditions = searchConditions.length
-      ? { $and: searchConditions }
-      : {};
+    ? { $and: searchConditions }
+    : {};
 
     try {
-      const jobs = await Jobs.aggregate([
+      const applicants = await Applicant.aggregate([
         { $match: queryConditions },
         { $sort: { _id: -1 } },
         { $skip: (pageNum - 1) * limitNum },
         { $limit: limitNum },
       ]);
 
-      const totalItems = await Jobs.countDocuments(queryConditions); // Get total count of matching documents
+      const totalItems = await Applicant.countDocuments(queryConditions); // Get total count of matching documents
       const TotalPages = Math.ceil(totalItems / limitNum);
-      const list = await Jobs.find().select("category designation");
+      const list = await Applicant.find().select("category designation");
       const categories = [...new Set(list.map((item) => item.category))];
       const designations = [...new Set(list.map((item) => item.designation))];
-      console.log(categories);
       return res.status(200).json({
         message: "Data Fetched Successfully",
-        jobs,
+        applicants,
         totalItems,
         TotalPages,
         CurrentPage: parseInt(page),
@@ -72,15 +71,15 @@ const jobController = {
   },
   getSingle: async (req, res) => {
     try {
-      const jobs = await Jobs.findById(req.params.id);
-      if (!jobs) {
+      const applicants = await Applicant.findById(req.params.id);
+      if (!applicants) {
         return res.status(404).json({
-          message: "Job not found",
+          message: "Applicant not found",
         });
       }
       return res.status(200).json({
         message: "Data Fetched Successfully",
-        jobs,
+        applicants,
       });
     } catch (error) {
       console.log(error);
@@ -91,10 +90,14 @@ const jobController = {
   },
   addNew: async (req, res) => {
     try {
-      const newJob = new Jobs(req.body);
-      await newJob.save();
+      if (req.file == undefined) {
+        return res.status(400).json({ message: "No file selected" });
+      }
+      req.body.resume = req.file.path;
+      const newApplicant = new Applicant(req.body);
+      await newApplicant.save();
       return res.status(201).json({
-        message: "Job created successfully",
+        message: "Applicant created successfully",
       });
     } catch (error) {
       console.log(error);
@@ -105,30 +108,18 @@ const jobController = {
   },
   update: async (req, res) => {
     try {
-      const jobs = await Jobs.findById(req.params.id);
-      if (!jobs) {
+      const applicants = await Applicant.findById(req.params.id);
+      if (!applicants) {
         return res.status(404).json({
-          message: "Job not found",
+          message: "Applicant not found",
         });
       }
-      const updateJob = await Jobs.findByIdAndUpdate(jobs._id, req.body);
+      const updateApplicant = await Applicant.findByIdAndUpdate(
+        applicants._id,
+        req.body
+      );
       return res.status(201).json({
-        message: "Job updated successfully",
-      });
-    } catch (error) {
-      console.log(error);
-      return res.status(500).json({
-        message: "Internal Server Error",
-      });
-    }
-  },
-  getAllCatogory: async (req, res) => {
-    try {
-      const jobs = await Jobs.find().sort({ _id: -1 }).select("category");
-      const category = [...new Set(jobs.map((item) => item.category))];
-      return res.status(200).json({
-        message: "Data Fetched Successfully",
-        category,
+        message: "Applicant updated successfully",
       });
     } catch (error) {
       console.log(error);
@@ -138,4 +129,4 @@ const jobController = {
     }
   },
 };
-module.exports = jobController;
+module.exports = applicantController;

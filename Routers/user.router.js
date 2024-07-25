@@ -10,7 +10,7 @@ userRouter.put(
   authentication,
   userController.updateAccess
 );
-
+userRouter.delete("/:id/delete", authentication, userController.DeleteUser);
 userRouter.post("/add/new", userController.signup);
 userRouter.post("/login", userController.login);
 
