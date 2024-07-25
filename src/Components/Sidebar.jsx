@@ -3,6 +3,8 @@ import jobPost from "../assets/Group 263.png";
 import blogs from "../assets/Group 265.png";
 import gallery from "../assets/Group 1000001926.png";
 import userAccess from "../assets/Group 1000001921.png";
+import ApplicantsIcon from "../assets/Group 1000002024.png";
+import EnquiriesIcon from "../assets/Group 1000002049.png";
 import logout from "../assets/Group 56.png";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { initFlowbite } from "flowbite";
@@ -92,6 +94,43 @@ function Sidebar() {
                 </Link>
               </li>
             )}
+            {user &&
+              (user.access_to.includes("Applicants") || user.isAdmin) && (
+                <li>
+                  <Link
+                    to="/admin/applicant/list"
+                    className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                  >
+                    <img
+                      src={ApplicantsIcon}
+                      className="flex-shrink-0 w-7 h-7 transition duration-75 group-hover:text-gray-900 dark:group-hover:text-white"
+                      alt="Applicants icon"
+                    />
+                    <span className="flex-1 ms-3 whitespace-nowrap">
+                      Applicants
+                    </span>
+                  </Link>
+                </li>
+              )}
+            {user &&
+              (user.access_to.includes("Enquiries & Messages") ||
+                user.isAdmin) && (
+                <li>
+                  <Link
+                    to="/admin/enquiries&messages/list"
+                    className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                  >
+                    <img
+                      src={EnquiriesIcon}
+                      className="flex-shrink-0 w-7 h-7 transition duration-75 group-hover:text-gray-900 dark:group-hover:text-white"
+                      alt="Enquiries & Messages icon"
+                    />
+                    <span className="flex-1 ms-3 whitespace-nowrap">
+                      Enquiries & Messages
+                    </span>
+                  </Link>
+                </li>
+              )}
           </ul>
           <div className="mb-10">
             <button

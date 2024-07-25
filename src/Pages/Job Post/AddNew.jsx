@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { URL } from "../../App";
 import axios from "axios";
 import { FailedMessage, SuccessMessage } from "../../Components/ToastMessage";
+import { initFlowbite } from "flowbite";
 
 function AddNew() {
   const token = window.localStorage.getItem("token");
@@ -21,6 +22,7 @@ function AddNew() {
   const [Category, setCategory] = useState("");
 
   useEffect(() => {
+    initFlowbite();
     fetchData();
   }, []);
 
@@ -123,7 +125,7 @@ function AddNew() {
         <form onSubmit={handleSubmit} className="space-y-36">
           <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
             <div className="w-full">
-              <div className="w-full inline-flex justify-between items-center mb-3">
+              <div className="w-full inline-flex justify-between items-center">
                 <label
                   htmlFor="category"
                   className="block mb-2 font-medium text-gray-900 dark:text-white"

@@ -7,6 +7,7 @@ import { FailedMessage, SuccessMessage } from "../../Components/ToastMessage";
 import crypto from "crypto-js";
 const Secret_key = import.meta.env.VITE_SECRET_KEY;
 function Preview() {
+  const user = JSON.parse(window.localStorage.getItem("user"));
   const token = window.localStorage.getItem("token");
   const navigate = useNavigate();
   const params = useParams();
@@ -14,7 +15,6 @@ function Preview() {
     name: "",
     phone_number: "",
     username: "",
-    // password: "",
     password: {
       iv: "",
       key: "",
@@ -114,7 +114,43 @@ function Preview() {
     });
     return decrypted.toString(crypto.enc.Utf8);
   };
-
+  const handleDelete = async () => {
+    try {
+      const response = await axios.delete(
+        `${URL}/api/user/${params.id}/delete`,
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      setResponse({
+        status: "Success",
+        message: response.data.message,
+      });
+      setTimeout(() => {
+        navigate("/admin/user-access/list");
+      }, 5000);
+    } catch (error) {
+      console.error(error);
+      setResponse({
+        status: "Failed",
+        message: error.response ? error.response.data.message : error.message,
+      });
+      if (error.response.status === 401) {
+        setTimeout(() => {
+          window.localStorage.clear();
+          navigate("/");
+        }, 5000);
+      }
+      setTimeout(() => {
+        setResponse({
+          status: null,
+          message: "",
+        });
+      }, 5000);
+    }
+  };
   return (
     <React.Fragment>
       <div className="flex flex-col bg-white p-5 mb-20 space-y-10 rounded-t-lg">
@@ -125,6 +161,16 @@ function Preview() {
           <h3 className="font-semibold text-lg text-spangles-700">
             User Details
           </h3>
+          <div className="inline-flex space-x-10">
+            {user && user.isAdmin && (
+              <button
+                onClick={() => handleDelete()}
+                className="text-red-700 hover:text-red-500 text-sm font-medium p-2.5"
+              >
+                <i class="fa-solid fa-trash-can"></i> Delete
+              </button>
+            )}
+          </div>
         </div>
         <table className="w-fit text-xs text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <tbody className="">
@@ -276,6 +322,82 @@ function Preview() {
                     className="w-full py-3 ms-2 text-base font-medium text-spangles-600 dark:text-gray-300"
                   >
                     Gallery
+                  </label>
+                </div>
+              </li>
+              <li className="">
+                <div className="flex items-center">
+                  <input
+                    id="applicants"
+                    type="checkbox"
+                    onChange={(ev) => {
+                      if (ev.target.checked) {
+                        const update = [...Data.access_to];
+                        update.splice(3, 0, "Appicants");
+                        setData((prev) => {
+                          return {
+                            ...prev,
+                            access_to: update,
+                          };
+                        });
+                      } else {
+                        const update = [...Data.access_to];
+                        update.splice(3, 1);
+                        setData((prev) => {
+                          return {
+                            ...prev,
+                            access_to: update,
+                          };
+                        });
+                      }
+                    }}
+                    checked={Data.access_to.includes("Applicants")}
+                    name="applicants"
+                    className="w-4 h-4 text-spangles-600 bg-gray-100 border-spangles-600 focus:ring-spangles-500 dark:focus:ring-spangles-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                  />
+                  <label
+                    htmlFor="applicants"
+                    className="w-full py-3 ms-2 text-base font-medium text-spangles-600 dark:text-gray-300"
+                  >
+                    Applicants
+                  </label>
+                </div>
+              </li>
+              <li className="">
+                <div className="flex items-center">
+                  <input
+                    id="enquiries&messages"
+                    type="checkbox"
+                    onChange={(ev) => {
+                      if (ev.target.checked) {
+                        const update = [...Data.access_to];
+                        update.splice(4, 0, "Enquiries & Messages");
+                        setData((prev) => {
+                          return {
+                            ...prev,
+                            access_to: update,
+                          };
+                        });
+                      } else {
+                        const update = [...Data.access_to];
+                        update.splice(4, 1);
+                        setData((prev) => {
+                          return {
+                            ...prev,
+                            access_to: update,
+                          };
+                        });
+                      }
+                    }}
+                    checked={Data.access_to.includes("Enquiries & Messages")}
+                    name="enquiries&messages"
+                    className="w-4 h-4 text-spangles-600 bg-gray-100 border-spangles-600 focus:ring-spangles-500 dark:focus:ring-spangles-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                  />
+                  <label
+                    htmlFor="enquiries&messages"
+                    className="w-full py-3 ms-2 text-base font-medium text-spangles-600 dark:text-gray-300"
+                  >
+                    Enquiries & Messages
                   </label>
                 </div>
               </li>

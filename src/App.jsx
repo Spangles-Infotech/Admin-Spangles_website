@@ -18,6 +18,12 @@ import UserAccessPreview from "./Pages/User Access/Preview";
 import UserAccessList from "./Pages/User Access/List";
 import GalleryContainer from "./Pages/Gallery/Container";
 import GalleryList from "./Pages/Gallery/List";
+import ApplicantsContainer from "./Pages/Applicants/Container";
+import ApplicantList from "./Pages/Applicants/List";
+import ApplicantPreview from "./Pages/Applicants/Preview";
+import EnquiriesContainer from "./Pages/Enquiries/Container";
+import EnquiriesList from "./Pages/Enquiries/List";
+import EnquiriesPreview from "./Pages/Enquiries/Preview";
 
 export const URL = import.meta.env.VITE_BACKEND_API_URL;
 function App() {
@@ -55,6 +61,14 @@ function App() {
             </Route>
             <Route path="gallery" element={<GalleryContainer />}>
               <Route path="list" element={<GalleryList />} />
+            </Route>
+            <Route path="applicant" element={<ApplicantsContainer />}>
+              <Route path="list" element={<ApplicantList />} />
+              <Route path=":id/preview" element={<ApplicantPreview />} />
+            </Route>
+            <Route path="enquiries&messages" element={<EnquiriesContainer />}>
+              <Route path="list" element={<EnquiriesList />} />
+              <Route path=":id/preview" element={<EnquiriesPreview />} />
             </Route>
           </Route>
         </Routes>

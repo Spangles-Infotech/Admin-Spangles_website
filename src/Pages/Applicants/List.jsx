@@ -25,10 +25,10 @@ function List() {
   const [Designation, setDesignation] = useState("");
   const [Search, setSearch] = useState("");
   const [Status, setStatus] = useState("");
-  // const [isDate, setDate] = useState({
-  //   from: "",
-  //   to: "",
-  // });
+  const [isDate, setDate] = useState({
+    from: "",
+    to: "",
+  });
 
   useEffect(() => {
     initFlowbite();
@@ -36,19 +36,21 @@ function List() {
 
   useEffect(() => {
     fetchData();
-  }, [CurrentPage, Search, Designation, Category, Status]);
+  }, [CurrentPage, Search, Designation, Category, Status, isDate]);
 
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        `${URL}/api/job/list?category=${Category}&designation=${Designation}&status=${Status}&search=${Search}&page=${CurrentPage}&limit=${15}`,
+        `${URL}/api/applicant/list?category=${Category}&designation=${Designation}&status=${Status}&from=${
+          isDate.from
+        }&to=${isDate.to}&search=${Search}&page=${CurrentPage}&limit=${15}`,
         {
           headers: {
             Authorization: token,
           },
         }
       );
-      setData(response.data.jobs);
+      setData(response.data.applicants);
       setTotalPages(response.data.TotalPages);
       setCurrentPage(response.data.CurrentPage);
       setCategoryList(response.data.categories);
@@ -73,13 +75,14 @@ function List() {
       }, 5000);
     }
   };
+
   return (
     <React.Fragment>
       <div className="flex flex-col bg-white p-5 space-y-10 rounded-t-lg">
         <div className="flex flex-wrap space-y-5 items-center justify-between">
           <div className="inline-flex space-x-3 items-center">
             <h1 className="font-semibold text-lg text-spangles-700">
-              Jobs List
+              Applicant List
             </h1>
             <button
               onClick={() => {
@@ -87,6 +90,7 @@ function List() {
                 setCategory("");
                 setDesignation("");
                 setStatus("");
+                setDate({ from: "", to: "" });
               }}
               className="bg-gray-50 border text-spangles-800 text-xs font-semibold rounded focus:ring-spangles-800 focus:border-spangles-800 block w-fit px-2 py-0.5 hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-800 dark:focus:border-spangles-800"
             >
@@ -135,7 +139,7 @@ function List() {
                   <h6 className="text-sm">Status :</h6>
                   <select
                     id="status"
-                    value={Category}
+                    value={Status}
                     onChange={(e) => setStatus(e.target.value)}
                     className="bg-gray-50 border text-spangles-800 text-xs font-semibold rounded focus:ring-spangles-800 focus:border-spangles-800 block w-fit px-2 py-1 hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-800 dark:focus:border-spangles-800"
                   >
@@ -146,6 +150,26 @@ function List() {
                       </option>
                     ))}
                   </select>
+                </div>
+                <div className="inline-flex items-center space-x-3">
+                  <h6 className="text-sm">From :</h6>
+                  <input
+                    type="date"
+                    name="from"
+                    id="from"
+                    onChange={(e) =>
+                      setDate({ ...isDate, from: e.target.value })
+                    }
+                    className="bg-gray-50 border text-teal-800 text-xs font-semibold rounded focus:ring-teal-800 focus:border-teal-800 block w-fit px-2 py-1 hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-teal-800 dark:focus:border-teal-800"
+                  />
+                  <h6 className="text-sm">To :</h6>
+                  <input
+                    type="date"
+                    name="to"
+                    id="to"
+                    onChange={(e) => setDate({ ...isDate, to: e.target.value })}
+                    className="bg-gray-50 border text-teal-800 text-xs font-semibold rounded focus:ring-teal-800 focus:border-teal-800 block w-fit px-2 py-1 hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-teal-800 dark:focus:border-teal-800"
+                  />
                 </div>
               </div>
             )}
@@ -185,14 +209,6 @@ function List() {
                 />
               </div>
             </div>
-            <Link
-              to={`/admin/job-post/add/new`}
-              className="px-3 py-1 text-white bg-spangles-700 rounded text-sm space-x-2 hover:bg-spangles-800 focus:ring-4 focus:ring-spangles-200"
-            >
-              <span>
-                <i className="fa-solid fa-plus"></i> New Job
-              </span>
-            </Link>
           </div>
         </div>
         {Data && Data.length > 0 ? (
@@ -202,10 +218,11 @@ function List() {
                 <tr>
                   {[
                     "Sl.No",
+                    "Name",
                     "Category",
                     "Designation",
                     "Experience",
-                    "Posted On",
+                    "Applied On",
                     "Status",
                     "Action",
                   ].map((item, index) => (
@@ -228,25 +245,28 @@ function List() {
                       >
                         {(CurrentPage - 1) * 15 + (index + 1)}
                       </th>
+                      <td className="px-6 py-4">{elem.name}</td>
                       <td className="px-6 py-4">{elem.category}</td>
                       <td className="px-6 py-4">{elem.designation}</td>
-                      <td className="px-6 py-4">{elem.work_experience}</td>
+                      <td className="px-6 py-4">{elem.experience}</td>
                       <td className="px-6 py-4">
-                        {moment(elem.posted_on).format("DD-MM-YYYY")}
+                        {moment(elem.applied_on).format("DD-MM-YYYY")}
                       </td>
                       <td
                         className={`${
-                          elem.status === "Active"
+                          elem.status === "Shortlisted"
                             ? "text-green-600"
                             : elem.status === "On Hold"
                             ? "text-orange-500"
-                            : "text-red-600"
+                            : elem.status === "Rejected"
+                            ? "text-red-600"
+                            : "text-blue-600"
                         } px-6 py-4 font-medium`}
                       >
-                        {elem.status}
+                        {elem.status === null ? "View" : elem.status}
                       </td>
                       <td className="px-6 py-4">
-                        <Link to={`/admin/job-post/${elem._id}/preview`}>
+                        <Link to={`/admin/applicant/${elem._id}/preview`}>
                           <i className="fa-solid fa-eye"></i>
                         </Link>
                       </td>

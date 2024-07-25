@@ -18,17 +18,13 @@ function List() {
   });
   const [Data, setData] = useState([]);
   const [TotalPages, setTotalPages] = useState(1);
-  const [CategoryList, setCategoryList] = useState([]);
-  const [DesignationList, setDesignationList] = useState([]);
   const [Filter, setFilter] = useState(false);
-  const [Category, setCategory] = useState("");
-  const [Designation, setDesignation] = useState("");
   const [Search, setSearch] = useState("");
   const [Status, setStatus] = useState("");
-  // const [isDate, setDate] = useState({
-  //   from: "",
-  //   to: "",
-  // });
+  const [isDate, setDate] = useState({
+    from: "",
+    to: "",
+  });
 
   useEffect(() => {
     initFlowbite();
@@ -36,23 +32,23 @@ function List() {
 
   useEffect(() => {
     fetchData();
-  }, [CurrentPage, Search, Designation, Category, Status]);
+  }, [CurrentPage, Search, Status, isDate]);
 
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        `${URL}/api/job/list?category=${Category}&designation=${Designation}&status=${Status}&search=${Search}&page=${CurrentPage}&limit=${15}`,
+        `${URL}/api/enquiries&messages/list?status=${Status}&from=${
+          isDate.from
+        }&to=${isDate.to}&search=${Search}&page=${CurrentPage}&limit=${15}`,
         {
           headers: {
             Authorization: token,
           },
         }
       );
-      setData(response.data.jobs);
+      setData(response.data.enquiries);
       setTotalPages(response.data.TotalPages);
       setCurrentPage(response.data.CurrentPage);
-      setCategoryList(response.data.categories);
-      setDesignationList(response.data.designations);
     } catch (error) {
       console.error(error);
       setResponse({
@@ -73,20 +69,20 @@ function List() {
       }, 5000);
     }
   };
+
   return (
     <React.Fragment>
       <div className="flex flex-col bg-white p-5 space-y-10 rounded-t-lg">
         <div className="flex flex-wrap space-y-5 items-center justify-between">
           <div className="inline-flex space-x-3 items-center">
             <h1 className="font-semibold text-lg text-spangles-700">
-              Jobs List
+              Enquiries & Messages
             </h1>
             <button
               onClick={() => {
                 setFilter((prev) => !prev);
-                setCategory("");
-                setDesignation("");
                 setStatus("");
+                setDate({ from: "", to: "" });
               }}
               className="bg-gray-50 border text-spangles-800 text-xs font-semibold rounded focus:ring-spangles-800 focus:border-spangles-800 block w-fit px-2 py-0.5 hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-800 dark:focus:border-spangles-800"
             >
@@ -98,54 +94,40 @@ function List() {
             {Filter && (
               <div className="flex flex-wrap space-x-5 items-center">
                 <div className="inline-flex items-center space-x-3">
-                  <h6 className="text-sm">Category :</h6>
-                  <select
-                    id="category"
-                    value={Category}
-                    onChange={(e) => setCategory(e.target.value)}
-                    className="bg-gray-50 border text-spangles-800 text-xs font-semibold rounded focus:ring-spangles-800 focus:border-spangles-800 block w-fit px-2 py-1 hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-800 dark:focus:border-spangles-800"
-                  >
-                    <option value="">All</option>
-                    {CategoryList &&
-                      CategoryList.map((items, index) => (
-                        <option value={items} key={index}>
-                          {items}
-                        </option>
-                      ))}
-                  </select>
-                </div>
-                <div className="inline-flex items-center space-x-3">
-                  <h6 className="text-sm">Designation :</h6>
-                  <select
-                    id="designation"
-                    value={Designation}
-                    onChange={(e) => setDesignation(e.target.value)}
-                    className="bg-gray-50 border text-spangles-800 text-xs font-semibold rounded focus:ring-spangles-800 focus:border-spangles-800 block w-fit px-2 py-1 hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-800 dark:focus:border-spangles-800"
-                  >
-                    <option value="">All</option>
-                    {DesignationList &&
-                      DesignationList.map((items, index) => (
-                        <option value={items} key={index}>
-                          {items}
-                        </option>
-                      ))}
-                  </select>
-                </div>
-                <div className="inline-flex items-center space-x-3">
                   <h6 className="text-sm">Status :</h6>
                   <select
                     id="status"
-                    value={Category}
+                    value={Status}
                     onChange={(e) => setStatus(e.target.value)}
                     className="bg-gray-50 border text-spangles-800 text-xs font-semibold rounded focus:ring-spangles-800 focus:border-spangles-800 block w-fit px-2 py-1 hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-800 dark:focus:border-spangles-800"
                   >
                     <option value="">All</option>
-                    {["Active", "On Hold", "In Active"].map((items, index) => (
+                    {["New", "Seen"].map((items, index) => (
                       <option value={items} key={index}>
                         {items}
                       </option>
                     ))}
                   </select>
+                </div>
+                <div className="inline-flex items-center space-x-3">
+                  <h6 className="text-sm">From :</h6>
+                  <input
+                    type="date"
+                    name="from"
+                    id="from"
+                    onChange={(e) =>
+                      setDate({ ...isDate, from: e.target.value })
+                    }
+                    className="bg-gray-50 border text-teal-800 text-xs font-semibold rounded focus:ring-teal-800 focus:border-teal-800 block w-fit px-2 py-1 hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-teal-800 dark:focus:border-teal-800"
+                  />
+                  <h6 className="text-sm">To :</h6>
+                  <input
+                    type="date"
+                    name="to"
+                    id="to"
+                    onChange={(e) => setDate({ ...isDate, to: e.target.value })}
+                    className="bg-gray-50 border text-teal-800 text-xs font-semibold rounded focus:ring-teal-800 focus:border-teal-800 block w-fit px-2 py-1 hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-teal-800 dark:focus:border-teal-800"
+                  />
                 </div>
               </div>
             )}
@@ -185,14 +167,6 @@ function List() {
                 />
               </div>
             </div>
-            <Link
-              to={`/admin/job-post/add/new`}
-              className="px-3 py-1 text-white bg-spangles-700 rounded text-sm space-x-2 hover:bg-spangles-800 focus:ring-4 focus:ring-spangles-200"
-            >
-              <span>
-                <i className="fa-solid fa-plus"></i> New Job
-              </span>
-            </Link>
           </div>
         </div>
         {Data && Data.length > 0 ? (
@@ -200,19 +174,13 @@ function List() {
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
               <thead className="text-sm text-gray-700 bg-white dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                  {[
-                    "Sl.No",
-                    "Category",
-                    "Designation",
-                    "Experience",
-                    "Posted On",
-                    "Status",
-                    "Action",
-                  ].map((item, index) => (
-                    <th scope="col" className="px-6 py-3" key={index}>
-                      {item}
-                    </th>
-                  ))}
+                  {["Sl.No", "Name", "Email", "Date", "Status", "Action"].map(
+                    (item, index) => (
+                      <th scope="col" className="px-6 py-3" key={index}>
+                        {item}
+                      </th>
+                    )
+                  )}
                 </tr>
               </thead>
               <tbody>
@@ -228,25 +196,24 @@ function List() {
                       >
                         {(CurrentPage - 1) * 15 + (index + 1)}
                       </th>
-                      <td className="px-6 py-4">{elem.category}</td>
-                      <td className="px-6 py-4">{elem.designation}</td>
-                      <td className="px-6 py-4">{elem.work_experience}</td>
+                      <td className="px-6 py-4">{elem.name}</td>
+                      <td className="px-6 py-4">{elem.email}</td>
                       <td className="px-6 py-4">
-                        {moment(elem.posted_on).format("DD-MM-YYYY")}
+                        {moment(elem.received_on).format("DD-MM-YYYY")}
                       </td>
                       <td
                         className={`${
-                          elem.status === "Active"
+                          elem.status === "Seen"
                             ? "text-green-600"
-                            : elem.status === "On Hold"
-                            ? "text-orange-500"
-                            : "text-red-600"
+                            : "text-blue-600"
                         } px-6 py-4 font-medium`}
                       >
                         {elem.status}
                       </td>
                       <td className="px-6 py-4">
-                        <Link to={`/admin/job-post/${elem._id}/preview`}>
+                        <Link
+                          to={`/admin/enquiries&messages/${elem._id}/preview`}
+                        >
                           <i className="fa-solid fa-eye"></i>
                         </Link>
                       </td>

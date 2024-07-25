@@ -296,6 +296,84 @@ function AddNew() {
                       </label>
                     </div>
                   </li>
+                  <li className="">
+                    <div className="flex items-center">
+                      <input
+                        id="applicants"
+                        type="checkbox"
+                        onChange={(ev) => {
+                          if (ev.target.checked) {
+                            const update = [...Data.access_to];
+                            update.splice(3, 0, "Applicants");
+                            setData((prev) => {
+                              return {
+                                ...prev,
+                                access_to: update,
+                              };
+                            });
+                          } else {
+                            const update = [...Data.access_to];
+                            update.splice(3, 1);
+                            setData((prev) => {
+                              return {
+                                ...prev,
+                                access_to: update,
+                              };
+                            });
+                          }
+                        }}
+                        checked={Data.access_to.includes("Applicants")}
+                        name="applicants"
+                        className="w-4 h-4 text-spangles-600 bg-gray-100 border-spangles-600 focus:ring-spangles-500 dark:focus:ring-spangles-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                      />
+                      <label
+                        htmlFor="applicants"
+                        className="w-full py-3 ms-2 text-sm font-medium text-spangles-600 dark:text-gray-300"
+                      >
+                        Applicants
+                      </label>
+                    </div>
+                  </li>
+                  <li className="">
+                    <div className="flex items-center">
+                      <input
+                        id="enquiries&messages"
+                        type="checkbox"
+                        onChange={(ev) => {
+                          if (ev.target.checked) {
+                            const update = [...Data.access_to];
+                            update.splice(4, 0, "Enquiries & Messages");
+                            setData((prev) => {
+                              return {
+                                ...prev,
+                                access_to: update,
+                              };
+                            });
+                          } else {
+                            const update = [...Data.access_to];
+                            update.splice(4, 1);
+                            setData((prev) => {
+                              return {
+                                ...prev,
+                                access_to: update,
+                              };
+                            });
+                          }
+                        }}
+                        checked={Data.access_to.includes(
+                          "Enquiries & Messages"
+                        )}
+                        name="enquiries&messages"
+                        className="w-4 h-4 text-spangles-600 bg-gray-100 border-spangles-600 focus:ring-spangles-500 dark:focus:ring-spangles-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                      />
+                      <label
+                        htmlFor="enquiries&messages"
+                        className="w-full py-3 ms-2 text-sm font-medium text-spangles-600 dark:text-gray-300"
+                      >
+                        Enquiries & Messages
+                      </label>
+                    </div>
+                  </li>
                 </ul>
               </div>
             </div>
