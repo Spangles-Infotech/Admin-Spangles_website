@@ -25,7 +25,7 @@ function Login() {
       setResponseColor("text-green-600");
       setTimeout(() => {
         navigate("/admin/dashboard");
-      }, 5000);
+      }, 2000);
     } catch (error) {
       console.error(error);
       setResponse(true);

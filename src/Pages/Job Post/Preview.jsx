@@ -119,14 +119,7 @@ function Preview() {
               </td>
               <td className="px-4 py-3 text-sm">{Data && Data.location}</td>
             </tr>
-            <tr className="align-top">
-              <td className="px-4 py-3 text-sm font-medium  text-gray-700">
-                Preferred Skills
-              </td>
-              <td className="px-4 py-3 text-sm ">
-                {Data && Data.preferred_skills.join(", ")}
-              </td>
-            </tr>
+
             <tr className="align-top">
               <td className="px-4 py-3 text-sm font-medium  text-gray-700">
                 Job Summary
@@ -163,6 +156,14 @@ function Preview() {
                       )
                     )}
                 </ul>
+              </td>
+            </tr>
+            <tr className="align-top">
+              <td className="px-4 py-3 text-sm font-medium  text-gray-700">
+                Preferred Skills
+              </td>
+              <td className="px-4 py-3 text-sm ">
+                {Data && Data.preferred_skills.join(", ")}
               </td>
             </tr>
             <tr className="align-top">

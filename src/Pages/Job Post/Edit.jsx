@@ -317,7 +317,7 @@ function Edit() {
                 htmlFor="job_summary"
                 className="block mb-2 font-medium text-gray-900 dark:text-white"
               >
-                Job Summery
+                Job Summary
               </label>
               <textarea
                 id="job_summary"
@@ -345,6 +345,7 @@ function Edit() {
                   className="block w-full p-4 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-spangles-500 focus:border-spangles-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-500 dark:focus:border-spangles-500"
                   placeholder="Enter Preferred Skills"
                   value={PreferredSkills}
+                  required={PreferredSkillsList.length === 0}
                 />
                 <button
                   type="button"
@@ -400,6 +401,7 @@ function Edit() {
                   className="block w-full p-4 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-spangles-500 focus:border-spangles-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-500 dark:focus:border-spangles-500"
                   placeholder="Enter Responsibilities and Duties"
                   value={ResAndDuties}
+                  required={ResAndDuties.length === 0}
                 />
                 <button
                   type="button"
@@ -454,6 +456,7 @@ function Edit() {
                   className="block w-full p-4 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-spangles-500 focus:border-spangles-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-500 dark:focus:border-spangles-500"
                   placeholder="Enter Experience and Qualifications"
                   value={ExpAndQualification}
+                  required={ExpAndQualificationList.length === 0}
                 />
                 <button
                   type="button"

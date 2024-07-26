@@ -271,6 +271,7 @@ function AddNew() {
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-spangles-500 focus:border-spangles-500 block w-full p-4 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                   placeholder="Enter Preferred Skills"
                   value={PreferredSkills}
+                  required={PreferredSkillsList.length === 0}
                 />
                 <button
                   type="button"
@@ -326,6 +327,7 @@ function AddNew() {
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-spangles-500 focus:border-spangles-500 block w-full p-4 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                   placeholder="Enter Responsibilities and Duties"
                   value={ResAndDuties}
+                  required={ResAndDutiesList.length === 0}
                 />
                 <button
                   type="button"
@@ -380,6 +382,7 @@ function AddNew() {
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-spangles-500 focus:border-spangles-500 block w-full p-4 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                   placeholder="Enter Experience and Qualifications"
                   value={ExpAndQualification}
+                  required={ExpAndQualificationList.length === 0}
                 />
                 <button
                   type="button"
@@ -426,8 +429,13 @@ function AddNew() {
               Discard
             </Link>
             <button
+              disabled={
+                PreferredSkillsList.length === 0 ||
+                ResAndDutiesList.length === 0 ||
+                ExpAndQualificationList.length === 0
+              }
               type="submit"
-              className="inline-flex items-center px-14 py-2.5 mt-4 sm:mt-6 text-base font-semibold text-center text-white bg-spangles-700 rounded-lg focus:ring-4 hover:bg-spangles-800  focus:ring-spangles-200"
+              className="inline-flex items-center disabled:bg-spangles-400 px-14 py-2.5 mt-4 sm:mt-6 text-base font-semibold text-center text-white bg-spangles-700 rounded-lg focus:ring-4 hover:bg-spangles-800  focus:ring-spangles-200"
             >
               Upload
             </button>

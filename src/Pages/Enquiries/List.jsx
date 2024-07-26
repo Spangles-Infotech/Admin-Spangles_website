@@ -16,6 +16,7 @@ function List() {
     status: null,
     message: "",
   });
+  const [Loading, setLoading] = useState(false);
   const [Data, setData] = useState([]);
   const [TotalPages, setTotalPages] = useState(1);
   const [Filter, setFilter] = useState(false);
@@ -36,6 +37,7 @@ function List() {
 
   const fetchData = async () => {
     try {
+      setLoading(true);
       const response = await axios.get(
         `${URL}/api/enquiries&messages/list?status=${Status}&from=${
           isDate.from
@@ -61,12 +63,12 @@ function List() {
           navigate("/");
         }, 5000);
       }
-      setTimeout(() => {
-        setResponse({
-          status: null,
-          message: "",
-        });
-      }, 5000);
+    } finally {
+      setResponse({
+        status: null,
+        message: "",
+      });
+      setLoading(false);
     }
   };
 
@@ -169,7 +171,11 @@ function List() {
             </div>
           </div>
         </div>
-        {Data && Data.length > 0 ? (
+        {Loading ? (
+          <Spinners />
+        ) : Data.length === 0 ? (
+          <div>No Records Found</div>
+        ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
               <thead className="text-sm text-gray-700 bg-white dark:bg-gray-700 dark:text-gray-400">
@@ -222,9 +228,8 @@ function List() {
               </tbody>
             </table>
           </div>
-        ) : (
-          <Spinners />
         )}
+
         <div className="flex justify-center items-center space-x-2 mt-4">
           <button
             onClick={() => setCurrentPage(CurrentPage - 1)}

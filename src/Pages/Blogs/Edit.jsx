@@ -44,14 +44,12 @@ function AddNew() {
           navigate("/");
         }, 5000);
       }
-      if (error.response.status === 500) {
-        setTimeout(() => {
-          setResponse({
-            status: null,
-            message: "",
-          });
-        }, 5000);
-      }
+      setTimeout(() => {
+        setResponse({
+          status: null,
+          message: "",
+        });
+      }, 5000);
     }
   };
 

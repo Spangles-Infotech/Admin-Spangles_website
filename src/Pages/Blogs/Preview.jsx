@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { URL } from "../../App";
 import { FailedMessage, SuccessMessage } from "../../Components/ToastMessage";
+import moment from "moment";
 
 function Preview() {
   const token = window.localStorage.getItem("token");
@@ -61,7 +62,7 @@ function Preview() {
         <p className="mt-5 font-normal text-gray-700 dark:text-gray-400">
           <i className="fa-regular fa-clock"></i>
           &nbsp;&nbsp;&nbsp;&nbsp;
-          {new Date(Data.posted_on).toUTCString()}
+          {moment(Data.posted_on).format("DD-MM-YYYY HH:mm")}
         </p>
         <img
           className="object-contain w-full rounded-t-lg h-96 md:rounded-none"

@@ -20,10 +20,8 @@ function List() {
     message: "",
   });
   const [Data, setData] = useState([]);
-  const [CurrentPage, setCurrentPage] = useState(1);
-  const [TotalPages, setTotalPages] = useState(1);
   const [Delete, setDelete] = useState(null);
-
+  const [Loading, setLoading] = useState(false);
   useEffect(() => {
     initFlowbite();
     fetchData();
@@ -31,17 +29,13 @@ function List() {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(
-        `${URL}/api/gallery/list?page=${CurrentPage}&limit=${20}`,
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
-      );
+      setLoading(true);
+      const response = await axios.get(`${URL}/api/gallery/list`, {
+        headers: {
+          Authorization: token,
+        },
+      });
       setData(response.data.galleryData);
-      setCurrentPage(response.data.CurrentPage);
-      setTotalPages(response.data.TotalPages);
     } catch (error) {
       console.error(error);
       setResponse({
@@ -54,14 +48,12 @@ function List() {
           navigate("/");
         }, 5000);
       }
-      if (error.response.status === 500) {
-        setTimeout(() => {
-          setResponse({
-            status: null,
-            message: "",
-          });
-        }, 5000);
-      }
+    } finally {
+      setResponse({
+        status: null,
+        message: "",
+      });
+      setLoading(false);
     }
   };
   const handleDelete = async (id) => {
@@ -134,50 +126,50 @@ function List() {
             </button>
           </div>
         </div>
-        {Data && Data.length > 0 ? (
-          <div className="w-full grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-5">
-            {Data &&
-              Data.map((item, index) => (
-                <div
-                  key={index}
-                  className="w-full h-full flex flex-col bg-transparent rounded-xl hover:shadow-xl"
-                >
-                  {!item.path.includes("http") &&
-                  !item.path.includes(".mp4") ? (
-                    <img
-                      className="h-auto max-w-full rounded-lg"
-                      src={`${URL}/${item.path}`}
-                      alt=""
-                    />
-                  ) : item.path.includes("http") ? (
-                    <iframe
-                      src={item.path}
-                      title="YouTube video player"
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      referrerPolicy="strict-origin-when-cross-origin"
-                      allowFullScreen
-                      className="w-full h-full"
-                    ></iframe>
-                  ) : (
-                    <ReactPlayer
-                      url={`${URL}/${item.path}`}
-                      controls
-                      width="100%"
-                      height="100%"
-                    />
-                  )}
-                  <button
-                    onClick={() => setDelete(item._id)}
-                    className=" bg-slate-50 text-red-600 w-full p-4 rounded-b-xl border"
-                  >
-                    <i className="fa-solid fa-trash-can"></i>&nbsp; Delete
-                  </button>
-                </div>
-              ))}
-          </div>
-        ) : (
+        {Loading ? (
           <Spinners />
+        ) : Data.length === 0 ? (
+          <div>No Records Found</div>
+        ) : (
+          <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-5">
+            {Data.map((item, index) => (
+              <div
+                key={index}
+                className="w-full h-fit flex flex-col bg-transparent rounded-xl hover:shadow-xl"
+              >
+                {!item.path.includes("http") && !item.path.includes(".mp4") ? (
+                  <img
+                    className="h-48 w-auto object-contain"
+                    src={`${URL}/${item.path}`}
+                    alt=""
+                  />
+                ) : item.path.includes("http") ? (
+                  <iframe
+                    src={item.path}
+                    title="YouTube video player"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allowFullScreen
+                    className="w-full h-full"
+                  ></iframe>
+                ) : (
+                  <ReactPlayer
+                    url={`${URL}/${item.path}`}
+                    controls
+                    width="100%"
+                    height="100%"
+                  />
+                )}
+                <button
+                  onClick={() => setDelete(item._id)}
+                  className=" bg-slate-50 text-red-600 w-full p-4 rounded-b-xl border"
+                >
+                  <i className="fa-solid fa-trash-can"></i>&nbsp; Delete
+                </button>
+              </div>
+            ))}
+          </div>
         )}
       </div>
       {Delete !== null && (

@@ -19,6 +19,8 @@ function UploadLink({ setData }) {
       path: EmbedLink,
     };
     try {
+      const close = document.getElementById("link-modal-btn");
+      close.click();
       const response = await axios.post(
         `${URL}/api/gallery/link/add/new`,
         data,
@@ -33,9 +35,8 @@ function UploadLink({ setData }) {
         status: "Success",
         message: "Uploaded Successfully.",
       });
-      const close = document.getElementById("link-modal-btn");
+
       setTimeout(() => {
-        close.click();
         setResponse({
           status: null,
           message: "",
@@ -161,7 +162,7 @@ function UploadLink({ setData }) {
                     allowFullScreen
                     className="w-full h-64 rounded-xl"
                   ></iframe>
-                ) : EmbedLink !== "" ? (
+                ) : EmbedLink.includes("https://www.youtube.com/embed/") ? (
                   <button
                     type="button"
                     onClick={() => setVideo(true)}
@@ -169,7 +170,11 @@ function UploadLink({ setData }) {
                   >
                     Play
                   </button>
-                ) : null}
+                ) : (
+                  EmbedLink !== "" && (
+                    <div className="font-medium text-red-600">Please given right embed link</div>
+                  )
+                )}
               </div>
             </div>
             {/* <!-- Modal footer --> */}

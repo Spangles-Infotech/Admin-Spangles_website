@@ -30,6 +30,8 @@ function UploadFiles({ setData }) {
       formData.append("files", files[i]);
     }
     try {
+      const closeBtn = document.getElementById("files-modal-btn");
+      closeBtn.click();
       const response = await axios.post(
         `${URL}/api/gallery/files/add/new`,
         formData,
@@ -44,9 +46,7 @@ function UploadFiles({ setData }) {
         status: "Success",
         message: "Uploaded Successfully.",
       });
-      const close = document.getElementById("files-modal-btn");
       setTimeout(() => {
-        close.click();
         setResponse({
           status: null,
           message: "",
@@ -125,6 +125,7 @@ function UploadFiles({ setData }) {
                 Upload File
               </h3>
               <button
+                id="files-modal-btn"
                 onClick={() => setFiles([])}
                 type="button"
                 className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"

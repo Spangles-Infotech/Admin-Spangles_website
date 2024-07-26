@@ -14,10 +14,8 @@ function List() {
     status: null,
     message: "",
   });
+  const [Loading, setLoading] = useState(false);
   const [Data, setData] = useState([]);
-  const [CurrentPage, setCurrentPage] = useState(1);
-  const [TotalPages, setTotalPages] = useState(1);
-  const [FilterData, setFilterData] = useState([]);
   const [Search, setSearch] = useState("");
   const [Delete, setDelete] = useState(null);
 
@@ -25,11 +23,15 @@ function List() {
     initFlowbite();
     fetchData();
   }, []);
+  useEffect(() => {
+    fetchData();
+  }, [Search]);
 
   const fetchData = async () => {
     try {
+      setLoading(true);
       const response = await axios.get(
-        `${URL}/api/blog/list?page=${CurrentPage}&limit=${20}`,
+        `${URL}/api/blog/list?search=${Search}`,
         {
           headers: {
             Authorization: token,
@@ -37,8 +39,6 @@ function List() {
         }
       );
       setData(response.data.blogs);
-      setCurrentPage(response.data.CurrentPage);
-      setTotalPages(response.data.TotalPages);
     } catch (error) {
       console.error(error);
       setResponse({
@@ -51,28 +51,14 @@ function List() {
           navigate("/");
         }, 5000);
       }
-      if (error.response.status === 500) {
-        setTimeout(() => {
-          setResponse({
-            status: null,
-            message: "",
-          });
-        }, 5000);
-      }
+    } finally {
+      setResponse({
+        status: null,
+        message: "",
+      });
+      setLoading(false);
     }
   };
-  useEffect(() => {
-    if (Search !== "") {
-      setFilterData(
-        Data &&
-          Data.filter((elem) => {
-            return elem.title.toLowerCase().startsWith(Search.toLowerCase());
-          })
-      );
-    } else {
-      setFilterData(Data);
-    }
-  }, [Data, Search]);
 
   const handleDelete = async (id) => {
     try {
@@ -166,10 +152,14 @@ function List() {
             </Link>
           </div>
         </div>
-        {Data && Data.length > 0 ? (
+        {Loading ? (
+          <Spinners />
+        ) : Data.length === 0 ? (
+          <div>No Records Found</div>
+        ) : (
           <div className="w-full grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-5">
-            {FilterData &&
-              FilterData.map((item, index) => (
+            {Data &&
+              Data.map((item, index) => (
                 <div
                   key={index}
                   className="h-full flex flex-col items-start bg-white border border-gray-200 rounded-lg hover:shadow-xl md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
@@ -190,7 +180,7 @@ function List() {
                       onClick={() =>
                         navigate(`/admin/blogs/${item._id}/preview`)
                       }
-                      className="hover:cursor-pointer mt-2 px-5 text-base font-semibold tracking-tight text-gray-900 dark:text-white"
+                      className="hover:cursor-pointer mt-2 px-5 text-base font-semibold tracking-tight text-gray-900 dark:text-white line-clamp-2 text-wrap truncate"
                     >
                       {item.title}
                     </h6>
@@ -212,8 +202,6 @@ function List() {
                 </div>
               ))}
           </div>
-        ) : (
-          <Spinners />
         )}
       </div>
 

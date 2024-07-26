@@ -16,6 +16,7 @@ function List() {
     status: null,
     message: "",
   });
+  const [Loading, setLoading] = useState(false);
   const [Data, setData] = useState([]);
   const [TotalPages, setTotalPages] = useState(1);
   const [CategoryList, setCategoryList] = useState([]);
@@ -40,6 +41,7 @@ function List() {
 
   const fetchData = async () => {
     try {
+      setLoading(true);
       const response = await axios.get(
         `${URL}/api/applicant/list?category=${Category}&designation=${Designation}&status=${Status}&from=${
           isDate.from
@@ -67,12 +69,12 @@ function List() {
           navigate("/");
         }, 5000);
       }
-      setTimeout(() => {
-        setResponse({
-          status: null,
-          message: "",
-        });
-      }, 5000);
+    } finally {
+      setResponse({
+        status: null,
+        message: "",
+      });
+      setLoading(false);
     }
   };
 
@@ -144,11 +146,13 @@ function List() {
                     className="bg-gray-50 border text-spangles-800 text-xs font-semibold rounded focus:ring-spangles-800 focus:border-spangles-800 block w-fit px-2 py-1 hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-800 dark:focus:border-spangles-800"
                   >
                     <option value="">All</option>
-                    {["Active", "On Hold", "In Active"].map((items, index) => (
-                      <option value={items} key={index}>
-                        {items}
-                      </option>
-                    ))}
+                    {["Shortlisted", "On Hold", "Rejected"].map(
+                      (items, index) => (
+                        <option value={items} key={index}>
+                          {items}
+                        </option>
+                      )
+                    )}
                   </select>
                 </div>
                 <div className="inline-flex items-center space-x-3">
@@ -211,7 +215,11 @@ function List() {
             </div>
           </div>
         </div>
-        {Data && Data.length > 0 ? (
+        {Loading ? (
+          <Spinners />
+        ) : Data.length === 0 ? (
+          <div>No Records Found</div>
+        ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
               <thead className="text-sm text-gray-700 bg-white dark:bg-gray-700 dark:text-gray-400">
@@ -275,9 +283,8 @@ function List() {
               </tbody>
             </table>
           </div>
-        ) : (
-          <Spinners />
         )}
+
         <div className="flex justify-center items-center space-x-2 mt-4">
           <button
             onClick={() => setCurrentPage(CurrentPage - 1)}

@@ -8,16 +8,16 @@ import { URL } from "../../App";
 import moment from "moment";
 
 function List() {
-  const [CurrentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
   const token = window.localStorage.getItem("token");
   const [Response, setResponse] = useState({
     status: null,
     message: "",
   });
-  const [FilterData, setFilterData] = useState([]);
-  const [Data, setData] = useState([]);
+  const [CurrentPage, setCurrentPage] = useState(1);
   const [TotalPages, setTotalPages] = useState(1);
+  const [Loading, setLoading] = useState(false);
+  const [Data, setData] = useState([]);
   const [Search, setSearch] = useState("");
 
   useEffect(() => {
@@ -26,12 +26,13 @@ function List() {
 
   useEffect(() => {
     fetchData();
-  }, [CurrentPage]);
+  }, [CurrentPage, Search]);
 
   const fetchData = async () => {
     try {
+      setLoading(true);
       const response = await axios.get(
-        `${URL}/api/user/list?page=${CurrentPage}&limit=${15}`,
+        `${URL}/api/user/list?search=${Search}&page=${CurrentPage}&limit=${15}`,
         {
           headers: {
             Authorization: token,
@@ -53,31 +54,14 @@ function List() {
           navigate("/");
         }, 5000);
       }
-      if (error.response.status === 500) {
-        setTimeout(() => {
-          setResponse({
-            status: null,
-            message: "",
-          });
-        }, 5000);
-      }
+    } finally {
+      setResponse({
+        status: null,
+        message: "",
+      });
+      setLoading(false);
     }
   };
-  useEffect(() => {
-    if (Search !== "") {
-      setFilterData(
-        Data &&
-          Data.filter((elem) => {
-            return elem.name
-              .toLowerCase()
-              .startsWith(Search.toLowerCase());
-          })
-      );
-    } else {
-      setFilterData(Data);
-    }
-  }, [Data, Search]);
-
   return (
     <React.Fragment>
       <div className="flex flex-col bg-white p-5 space-y-10 rounded-t-lg">
@@ -132,7 +116,11 @@ function List() {
             </Link>
           </div>
         </div>
-        {Data && Data.length > 0 ? (
+        {Loading ? (
+          <Spinners />
+        ) : Data.length === 0 ? (
+          <div>No Records Found</div>
+        ) : (
           <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead className="text-sm text-gray-700 bg-white dark:bg-gray-700 dark:text-gray-400">
               <tr>
@@ -151,8 +139,8 @@ function List() {
               </tr>
             </thead>
             <tbody>
-              {FilterData &&
-                FilterData.map((elem, index) => (
+              {Data &&
+                Data.map((elem, index) => (
                   <tr
                     className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
                     key={index}
@@ -176,8 +164,6 @@ function List() {
                 ))}
             </tbody>
           </table>
-        ) : (
-          <Spinners />
         )}
         <div className="flex justify-center items-center space-x-2 mt-4">
           <button
