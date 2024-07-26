@@ -3,21 +3,27 @@ const fs = require("fs");
 
 const blogsController = {
   getAll: async (req, res) => {
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 15;
+    const { search = "" } = req.query;
+
+    // Prepare search conditions
+    const searchConditions = [];
+
+    if (search) {
+      searchConditions.push({ title: { $regex: search, $options: "i" } });
+    }
+
+    const queryConditions = searchConditions.length
+      ? { $and: searchConditions }
+      : {};
+
     try {
-      const blogs = await Blogs.find()
-        .sort({ _id: -1 })
-        .skip((page - 1) * limit)
-        .limit(limit);
-      const totalItems = await Blogs.countDocuments();
-      const TotalPages = Math.ceil(totalItems / limit);
+      const blogs = await Blogs.aggregate([
+        { $match: queryConditions },
+        { $sort: { _id: -1 } },
+      ]);
       return res.status(200).json({
         message: "Data Fetched Successfully",
         blogs,
-        totalItems,
-        TotalPages,
-        CurrentPage: page,
       });
     } catch (error) {
       console.log(error);

@@ -53,7 +53,6 @@ const jobController = {
       const list = await Jobs.find().select("category designation");
       const categories = [...new Set(list.map((item) => item.category))];
       const designations = [...new Set(list.map((item) => item.designation))];
-      console.log(categories);
       return res.status(200).json({
         message: "Data Fetched Successfully",
         jobs,

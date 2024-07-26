@@ -2,20 +2,11 @@ const gallery = require("../Models/gallery.model.js");
 const fs = require("fs");
 const galleryController = {
   getAll: async (req, res) => {
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 15;
     try {
       const galleryData = await gallery.find().sort({ _id: -1 });
-      // .skip((page - 1) * limit)
-      // .limit(limit);
-      const totalItems = await gallery.countDocuments();
-      const TotalPages = Math.ceil(totalItems / limit);
       return res.status(200).json({
         message: "Data Fetched Successfully",
         galleryData,
-        totalItems,
-        TotalPages,
-        CurrentPage: page,
       });
     } catch (error) {
       console.log(error);

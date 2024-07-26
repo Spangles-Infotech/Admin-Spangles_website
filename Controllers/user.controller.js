@@ -62,21 +62,35 @@ const userController = {
     }
   },
   getAll: async (req, res) => {
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 15;
+    const { page = 1, limit = 15, search = "" } = req.query;
+    // Ensure page and limit are numbers
+    const pageNum = parseInt(page, 10);
+    const limitNum = parseInt(limit, 10);
+
+    // Prepare search conditions
+    const searchConditions = [{ isAdmin: false }];
+
+    if (search) {
+      searchConditions.push({ name: { $regex: search, $options: "i" } });
+    }
+    const queryConditions = searchConditions.length
+      ? { $and: searchConditions }
+      : {};
     try {
-      const user = await User.find({ isAdmin: false })
-        .sort({ _id: -1 })
-        .skip((page - 1) * limit)
-        .limit(limit);
-      const totalItems = await User.countDocuments({ isAdmin: false });
-      const TotalPages = Math.ceil(totalItems / limit);
+      const user = await User.aggregate([
+        { $match: queryConditions },
+        { $sort: { _id: -1 } },
+        { $skip: (pageNum - 1) * limitNum },
+        { $limit: limitNum },
+      ]);
+      const totalItems = await User.countDocuments(queryConditions); // Get total count of matching documents
+      const TotalPages = Math.ceil(totalItems / limitNum);
       return res.status(200).json({
         message: "Data Fetched Successfully",
         user,
         totalItems,
         TotalPages,
-        CurrentPage: page,
+        CurrentPage: parseInt(page),
       });
     } catch (error) {
       console.log(error);
