@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { URL } from "../../App";
 import axios from "axios";
@@ -46,14 +46,13 @@ function AddNew() {
           navigate("/");
         }, 5000);
       }
-      if (error.response.status === 500) {
-        setTimeout(() => {
-          setResponse({
-            status: null,
-            message: "",
-          });
-        }, 5000);
-      }
+    } finally {
+      setTimeout(() => {
+        setResponse({
+          status: null,
+          message: "",
+        });
+      }, 5000);
     }
   };
   return (
@@ -95,12 +94,13 @@ function AddNew() {
                 Phone Number
               </label>
               <input
-                type="Number"
+                type="number"
                 name="phone_number"
                 id="phone_number"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-spangles-500 focus:border-spangles-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                 placeholder=""
                 required
+                min={0}
                 onChange={(ev) => {
                   setData((prev) => {
                     return {
@@ -126,6 +126,7 @@ function AddNew() {
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-spangles-500 focus:border-spangles-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                 placeholder=""
                 required
+                autoComplete="off"
                 onChange={(ev) => {
                   setData((prev) => {
                     return {
@@ -149,7 +150,8 @@ function AddNew() {
                 name="password"
                 id="password"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-spangles-500 focus:border-spangles-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                placeholder=" "
+                placeholder=""
+                autoComplete="off"
                 required
                 onChange={(ev) => {
                   setData((prev) => {
@@ -386,8 +388,9 @@ function AddNew() {
               Discard
             </Link>
             <button
+              disabled={Data && Data.access_to.length === 0}
               type="submit"
-              className="inline-flex items-center px-14 py-2.5 mt-4 sm:mt-6 text-base font-semibold text-center text-white bg-spangles-700 rounded-lg focus:ring-4 hover:bg-spangles-800  focus:ring-spangles-200"
+              className="inline-flex disabled:bg-spangles-400 items-center px-14 py-2.5 mt-4 sm:mt-6 text-base font-semibold text-center text-white bg-spangles-700 rounded-lg focus:ring-4 hover:bg-spangles-800  focus:ring-spangles-200"
             >
               Set Access
             </button>

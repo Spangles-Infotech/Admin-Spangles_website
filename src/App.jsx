@@ -39,7 +39,7 @@ function App() {
     <React.Fragment>
       <BrowserRouter>
         <Routes>
-          <Route path="*" element={<Navigate to={`/admin/job-post/list`} />} />
+          <Route path="*" element={<Navigate to={`/`} />} />
           <Route path="/" element={<Login />} />
           <Route path="admin" element={<ContainerWrapper />}>
             <Route path="user-access" element={<UserAccessContainer />}>

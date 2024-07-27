@@ -18,14 +18,33 @@ function Login() {
     };
     try {
       const response = await axios.post(`${URL}/api/user/login`, data);
-      window.localStorage.setItem("user", JSON.stringify(response.data.user));
+      const user = response.data.user;
+      window.localStorage.setItem("user", JSON.stringify(user));
       window.localStorage.setItem("token", response.data.token);
       setResponse(true);
       setResponseMessage(response.data.message);
       setResponseColor("text-green-600");
-      setTimeout(() => {
-        navigate("/admin/dashboard");
-      }, 2000);
+      if (user.isAdmin) {
+        setTimeout(() => {
+          navigate("/admin/job-post/list");
+        }, 2000);
+      } else {
+        const access =
+          user.access_to[0] === "Job Post"
+            ? "job-post"
+            : user.access_to[0] === "Blogs"
+            ? "blogs"
+            : user.access_to[0] === "Gallery"
+            ? "gallery"
+            : user.access_to[0] === "Applicants"
+            ? "applicants"
+            : user.access_to[0] === "Enquiries & Messages"
+            ? "enquiries&messages"
+            : " ";
+        setTimeout(() => {
+          navigate(`/admin/${access}/list`);
+        }, 2000);
+      }
     } catch (error) {
       console.error(error);
       setResponse(true);
