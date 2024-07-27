@@ -71,7 +71,12 @@ const userController = {
     const searchConditions = [{ isAdmin: false }];
 
     if (search) {
-      searchConditions.push({ name: { $regex: search, $options: "i" } });
+      searchConditions.push({
+        $or: [
+          { name: { $regex: search, $options: "i" } },
+          { phone_number: { $regex: search, $options: "i" } },
+        ],
+      });
     }
     const queryConditions = searchConditions.length
       ? { $and: searchConditions }
@@ -140,7 +145,7 @@ const userController = {
       });
     }
   },
-  DeleteUser: async (req, res) => {
+  deleteUser: async (req, res) => {
     const { id } = req.params;
     try {
       const user = await User.findById(id);
