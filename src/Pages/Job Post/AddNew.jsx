@@ -12,6 +12,7 @@ function AddNew() {
     status: null,
     message: "",
   });
+  const [Exp, setExp] = useState(null);
   const [PreferredSkills, setPreferredSkills] = useState("");
   const [ResAndDuties, setResAndDuties] = useState("");
   const [ExpAndQualification, setExpAndQualification] = useState("");
@@ -207,6 +208,7 @@ function AddNew() {
                   name="work_experience_from"
                   id="work_experience_from"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-spangles-500 focus:border-spangles-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                  onChange={(ev) => setExp(ev.target.value)}
                   placeholder=""
                   required
                   min={0}
@@ -219,7 +221,7 @@ function AddNew() {
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-spangles-500 focus:border-spangles-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                   placeholder=""
                   required
-                  min={0}
+                  min={Exp}
                   max={15}
                 />
               </div>
