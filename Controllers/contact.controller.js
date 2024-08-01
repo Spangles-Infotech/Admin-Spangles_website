@@ -4,54 +4,68 @@ const enquiresController = {
   getAll: async (req, res) => {
     const { page = 1, limit = 15, search = "", status, from, to } = req.query;
 
-    // Ensure page and limit are numbers
-    const pageNum = parseInt(page, 10);
-    const limitNum = parseInt(limit, 10);
-
     // Prepare search conditions
     const searchConditions = [];
 
     if (search) {
-      searchConditions.push({ name: { $regex: search, $options: "i" } });
+      searchConditions.push({
+        $or: [
+          { name: { $regex: search, $options: "i" } },
+          { email: { $regex: search, $options: "i" } },
+          { status: { $regex: search, $options: "i" } },
+          { recieved_on_str: { $regex: search, $options: "i" } },
+        ],
+      });
     }
     if (status) {
       searchConditions.push({ status });
     }
     if (from && to) {
-      searchConditions.push({
-        received_on: { $gte: new Date(from), $lte: new Date(to) },
-      });
-    }
+      const fromDate = new Date(from);
+      const toDate = new Date(to);
 
+      if (fromDate.getTime() === toDate.getTime()) {
+        // When the `from` and `to` dates are the same, include all events on that day
+        searchConditions.push({
+          received_on: {
+            $gte: fromDate,
+            $lt: new Date(fromDate.getTime() + 24 * 60 * 60 * 1000), // Include until the end of the day
+          },
+        });
+      } else {
+        // When `from` and `to` dates are different, adjust the range
+        searchConditions.push({
+          received_on: {
+            $gte: fromDate,
+            $lte: new Date(toDate.getTime() + 24 * 60 * 60 * 1000 - 1), // Include until the end of the `toDate`
+          },
+        });
+      }
+    }
     const queryConditions = searchConditions.length
       ? { $and: searchConditions }
       : {};
-
+    const pageNum = parseInt(page, 10);
+    const limitNum = parseInt(limit, 10);
     try {
       const enquiries = await Enquiries.aggregate([
-        { $match: queryConditions },
-        { $sort: { _id: -1 } },
         {
-          $facet: {
-            statusNull: [
-              { $match: { status: "New" } },
-              //   { $skip: (pageNum - 1) * limitNum },
-              //   { $limit: limitNum },
-            ],
-            statusSeen: [
-              { $match: { status: "Seen" } },
-              //   { $skip: (pageNum - 1) * limitNum },
-              //   { $limit: limitNum },
-            ],
+          $addFields: {
+            recieved_on_str: {
+              $dateToString: {
+                format: "%d-%m-%Y", // Adjust the format as needed
+                date: "$received_on",
+              },
+            },
           },
         },
+        { $match: queryConditions },
         {
           $project: {
-            enquiries: { $concatArrays: ["$statusNull", "$statusSeen"] },
+            recieved_on_str: 0, // Optionally remove the recieved_on_str field from the result
           },
         },
-        { $unwind: "$enquiries" },
-        { $replaceRoot: { newRoot: "$enquiries" } },
+        { $sort: { _id: -1 } },
         { $skip: (pageNum - 1) * limitNum },
         { $limit: limitNum },
       ]);

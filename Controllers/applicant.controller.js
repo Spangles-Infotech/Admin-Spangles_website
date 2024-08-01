@@ -20,7 +20,16 @@ const applicantController = {
     const searchConditions = [];
 
     if (search) {
-      searchConditions.push({ name: { $regex: search, $options: "i" } });
+      searchConditions.push({
+        $or: [
+          { name: { $regex: search, $options: "i" } },
+          { category: { $regex: search, $options: "i" } },
+          { designation: { $regex: search, $options: "i" } },
+          { experience: { $regex: search, $options: "i" } },
+          { status: { $regex: search, $options: "i" } },
+          { applied_on_str: { $regex: search, $options: "i" } },
+        ],
+      });
     }
     if (category) {
       searchConditions.push({ category });
@@ -32,17 +41,50 @@ const applicantController = {
       searchConditions.push({ status });
     }
     if (from && to) {
-      searchConditions.push({
-        applied_on: { $gte: new Date(from), $lte: new Date(to) },
-      });
+      const fromDate = new Date(from);
+      const toDate = new Date(to);
+
+      if (fromDate.getTime() === toDate.getTime()) {
+        // When the `from` and `to` dates are the same, include all events on that day
+        searchConditions.push({
+          applied_on: {
+            $gte: fromDate,
+            $lt: new Date(fromDate.getTime() + 24 * 60 * 60 * 1000), // Include until the end of the day
+          },
+        });
+      } else {
+        // When `from` and `to` dates are different, adjust the range
+        searchConditions.push({
+          applied_on: {
+            $gte: fromDate,
+            $lte: new Date(toDate.getTime() + 24 * 60 * 60 * 1000 - 1), // Include until the end of the `toDate`
+          },
+        });
+      }
     }
+
     const queryConditions = searchConditions.length
-    ? { $and: searchConditions }
-    : {};
+      ? { $and: searchConditions }
+      : {};
 
     try {
       const applicants = await Applicant.aggregate([
+        {
+          $addFields: {
+            applied_on_str: {
+              $dateToString: {
+                format: "%d-%m-%Y", // Adjust the format as needed
+                date: "$applied_on",
+              },
+            },
+          },
+        },
         { $match: queryConditions },
+        {
+          $project: {
+            applied_on_str: 0, // Optionally remove the applied_on_str field from the result
+          },
+        },
         { $sort: { _id: -1 } },
         { $skip: (pageNum - 1) * limitNum },
         { $limit: limitNum },

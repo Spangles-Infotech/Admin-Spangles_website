@@ -11,7 +11,8 @@ const jobSchema = new mongoose.Schema({
   job_summary: String,
   responsibilities_and_duties: [String],
   required_experience_and_qualifications: [String],
-  posted_on: Date,
+  posted_on: { type: Date, default: new Date() },
+  updated_on: { type: Date },
   status: String,
 });
 

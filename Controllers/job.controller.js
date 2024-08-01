@@ -12,7 +12,6 @@ const jobController = {
       // from,
       // to,
     } = req.query;
-    // Ensure page and limit are numbers
     const pageNum = parseInt(page, 10);
     const limitNum = parseInt(limit, 10);
 
@@ -20,7 +19,15 @@ const jobController = {
     const searchConditions = [];
 
     if (search) {
-      searchConditions.push({ name: { $regex: search, $options: "i" } });
+      searchConditions.push({
+        $or: [
+          { category: { $regex: search, $options: "i" } },
+          { designation: { $regex: search, $options: "i" } },
+          { work_experience: { $regex: search, $options: "i" } },
+          { status: { $regex: search, $options: "i" } },
+          { posted_on_str: { $regex: search, $options: "i" } },
+        ],
+      });
     }
     if (category) {
       searchConditions.push({ category });
@@ -32,17 +39,50 @@ const jobController = {
       searchConditions.push({ status });
     }
     // if (from && to) {
-    //   searchConditions.push({
-    //     applied_on: { $gte: new Date(from), $lte: new Date(to) },
-    //   });
+    //   const fromDate = new Date(from);
+    //   const toDate = new Date(to);
+
+    //   if (fromDate.getTime() === toDate.getTime()) {
+    //     // When the `from` and `to` dates are the same, include all events on that day
+    //     searchConditions.push({
+    //       posted_on: {
+    //         $gte: fromDate,
+    //         $lt: new Date(fromDate.getTime() + 24 * 60 * 60 * 1000), // Include until the end of the day
+    //       },
+    //     });
+    //   } else {
+    //     // When `from` and `to` dates are different, adjust the range
+    //     searchConditions.push({
+    //       posted_on: {
+    //         $gte: fromDate,
+    //         $lte: new Date(toDate.getTime() + 24 * 60 * 60 * 1000 - 1), // Include until the end of the `toDate`
+    //       },
+    //     });
+    //   }
     // }
+
     const queryConditions = searchConditions.length
       ? { $and: searchConditions }
       : {};
 
     try {
       const jobs = await Jobs.aggregate([
+        {
+          $addFields: {
+            posted_on_str: {
+              $dateToString: {
+                format: "%d-%m-%Y", // Adjust the format as needed
+                date: "$posted_on",
+              },
+            },
+          },
+        },
         { $match: queryConditions },
+        {
+          $project: {
+            posted_on_str: 0, // Optionally remove the posted_on_str field from the result
+          },
+        },
         { $sort: { _id: -1 } },
         { $skip: (pageNum - 1) * limitNum },
         { $limit: limitNum },
@@ -77,9 +117,12 @@ const jobController = {
           message: "Job not found",
         });
       }
+      const job = await Jobs.find().sort({ _id: -1 }).select("category");
+      const category = [...new Set(job.map((item) => item.category))];
       return res.status(200).json({
         message: "Data Fetched Successfully",
         jobs,
+        category,
       });
     } catch (error) {
       console.log(error);

@@ -75,6 +75,15 @@ const userController = {
         $or: [
           { name: { $regex: search, $options: "i" } },
           { phone_number: { $regex: search, $options: "i" } },
+          { username: { $regex: search, $options: "i" } },
+          {
+            access_to: {
+              $elemMatch: {
+                $regex: search,
+                $options: "i", // Case-insensitive search
+              },
+            },
+          },
         ],
       });
     }

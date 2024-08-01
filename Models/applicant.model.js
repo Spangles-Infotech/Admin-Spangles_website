@@ -13,8 +13,9 @@ const applicantSchema = new mongoose.Schema({
   experience: String,
   resume: String,
   salary_expectation: String,
+  description: String,
   applied_on: { type: Date, default: new Date() },
-  status: { type: String, default: null },
+  status: { type: String, default: "View" },
 });
 
 const Applicant = mongoose.model(
