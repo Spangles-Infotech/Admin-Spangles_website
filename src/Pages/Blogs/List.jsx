@@ -166,7 +166,7 @@ function List() {
                 >
                   <img
                     onClick={() => navigate(`/admin/blogs/${item._id}/preview`)}
-                    className="hover:cursor-pointer object-contain w-full rounded-t-lg h-56"
+                    className="hover:cursor-pointer object-cover w-full max-w-56 rounded-t-lg h-56"
                     src={`${URL}/${item.image}`}
                     alt=""
                   />
