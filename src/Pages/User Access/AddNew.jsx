@@ -182,7 +182,7 @@ function AddNew() {
                 <h6 className="block font-medium text-gray-900 dark:text-white">
                   Status
                 </h6>
-                <ul className="w-full inline-flex items-center space-x-20 text-sm font-medium text-gray-900 bg-white border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                <ul className="w-full inline-flex items-center space-x-20 text-base font-medium text-gray-900 bg-white border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                   <li className="">
                     <div className="flex items-center">
                       <input
@@ -201,7 +201,10 @@ function AddNew() {
                             });
                           } else {
                             const update = [...Data.access_to];
-                            update.splice(0, 1);
+                            const idx = update.findIndex(
+                              (f) => f === "Job Post"
+                            );
+                            update.splice(idx, 1);
                             setData((prev) => {
                               return {
                                 ...prev,
@@ -215,7 +218,7 @@ function AddNew() {
                       />
                       <label
                         htmlFor="job_post"
-                        className="w-full py-3 ms-2 text-sm font-medium text-spangles-600 dark:text-gray-300"
+                        className="w-full py-3 ms-2 text-base font-medium text-spangles-600 dark:text-gray-300"
                       >
                         Job Post
                       </label>
@@ -238,8 +241,8 @@ function AddNew() {
                             });
                           } else {
                             const update = [...Data.access_to];
-
-                            update.splice(1, 1);
+                            const idx = update.findIndex((f) => f === "Blogs");
+                            update.splice(idx, 1);
                             setData((prev) => {
                               return {
                                 ...prev,
@@ -254,7 +257,7 @@ function AddNew() {
                       />
                       <label
                         htmlFor="blogs"
-                        className="w-full py-3 ms-2 text-sm font-medium text-spangles-500 dark:text-gray-300"
+                        className="w-full py-3 ms-2 text-base font-medium text-spangles-500 dark:text-gray-300"
                       >
                         Blogs
                       </label>
@@ -277,7 +280,10 @@ function AddNew() {
                             });
                           } else {
                             const update = [...Data.access_to];
-                            update.splice(2, 1);
+                            const idx = update.findIndex(
+                              (f) => f === "Gallery"
+                            );
+                            update.splice(idx, 1);
                             setData((prev) => {
                               return {
                                 ...prev,
@@ -292,7 +298,7 @@ function AddNew() {
                       />
                       <label
                         htmlFor="gallery"
-                        className="w-full py-3 ms-2 text-sm font-medium text-spangles-600 dark:text-gray-300"
+                        className="w-full py-3 ms-2 text-base font-medium text-spangles-600 dark:text-gray-300"
                       >
                         Gallery
                       </label>
@@ -315,7 +321,10 @@ function AddNew() {
                             });
                           } else {
                             const update = [...Data.access_to];
-                            update.splice(3, 1);
+                            const idx = update.findIndex(
+                              (f) => f === "Applicants"
+                            );
+                            update.splice(idx, 1);
                             setData((prev) => {
                               return {
                                 ...prev,
@@ -330,7 +339,7 @@ function AddNew() {
                       />
                       <label
                         htmlFor="applicants"
-                        className="w-full py-3 ms-2 text-sm font-medium text-spangles-600 dark:text-gray-300"
+                        className="w-full py-3 ms-2 text-base font-medium text-spangles-600 dark:text-gray-300"
                       >
                         Applicants
                       </label>
@@ -353,7 +362,10 @@ function AddNew() {
                             });
                           } else {
                             const update = [...Data.access_to];
-                            update.splice(4, 1);
+                            const idx = update.findIndex(
+                              (f) => f === "Enquiries & Messages"
+                            );
+                            update.splice(idx, 1);
                             setData((prev) => {
                               return {
                                 ...prev,
@@ -370,7 +382,7 @@ function AddNew() {
                       />
                       <label
                         htmlFor="enquiries&messages"
-                        className="w-full py-3 ms-2 text-sm font-medium text-spangles-600 dark:text-gray-300"
+                        className="w-full py-3 ms-2 text-base font-medium text-spangles-600 dark:text-gray-300"
                       >
                         Enquiries & Messages
                       </label>

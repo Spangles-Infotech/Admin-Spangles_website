@@ -84,6 +84,9 @@ function AddNew() {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     multiple: false,
+    accept: {
+      "image/*": [".jpeg", ".png", ".jpeg"],
+    },
   });
   useEffect(() => {
     if (Files.length > 0) {
@@ -148,11 +151,15 @@ function AddNew() {
                     isDragActive ? "bg-spangles-100" : ""
                   }`}
                 >
-                  <input {...getInputProps({ multiple: false })} />
+                  <input {...getInputProps()} />
+
                   <p className="m-0 text-base font-medium">
                     {isDragActive
                       ? "Drop the files here..."
-                      : "Drop your images/videos here, or click to select files"}
+                      : "Drop your images here, or click to select files"}
+                  </p>
+                  <p className="text-xs">
+                    (Only *.jpeg, *.png, files will be accepted)
                   </p>
                 </div>
               </div>
@@ -175,8 +182,9 @@ function AddNew() {
               Discard
             </Link>
             <button
+              disabled={value === "" || Files.length === 0}
               type="submit"
-              className="inline-flex items-center px-14 py-2.5 mt-4 sm:mt-6 text-base font-semibold text-center text-white bg-spangles-700 rounded-lg focus:ring-4 hover:bg-spangles-800 focus:ring-spangles-200"
+              className="inline-flex items-center disabled:bg-spangles-400 px-14 py-2.5 mt-4 sm:mt-6 text-base font-semibold text-center text-white bg-spangles-700 rounded-lg focus:ring-4 hover:bg-spangles-800 focus:ring-spangles-200"
             >
               Upload
             </button>

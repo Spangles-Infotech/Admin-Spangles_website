@@ -9,6 +9,7 @@ function Edit() {
   const token = window.localStorage.getItem("token");
   const navigate = useNavigate();
   const params = useParams();
+  const [Exp, setExp] = useState(0);
   const [Data, setData] = useState({
     _id: "",
     category: "",
@@ -39,6 +40,7 @@ function Edit() {
         },
       });
       setData(response.data.jobs);
+      setCategoryList(response.data.category);
     } catch (error) {
       console.error(error);
       setResponse({
@@ -61,6 +63,7 @@ function Edit() {
       }
     }
   };
+  const [NewCategory, setNewCategory] = useState("");
   const [Category, setCategory] = useState("");
   const [Location, setLocation] = useState("");
   const [Designation, setDesignation] = useState("");
@@ -86,13 +89,18 @@ function Edit() {
     setWorkExperience({
       from:
         Data.work_experience === "Fresher"
-          ? "0"
-          : Data.work_experience.split(" ")[0],
+          ? 0
+          : parseInt(Data.work_experience.split(" ")[0]),
       to:
         Data.work_experience === "Fresher"
-          ? "0"
-          : Data.work_experience.split(" ")[2],
+          ? 0
+          : parseInt(Data.work_experience.split(" ")[2]),
     });
+    setExp(
+      Data.work_experience === "Fresher"
+        ? 0
+        : parseInt(Data.work_experience.split(" ")[0])
+    );
     setRecruiterMail(Data.RecruiterMail);
     setJobSummary(Data.job_summary);
     setPreferredSkillsList(Data.preferred_skills);
@@ -117,6 +125,7 @@ function Edit() {
       responsibilities_and_duties: ResAndDutiesList,
       required_experience_and_qualifications: ExpAndQualificationList,
       status: Status,
+      updated_on: new Date(),
     };
     try {
       const response = await axios.put(
@@ -158,10 +167,10 @@ function Edit() {
     }
   };
   const handleAdd = () => {
-    if (!CategoryList.includes(Category)) {
-      setCategoryList((previous) => [...previous, Category]);
+    if (!CategoryList.includes(NewCategory)) {
+      setCategoryList((previous) => [...previous, NewCategory]);
     }
-    setCategory("");
+    setNewCategory("");
   };
   return (
     <React.Fragment>
@@ -262,15 +271,15 @@ function Edit() {
                   className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-slate-600 focus:border-slate-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-slate-500 dark:focus:border-slate-500"
                   placeholder=""
                   required
-                  onChange={(e) =>
-                    setWorkExperience({
-                      from: e.target.value,
-                      to: WorkExperience.to,
-                    })
-                  }
-                  value={WorkExperience.from}
                   min={0}
                   max={15}
+                  onChange={(e) => {
+                    setWorkExperience((prev) => {
+                      return { ...prev, from: e.target.value, to: prev.to };
+                    });
+                    setExp(e.target.value);
+                  }}
+                  value={WorkExperience.from}
                 />
                 <input
                   type="number"
@@ -279,15 +288,14 @@ function Edit() {
                   className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-slate-600 focus:border-slate-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-slate-500 dark:focus:border-slate-500"
                   placeholder=""
                   required
+                  min={Exp}
+                  max={15}
                   onChange={(e) =>
-                    setWorkExperience({
-                      from: WorkExperience.from,
-                      to: e.target.value,
+                    setWorkExperience((prev) => {
+                      return { ...prev, from: prev.from, to: e.target.value };
                     })
                   }
                   value={WorkExperience.to}
-                  min={0}
-                  max={15}
                 />
               </div>
             </div>
@@ -345,7 +353,7 @@ function Edit() {
                   className="block w-full p-4 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-spangles-500 focus:border-spangles-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-500 dark:focus:border-spangles-500"
                   placeholder="Enter Preferred Skills"
                   value={PreferredSkills}
-                  required={PreferredSkillsList.length === 0}
+                  // required={PreferredSkillsList.length === 0}
                 />
                 <button
                   type="button"
@@ -401,7 +409,7 @@ function Edit() {
                   className="block w-full p-4 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-spangles-500 focus:border-spangles-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-500 dark:focus:border-spangles-500"
                   placeholder="Enter Responsibilities and Duties"
                   value={ResAndDuties}
-                  required={ResAndDuties.length === 0}
+                  // required={ResAndDuties.length === 0}
                 />
                 <button
                   type="button"
@@ -456,7 +464,7 @@ function Edit() {
                   className="block w-full p-4 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-spangles-500 focus:border-spangles-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-500 dark:focus:border-spangles-500"
                   placeholder="Enter Experience and Qualifications"
                   value={ExpAndQualification}
-                  required={ExpAndQualificationList.length === 0}
+                  // required={ExpAndQualificationList.length === 0}
                 />
                 <button
                   type="button"
@@ -543,9 +551,9 @@ function Edit() {
                       <input
                         id="in_active_button"
                         type="radio"
-                        value="Inactive"
-                        onChange={() => setStatus("Inactive")}
-                        checked={Status === "Inactive" ? true : false}
+                        value="In Active"
+                        onChange={() => setStatus("In Active")}
+                        checked={Status === "In Active" ? true : false}
                         name="in_active_button"
                         className="w-4 h-4 text-red-600 bg-gray-100 border-red-600 focus:ring-red-500 dark:focus:ring-red-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                       />
@@ -553,7 +561,7 @@ function Edit() {
                         htmlFor="in_active_button"
                         className="w-full py-3 ms-2 text-sm font-medium text-red-600 dark:text-gray-300"
                       >
-                        Inactive
+                        In Active
                       </label>
                     </div>
                   </li>
@@ -569,8 +577,13 @@ function Edit() {
               Discard
             </Link>
             <button
+              disabled={
+                PreferredSkillsList.length === 0 ||
+                ResAndDutiesList.length === 0 ||
+                ExpAndQualificationList.length === 0
+              }
               type="submit"
-              className="inline-flex items-center px-14 py-2.5 mt-4 sm:mt-6 text-base font-semibold text-center text-white bg-spangles-700 rounded-lg focus:ring-4 hover:bg-spangles-800  focus:ring-spangles-200"
+              className="inline-flex items-center disabled:bg-spangles-400 px-14 py-2.5 mt-4 sm:mt-6 text-base font-semibold text-center text-white bg-spangles-700 rounded-lg focus:ring-4 hover:bg-spangles-800  focus:ring-spangles-200"
             >
               Continue
             </button>
@@ -622,15 +635,15 @@ function Edit() {
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-spangles-500 focus:border-spangles-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                     placeholder=""
                     required
-                    onChange={(e) => setCategory(e.target.value)}
-                    value={Category}
+                    onChange={(e) => setNewCategory(e.target.value)}
+                    value={NewCategory}
                     data-popover-target="category-popover-hover"
                     data-popover-trigger="hover"
                   />
                 </div>
                 <button
                   type="button"
-                  disabled={Category === ""}
+                  disabled={NewCategory === ""}
                   onClick={() => handleAdd()}
                   class="w-fit text-white bg-spangles-700 disabled:bg-spangles-500 hover:bg-spangles-800 focus:ring-4 focus:outline-none focus:ring-spangles-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-spangles-600 dark:hover:bg-spangles-700 dark:focus:ring-spangles-800"
                   data-modal-hide="category-modal"

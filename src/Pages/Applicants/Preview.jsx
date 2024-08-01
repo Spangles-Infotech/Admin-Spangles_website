@@ -212,13 +212,13 @@ function Preview() {
               <td className="px-4 py-3 text-base font-medium text-gray-700">
                 Description
               </td>
-              <td className="px-4 py-3 text-sm ">{Data && Data.designation}</td>
+              <td className="px-4 py-3 text-sm ">{Data && Data.description}</td>
             </tr>
             <tr className=" dark:bg-gray-800 dark:border-gray-700 align-middle">
               <td className="px-4 py-3 text-base font-medium text-gray-700">
                 Status
               </td>
-              {Data && (Data.status === null || Data.status === "On Hold") ? (
+              {Data && (Data.status === "View" || Data.status === "On Hold") ? (
                 <td className="px-4 py-3 text-sm max-w-2xl">
                   <ul class="w-full inline-flex items-center space-x-20 text-base font-medium text-gray-900 bg-white border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                     <li class="">
@@ -294,7 +294,7 @@ function Preview() {
             </tr>
           </tbody>
         </table>
-        {Data && (Data.status === null || Data.status === "On Hold") && (
+        {Data && (Data.status === "View" || Data.status === "On Hold") && (
           <div className="w-full flex items-center justify-end space-x-5">
             <button
               onClick={() => handleStatus()}

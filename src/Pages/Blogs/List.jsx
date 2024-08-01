@@ -104,8 +104,8 @@ function List() {
 
   return (
     <React.Fragment>
-      <div className="flex flex-col bg-white p-5 space-y-10 rounded-t-lg">
-        <div className="flex flex-wrap space-y-5 items-center justify-between">
+      <div className="w-full flex flex-col bg-white p-5 space-y-10 rounded-t-lg">
+        <div className="w-full flex flex-wrap gap-5 items-end justify-between">
           <h1 className="font-semibold text-lg text-spangles-700">Blogs</h1>
           <div className="flex items-center space-x-5">
             <div>
@@ -166,7 +166,7 @@ function List() {
                 >
                   <img
                     onClick={() => navigate(`/admin/blogs/${item._id}/preview`)}
-                    className="hover:cursor-pointer object-cover w-full rounded-t-lg h-48 md:h-auto md:w-48 md:rounded-none"
+                    className="hover:cursor-pointer object-contain w-full rounded-t-lg h-56"
                     src={`${URL}/${item.image}`}
                     alt=""
                   />

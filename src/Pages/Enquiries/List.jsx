@@ -74,8 +74,8 @@ function List() {
 
   return (
     <React.Fragment>
-      <div className="flex flex-col bg-white p-5 space-y-10 rounded-t-lg">
-        <div className="flex flex-wrap space-y-5 items-center justify-between">
+      <div className="w-full flex flex-col bg-white p-5 space-y-10 rounded-t-lg">
+        <div className="w-full flex flex-wrap gap-5 items-end justify-between">
           <div className="inline-flex space-x-3 items-center">
             <h1 className="font-semibold text-lg text-spangles-700">
               Enquiries & Messages
@@ -100,7 +100,10 @@ function List() {
                   <select
                     id="status"
                     value={Status}
-                    onChange={(e) => setStatus(e.target.value)}
+                    onChange={(e) => {
+                      setStatus(e.target.value);
+                      setCurrentPage(1);
+                    }}
                     className="bg-gray-50 border text-spangles-800 text-xs font-semibold rounded focus:ring-spangles-800 focus:border-spangles-800 block w-fit px-2 py-1 hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-800 dark:focus:border-spangles-800"
                   >
                     <option value="">All</option>
@@ -117,9 +120,10 @@ function List() {
                     type="date"
                     name="from"
                     id="from"
-                    onChange={(e) =>
-                      setDate({ ...isDate, from: e.target.value })
-                    }
+                    onChange={(e) => {
+                      setDate({ ...isDate, from: e.target.value });
+                      setCurrentPage(1);
+                    }}
                     className="bg-gray-50 border text-teal-800 text-xs font-semibold rounded focus:ring-teal-800 focus:border-teal-800 block w-fit px-2 py-1 hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-teal-800 dark:focus:border-teal-800"
                   />
                   <h6 className="text-sm">To :</h6>
@@ -127,7 +131,10 @@ function List() {
                     type="date"
                     name="to"
                     id="to"
-                    onChange={(e) => setDate({ ...isDate, to: e.target.value })}
+                    onChange={(e) => {
+                      setDate({ ...isDate, to: e.target.value });
+                      setCurrentPage(1);
+                    }}
                     className="bg-gray-50 border text-teal-800 text-xs font-semibold rounded focus:ring-teal-800 focus:border-teal-800 block w-fit px-2 py-1 hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-teal-800 dark:focus:border-teal-800"
                   />
                 </div>
@@ -165,7 +172,10 @@ function List() {
                   id="default-search"
                   className="block w-40 py-1 ps-8 text-sm text-gray-900 rounded bg-gray-50 focus:ring-spangles-800 focus:border-spangles-800 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-800 dark:focus:border-spangles-800"
                   placeholder="Search..."
-                  onChange={(e) => setSearch(e.target.value)}
+                  onChange={(e) => {
+                    setSearch(e.target.value);
+                    setCurrentPage(1);
+                  }}
                 />
               </div>
             </div>

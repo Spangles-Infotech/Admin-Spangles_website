@@ -157,6 +157,7 @@ function Preview() {
       }, 5000);
     }
   };
+
   return (
     <React.Fragment>
       <div className="flex flex-col bg-white p-5 mb-20 space-y-10 rounded-t-lg">
@@ -235,7 +236,8 @@ function Preview() {
                         });
                       } else {
                         const update = [...Data.access_to];
-                        update.splice(0, 1);
+                        const idx = update.findIndex((f) => f === "Job Post");
+                        update.splice(idx, 1);
                         setData((prev) => {
                           return {
                             ...prev,
@@ -272,8 +274,8 @@ function Preview() {
                         });
                       } else {
                         const update = [...Data.access_to];
-
-                        update.splice(1, 1);
+                        const idx = update.findIndex((f) => f === "Blogs");
+                        update.splice(idx, 1);
                         setData((prev) => {
                           return {
                             ...prev,
@@ -311,7 +313,8 @@ function Preview() {
                         });
                       } else {
                         const update = [...Data.access_to];
-                        update.splice(2, 1);
+                        const idx = update.findIndex((f) => f === "Gallery");
+                        update.splice(idx, 1);
                         setData((prev) => {
                           return {
                             ...prev,
@@ -340,7 +343,7 @@ function Preview() {
                     onChange={(ev) => {
                       if (ev.target.checked) {
                         const update = [...Data.access_to];
-                        update.splice(3, 0, "Appicants");
+                        update.splice(3, 0, "Applicants");
                         setData((prev) => {
                           return {
                             ...prev,
@@ -349,7 +352,8 @@ function Preview() {
                         });
                       } else {
                         const update = [...Data.access_to];
-                        update.splice(3, 1);
+                        const idx = update.findIndex((f) => f === "Applicants");
+                        update.splice(idx, 1);
                         setData((prev) => {
                           return {
                             ...prev,
@@ -387,7 +391,10 @@ function Preview() {
                         });
                       } else {
                         const update = [...Data.access_to];
-                        update.splice(4, 1);
+                        const idx = update.findIndex(
+                          (f) => f === "Enquiries & Messages"
+                        );
+                        update.splice(idx, 1);
                         setData((prev) => {
                           return {
                             ...prev,
@@ -412,8 +419,9 @@ function Preview() {
           </div>
           <div className="w-full flex items-center justify-end space-x-5">
             <button
+              disabled={Data && Data.access_to.length === 0}
               type="submit"
-              className="inline-flex items-center px-14 py-2.5 mt-4 sm:mt-6 text-base font-semibold text-center text-white bg-spangles-700 rounded-lg focus:ring-4 hover:bg-spangles-800  focus:ring-spangles-200"
+              className="inline-flex items-center disabled:bg-spangles-400 px-14 py-2.5 mt-4 sm:mt-6 text-base font-semibold text-center text-white bg-spangles-700 rounded-lg focus:ring-4 hover:bg-spangles-800  focus:ring-spangles-200"
             >
               Update
             </button>

@@ -18,7 +18,7 @@ function Preview() {
   useEffect(() => {
     fetchData();
   }, [params]);
-
+  
   const fetchData = async () => {
     try {
       const response = await axios.get(`${URL}/api/blog/${params.id}/data`, {
@@ -49,7 +49,6 @@ function Preview() {
       }
     }
   };
-
   return (
     <React.Fragment>
       <div className="w-full flex flex-col bg-white p-5 mb-20 space-y-10 rounded-t-lg">
@@ -69,7 +68,10 @@ function Preview() {
           src={`${URL}/${Data.image}`}
           alt=""
         />
-        <div className="w-full text-justify">
+        <div
+          className="prose w-full max-w-none prose-lg"
+          // dangerouslySetInnerHTML={{ __html: Data.content }}
+        >
           {HtmlParser(`${Data && Data.content}`)}
         </div>
       </div>

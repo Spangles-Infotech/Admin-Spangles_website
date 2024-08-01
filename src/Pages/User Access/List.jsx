@@ -64,8 +64,8 @@ function List() {
   };
   return (
     <React.Fragment>
-      <div className="flex flex-col bg-white p-5 space-y-10 rounded-t-lg">
-        <div className="flex flex-wrap space-y-5 items-center justify-between">
+      <div className="w-full flex flex-col bg-white p-5 space-y-10 rounded-t-lg">
+        <div className="w-full flex flex-wrap gap-5 items-end justify-between">
           <div className="inline-flex space-x-3">
             <h1 className="font-semibold text-lg text-spangles-700">
               User Access List
@@ -102,7 +102,10 @@ function List() {
                   id="default-search"
                   className="block w-40 py-1 ps-8 text-sm text-gray-900 rounded bg-gray-50 focus:ring-spangles-800 focus:border-spangles-800 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-800 dark:focus:border-spangles-800"
                   placeholder="Search..."
-                  onChange={(e) => setSearch(e.target.value)}
+                  onChange={(e) => {
+                    setSearch(e.target.value);
+                    setCurrentPage(1);
+                  }}
                 />
               </div>
             </div>

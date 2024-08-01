@@ -174,6 +174,16 @@ function Preview() {
                 {moment(Data && Data.posted_on).format("DD-MM-YYYY")}
               </td>
             </tr>
+            {Data && Data.updated_on !== undefined && (
+              <tr className="align-top">
+                <td className="px-4 py-3 text-sm font-medium  text-gray-700">
+                  Updated On
+                </td>
+                <td className="px-4 py-3 text-sm ">
+                  {moment(Data && Data.updated_on).format("DD-MM-YYYY")}
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

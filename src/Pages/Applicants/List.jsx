@@ -80,9 +80,9 @@ function List() {
 
   return (
     <React.Fragment>
-      <div className="flex flex-col bg-white p-5 space-y-10 rounded-t-lg">
-        <div className="flex flex-wrap space-y-5 items-center justify-between">
-          <div className="inline-flex space-x-3 items-center">
+      <div className="w-full flex flex-col bg-white p-5 space-y-10 rounded-t-lg">
+        <div className="w-full flex flex-wrap gap-5 items-end justify-between">
+          <div className="inline-flex space-x-3 items-start text-nowrap">
             <h1 className="font-semibold text-lg text-spangles-700">
               Applicant List
             </h1>
@@ -102,13 +102,16 @@ function List() {
               </div>
             </button>
             {Filter && (
-              <div className="flex flex-wrap space-x-5 items-center">
+              <div className="flex flex-wrap gap-5 items-center">
                 <div className="inline-flex items-center space-x-3">
                   <h6 className="text-sm">Category :</h6>
                   <select
                     id="category"
                     value={Category}
-                    onChange={(e) => setCategory(e.target.value)}
+                    onChange={(e) => {
+                      setCategory(e.target.value);
+                      setCurrentPage(1);
+                    }}
                     className="bg-gray-50 border text-spangles-800 text-xs font-semibold rounded focus:ring-spangles-800 focus:border-spangles-800 block w-fit px-2 py-1 hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-800 dark:focus:border-spangles-800"
                   >
                     <option value="">All</option>
@@ -125,7 +128,10 @@ function List() {
                   <select
                     id="designation"
                     value={Designation}
-                    onChange={(e) => setDesignation(e.target.value)}
+                    onChange={(e) => {
+                      setDesignation(e.target.value);
+                      setCurrentPage(1);
+                    }}
                     className="bg-gray-50 border text-spangles-800 text-xs font-semibold rounded focus:ring-spangles-800 focus:border-spangles-800 block w-fit px-2 py-1 hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-800 dark:focus:border-spangles-800"
                   >
                     <option value="">All</option>
@@ -142,11 +148,14 @@ function List() {
                   <select
                     id="status"
                     value={Status}
-                    onChange={(e) => setStatus(e.target.value)}
+                    onChange={(e) => {
+                      setStatus(e.target.value);
+                      setCurrentPage(1);
+                    }}
                     className="bg-gray-50 border text-spangles-800 text-xs font-semibold rounded focus:ring-spangles-800 focus:border-spangles-800 block w-fit px-2 py-1 hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-800 dark:focus:border-spangles-800"
                   >
                     <option value="">All</option>
-                    {["Shortlisted", "On Hold", "Rejected"].map(
+                    {["View", "Shortlisted", "On Hold", "Rejected"].map(
                       (items, index) => (
                         <option value={items} key={index}>
                           {items}
@@ -161,9 +170,10 @@ function List() {
                     type="date"
                     name="from"
                     id="from"
-                    onChange={(e) =>
-                      setDate({ ...isDate, from: e.target.value })
-                    }
+                    onChange={(e) => {
+                      setDate({ ...isDate, from: e.target.value });
+                      setCurrentPage(1);
+                    }}
                     className="bg-gray-50 border text-teal-800 text-xs font-semibold rounded focus:ring-teal-800 focus:border-teal-800 block w-fit px-2 py-1 hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-teal-800 dark:focus:border-teal-800"
                   />
                   <h6 className="text-sm">To :</h6>
@@ -171,7 +181,10 @@ function List() {
                     type="date"
                     name="to"
                     id="to"
-                    onChange={(e) => setDate({ ...isDate, to: e.target.value })}
+                    onChange={(e) => {
+                      setDate({ ...isDate, to: e.target.value });
+                      setCurrentPage(1);
+                    }}
                     className="bg-gray-50 border text-teal-800 text-xs font-semibold rounded focus:ring-teal-800 focus:border-teal-800 block w-fit px-2 py-1 hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-teal-800 dark:focus:border-teal-800"
                   />
                 </div>
@@ -271,7 +284,7 @@ function List() {
                             : "text-blue-600"
                         } px-6 py-4 font-medium`}
                       >
-                        {elem.status === null ? "View" : elem.status}
+                        {elem.status}
                       </td>
                       <td className="px-6 py-4">
                         <Link to={`/admin/applicant/${elem._id}/preview`}>

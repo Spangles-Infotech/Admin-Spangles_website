@@ -100,8 +100,8 @@ function List() {
 
   return (
     <React.Fragment>
-      <div className="flex flex-col bg-white p-5 space-y-10 rounded-t-lg">
-        <div className="flex flex-wrap space-y-5 items-center justify-between">
+      <div className="w-full flex flex-col bg-white p-5 space-y-10 rounded-t-lg">
+        <div className="w-full flex flex-wrap gap-5 items-end justify-between">
           <h1 className="font-semibold text-lg text-spangles-700">Gallery</h1>
           <div className="flex items-center space-x-5">
             <button
@@ -139,7 +139,7 @@ function List() {
               >
                 {!item.path.includes("http") && !item.path.includes(".mp4") ? (
                   <img
-                    className="h-48 w-auto object-contain"
+                    className="h-64 w-full object-contain"
                     src={`${URL}/${item.path}`}
                     alt=""
                   />
@@ -151,15 +151,17 @@ function List() {
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     referrerPolicy="strict-origin-when-cross-origin"
                     allowFullScreen
-                    className="w-full h-full"
+                    className="h-64 w-full object-contain"
                   ></iframe>
                 ) : (
-                  <ReactPlayer
-                    url={`${URL}/${item.path}`}
-                    controls
-                    width="100%"
-                    height="100%"
-                  />
+                  <div className="w-full h-64 object-contain">
+                    <ReactPlayer
+                      url={`${URL}/${item.path}`}
+                      controls
+                      width="100%"
+                      height="100%"
+                    />
+                  </div>
                 )}
                 <button
                   onClick={() => setDelete(item._id)}
