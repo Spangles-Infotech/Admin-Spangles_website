@@ -168,11 +168,11 @@ function List() {
             </tbody>
           </table>
         )}
-        <div className="flex justify-center items-center space-x-2 mt-4">
+        <div className="flex justify-center items-center space-x-3 mt-4">
           <button
             onClick={() => setCurrentPage(CurrentPage - 1)}
             disabled={CurrentPage === 1}
-            className="px-4 py-2 bg-gray-200 text-gray-700 rounded disabled:opacity-50"
+            className="px-4 py-2 w-[100px] bg-gray-200 text-gray-700 rounded disabled:opacity-50"
           >
             Previous
           </button>
@@ -189,7 +189,7 @@ function List() {
           <button
             onClick={() => setCurrentPage(CurrentPage + 1)}
             disabled={CurrentPage === TotalPages || TotalPages === 0}
-            className="px-4 py-2 bg-gray-200 text-gray-700 rounded disabled:opacity-50"
+            className="px-4 py-2 w-[100px] bg-gray-200 text-gray-700 rounded disabled:opacity-50"
           >
             Next
           </button>

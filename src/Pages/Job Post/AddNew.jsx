@@ -247,7 +247,7 @@ function AddNew() {
                 htmlFor="job_summary"
                 className="block mb-2 font-medium text-gray-900 dark:text-white"
               >
-                Job Summery
+                Job Summary
               </label>
               <textarea
                 id="job_summary"
