@@ -2,14 +2,17 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { URL } from "../App";
 import axios from "axios";
-
+import  './login.css'
 function Login() {
   const navigate = useNavigate();
   const [PasswordVisible, setPasswordVisible] = useState(false);
   const [Response, setResponse] = useState(false);
   const [ResponseMessage, setResponseMessage] = useState("");
   const [ResponseColor, setResponseColor] = useState("");
-
+  const handelForgotPassword=()=>{
+    navigate("/ForgotPassward")   
+        
+      }
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = {
@@ -27,7 +30,7 @@ function Login() {
       if (user.isAdmin) {
         setTimeout(() => {
           navigate("/admin/job-post/list");
-        }, 2000);
+        }, 1000);
       } else {
         const access =
           user.access_to[0] === "Job Post"
@@ -60,9 +63,9 @@ function Login() {
   return (
     <React.Fragment>
       <section className="bg-[url('./assets/login-bg-min.png')] bg-cover bg-center bg-no-repeat bg-spangles-800 w-screen h-screen flex-col flex items-center justify-center">
-        <div className="w-full max-w-xs 2xl:max-w-lg lg:max-w-sm xl:max-w-md lg:p-10 xl:p-12 p-8 bg-white border border-gray-200 rounded-3xl shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
+        <div className=" relative w-full max-w-xs 2xl:max-w-lg lg:max-w-sm xl:max-w-md lg:p-10 xl:p-12 p-8 bg-white border border-gray-200 rounded-3xl shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
           <form
-            className="space-y-6 lg:space-y-8 xl:space-y-10 2xl:space-y-12"
+            className="space-y-6 lg:space-y-8 relative xl:space-y-10 2xl:space-y-12"
             onSubmit={handleSubmit}
           >
             <h5 className="text-xl text-center font-bold text-spangles-900 dark:text-white">
@@ -114,6 +117,7 @@ function Login() {
                 )}
               </div>
             </div>
+            <span className=" forgetpassword  absolute  w-full flex  justify-end  items-start"><span onClick={()=>handelForgotPassword()} className=" hover:cursor-pointerblock text-[10px]  hover:underline hover:cursor-pointer hover:text-blue-600 sm:text-xs md:text-sm text-gray-500 truncate dark:text-gray-400">Forgot Passwords</span></span>
             <div className="my-5 text-center">
               {Response && (
                 <p className={`${ResponseColor} font-semibold text-sm`}>
@@ -123,7 +127,7 @@ function Login() {
             </div>
             <button
               type="submit"
-              className="w-full text-white bg-spangles-700 hover:bg-spangles-800 focus:ring-4 focus:outline-none focus:ring-spangles-300 font-medium rounded-lg text-base px-5 py-2.5 text-center dark:bg-spangles-600 dark:hover:bg-spangles-700 dark:focus:ring-spangles-800"
+              className="w-full text-white  bg-spangles-700 hover:bg-spangles-800 focus:ring-4 focus:outline-none focus:ring-spangles-300 font-medium rounded-lg text-base px-5 py-2.5 text-center dark:bg-spangles-600 dark:hover:bg-spangles-700 dark:focus:ring-spangles-800"
             >
               Login
             </button>

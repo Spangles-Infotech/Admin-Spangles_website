@@ -80,10 +80,10 @@ function List() {
 
   return (
     <React.Fragment>
-      <div className="w-full flex flex-col bg-white p-5 space-y-10 rounded-t-lg">
-        <div className="w-full flex flex-wrap gap-5 items-end justify-between">
-          <div className="inline-flex space-x-3 items-start text-nowrap">
-            <h1 className="font-semibold text-lg text-spangles-700">
+      <div className="flex flex-col w-full p-5 space-y-10 bg-white rounded-t-lg">
+        <div className="flex flex-wrap items-end justify-between w-full gap-5">
+          <div className="inline-flex items-start space-x-3 text-nowrap">
+            <h1 className="text-lg font-semibold text-spangles-700">
               Applicant List
             </h1>
             <button
@@ -102,7 +102,7 @@ function List() {
               </div>
             </button>
             {Filter && (
-              <div className="flex flex-wrap gap-5 items-center">
+              <div className="flex flex-wrap items-center gap-5">
                 <div className="inline-flex items-center space-x-3">
                   <h6 className="text-sm">Category :</h6>
                   <select
@@ -112,7 +112,7 @@ function List() {
                       setCategory(e.target.value);
                       setCurrentPage(1);
                     }}
-                    className="bg-gray-50 border text-spangles-800 text-xs font-semibold rounded focus:ring-spangles-800 focus:border-spangles-800 block w-fit px-2 py-1 hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-800 dark:focus:border-spangles-800"
+                    className="block px-2 py-1 text-xs font-semibold border rounded bg-gray-50 text-spangles-800 focus:ring-spangles-800 focus:border-spangles-800 w-fit hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-800 dark:focus:border-spangles-800"
                   >
                     <option value="">All</option>
                     {CategoryList &&
@@ -132,7 +132,7 @@ function List() {
                       setDesignation(e.target.value);
                       setCurrentPage(1);
                     }}
-                    className="bg-gray-50 border text-spangles-800 text-xs font-semibold rounded focus:ring-spangles-800 focus:border-spangles-800 block w-fit px-2 py-1 hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-800 dark:focus:border-spangles-800"
+                    className="block px-2 py-1 text-xs font-semibold border rounded bg-gray-50 text-spangles-800 focus:ring-spangles-800 focus:border-spangles-800 w-fit hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-800 dark:focus:border-spangles-800"
                   >
                     <option value="">All</option>
                     {DesignationList &&
@@ -152,10 +152,10 @@ function List() {
                       setStatus(e.target.value);
                       setCurrentPage(1);
                     }}
-                    className="bg-gray-50 border text-spangles-800 text-xs font-semibold rounded focus:ring-spangles-800 focus:border-spangles-800 block w-fit px-2 py-1 hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-800 dark:focus:border-spangles-800"
+                    className="block px-2 py-1 text-xs font-semibold border rounded bg-gray-50 text-spangles-800 focus:ring-spangles-800 focus:border-spangles-800 w-fit hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-800 dark:focus:border-spangles-800"
                   >
                     <option value="">All</option>
-                    {["View", "Shortlisted", "On Hold", "Rejected"].map(
+                    {["View", "Seen", "Shortlisted", "On Hold", "Rejected"].map(
                       (items, index) => (
                         <option value={items} key={index}>
                           {items}
@@ -174,7 +174,7 @@ function List() {
                       setDate({ ...isDate, from: e.target.value });
                       setCurrentPage(1);
                     }}
-                    className="bg-gray-50 border text-teal-800 text-xs font-semibold rounded focus:ring-teal-800 focus:border-teal-800 block w-fit px-2 py-1 hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-teal-800 dark:focus:border-teal-800"
+                    className="block px-2 py-1 text-xs font-semibold text-teal-800 border rounded bg-gray-50 focus:ring-teal-800 focus:border-teal-800 w-fit hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-teal-800 dark:focus:border-teal-800"
                   />
                   <h6 className="text-sm">To :</h6>
                   <input
@@ -185,7 +185,7 @@ function List() {
                       setDate({ ...isDate, to: e.target.value });
                       setCurrentPage(1);
                     }}
-                    className="bg-gray-50 border text-teal-800 text-xs font-semibold rounded focus:ring-teal-800 focus:border-teal-800 block w-fit px-2 py-1 hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-teal-800 dark:focus:border-teal-800"
+                    className="block px-2 py-1 text-xs font-semibold text-teal-800 border rounded bg-gray-50 focus:ring-teal-800 focus:border-teal-800 w-fit hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-teal-800 dark:focus:border-teal-800"
                   />
                 </div>
               </div>
@@ -200,7 +200,7 @@ function List() {
                 Search
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                <div className="absolute inset-y-0 flex items-center pointer-events-none start-0 ps-3">
                   <svg
                     className="w-3 h-3 text-gray-500 dark:text-gray-400"
                     aria-hidden="true"
@@ -220,7 +220,7 @@ function List() {
                 <input
                   type="search"
                   id="default-search"
-                  className="block w-40 py-1 ps-8 text-sm text-gray-900 rounded bg-gray-50 focus:ring-spangles-800 focus:border-spangles-800 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-800 dark:focus:border-spangles-800"
+                  className="block w-40 py-1 text-sm text-gray-900 rounded ps-8 bg-gray-50 focus:ring-spangles-800 focus:border-spangles-800 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-800 dark:focus:border-spangles-800"
                   placeholder="Search..."
                   onChange={(e) => setSearch(e.target.value)}
                 />
@@ -234,7 +234,7 @@ function List() {
           <div>No Records Found</div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <table className="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
               <thead className="text-sm text-gray-700 bg-white dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                   {[
@@ -281,7 +281,9 @@ function List() {
                             ? "text-orange-500"
                             : elem.status === "Rejected"
                             ? "text-red-600"
-                            : "text-blue-600"
+                            :elem.status === "View"
+                            ?"text-blue-600"
+                            :"text-green-500"
                         } px-6 py-4 font-medium`}
                       >
                         {elem.status}
@@ -298,7 +300,7 @@ function List() {
           </div>
         )}
 
-        <div className="flex justify-center items-center space-x-2 mt-4">
+        <div className="flex items-center justify-center mt-4 space-x-2">
           <button
             onClick={() => setCurrentPage(CurrentPage - 1)}
             disabled={CurrentPage === 1}

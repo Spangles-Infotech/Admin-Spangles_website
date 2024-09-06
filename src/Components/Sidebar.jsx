@@ -25,10 +25,10 @@ function Sidebar() {
     <React.Fragment>
       <aside
         id="logo-sidebar"
-        className="fixed top-0 left-0 z-40 w-64 lg:w-80 h-screen pt-28 transition-transform -translate-x-full sm:translate-x-0 bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700"
+        className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full bg-white border-r border-gray-200 lg:w-80 pt-28 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
         aria-label="Sidebar"
       >
-        <div className="h-full flex flex-col justify-between px-5 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
+        <div className="flex flex-col justify-between h-full px-5 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
           <ul className="space-y-6 font-medium">
             {user && (user.access_to.includes("Job Post") || user.isAdmin) && (
               <li>
@@ -38,7 +38,7 @@ function Sidebar() {
                 >
                   <img
                     src={jobPost}
-                    className="flex-shrink-0 w-7 h-7 transition duration-75 group-hover:text-gray-900 dark:group-hover:text-white"
+                    className="flex-shrink-0 transition duration-75 w-7 h-7 group-hover:text-gray-900 dark:group-hover:text-white"
                     alt="Job Post icon"
                   />
                   <span className="flex-1 ms-3 whitespace-nowrap">
@@ -55,7 +55,7 @@ function Sidebar() {
                 >
                   <img
                     src={blogs}
-                    className="flex-shrink-0 w-7 h-7 transition duration-75 group-hover:text-gray-900 dark:group-hover:text-white"
+                    className="flex-shrink-0 transition duration-75 w-7 h-7 group-hover:text-gray-900 dark:group-hover:text-white"
                     alt="Blogs icon"
                   />
                   <span className="flex-1 ms-3 whitespace-nowrap">Blogs</span>
@@ -70,7 +70,7 @@ function Sidebar() {
                 >
                   <img
                     src={gallery}
-                    className="flex-shrink-0 w-7 h-7 transition duration-75 group-hover:text-gray-900 dark:group-hover:text-white"
+                    className="flex-shrink-0 transition duration-75 w-7 h-7 group-hover:text-gray-900 dark:group-hover:text-white"
                     alt="Gallery icon"
                   />
                   <span className="flex-1 ms-3 whitespace-nowrap">Gallery</span>
@@ -85,7 +85,7 @@ function Sidebar() {
                 >
                   <img
                     src={userAccess}
-                    className="flex-shrink-0 w-7 h-7 transition duration-75 group-hover:text-gray-900 dark:group-hover:text-white"
+                    className="flex-shrink-0 transition duration-75 w-7 h-7 group-hover:text-gray-900 dark:group-hover:text-white"
                     alt="User Access icon"
                   />
                   <span className="flex-1 ms-3 whitespace-nowrap">
@@ -103,7 +103,7 @@ function Sidebar() {
                   >
                     <img
                       src={ApplicantsIcon}
-                      className="flex-shrink-0 w-7 h-7 transition duration-75 group-hover:text-gray-900 dark:group-hover:text-white"
+                      className="flex-shrink-0 transition duration-75 w-7 h-7 group-hover:text-gray-900 dark:group-hover:text-white"
                       alt="Applicants icon"
                     />
                     <span className="flex-1 ms-3 whitespace-nowrap">
@@ -122,11 +122,11 @@ function Sidebar() {
                   >
                     <img
                       src={EnquiriesIcon}
-                      className="flex-shrink-0 w-7 h-7 transition duration-75 group-hover:text-gray-900 dark:group-hover:text-white"
+                      className="flex-shrink-0 transition duration-75 w-7 h-7 group-hover:text-gray-900 dark:group-hover:text-white"
                       alt="Enquiries & Messages icon"
                     />
                     <span className="flex-1 ms-3 whitespace-nowrap">
-                      Enquiries & Messages
+                      Enquiries
                     </span>
                   </Link>
                 </li>
@@ -137,11 +137,11 @@ function Sidebar() {
               type="button"
               data-modal-target="logout-modal"
               data-modal-toggle="logout-modal"
-              className="w-full text-left flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+              className="flex items-center w-full p-2 text-left text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
             >
               <img
                 src={logout}
-                className="flex-shrink-0 w-7 h-7 transition duration-75 group-hover:text-gray-900 dark:group-hover:text-white"
+                className="flex-shrink-0 transition duration-75 w-7 h-7 group-hover:text-gray-900 dark:group-hover:text-white"
                 alt="Log Out icon"
               />
               <span className="flex-1 ms-3 whitespace-nowrap">Log Out</span>
@@ -156,7 +156,7 @@ function Sidebar() {
         aria-hidden="true"
         className="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
       >
-        <div className="relative p-4 w-full max-w-md max-h-full">
+        <div className="relative w-full max-w-md max-h-full p-4">
           <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
             <button
               type="button"
@@ -180,9 +180,9 @@ function Sidebar() {
               </svg>
               <span className="sr-only">Close modal</span>
             </button>
-            <div className="p-4 md:p-5 text-center">
+            <div className="p-4 text-center md:p-5">
               <svg
-                className="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200"
+                className="w-12 h-12 mx-auto mb-4 text-gray-400 dark:text-gray-200"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"

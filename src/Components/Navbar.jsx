@@ -6,6 +6,8 @@ import { Link, useNavigate } from "react-router-dom";
 
 function Navbar() {
   const user = JSON.parse(window.localStorage.getItem("user"));
+  console.log(user);
+  
   const navigate = useNavigate();
   useEffect(() => {
     if (user === null) {
@@ -15,9 +17,18 @@ function Navbar() {
   useEffect(() => {
     initFlowbite();
   }, []);
+
+  const handelForgotPassword = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    navigate("/");
+  };
+
+
+
   return (
     <React.Fragment>
-      <nav className="fixed top-0 z-50 w-full flex flex-col justify-center h-20 bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+      <nav className="fixed top-0 z-50 flex flex-col justify-center w-full h-20 bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
         <div className="px-3 py-3 lg:px-5 lg:pl-5">
           <div className="flex items-center justify-between">
             <div className="flex items-center justify-start rtl:justify-end">
@@ -46,13 +57,13 @@ function Navbar() {
               <Link reloadDocument className="flex">
                 <img
                   src={logo}
-                  className="h-5 w-20 sm:h-6 sm:w-24 md:h-7 md:w-36 lg:h-8 lg:w-40 xl:h-9 xl:w-48 2xl:h-10 2xl:w-56"
+                  className="w-20 h-5 sm:h-6 sm:w-24 md:h-7 md:w-36 lg:h-8 lg:w-40 xl:h-9 xl:w-48 2xl:h-10 2xl:w-56"
                   alt="Logo"
                 />
               </Link>
             </div>
             <div className="flex items-center space-x-2 sm:space-x-4 md:space-x-6 lg:space-x-7">
-              <div className="border h-7 sm:h-8 md:h-9 border-gray-400"></div>
+              <div className="border border-gray-400 h-7 sm:h-8 md:h-9"></div>
               <div className="flex items-center space-x-2 sm:space-x-4 md:space-x-5">
                 <button
                   type="button"
@@ -66,11 +77,14 @@ function Navbar() {
                   />
                 </button>
                 <div>
-                  <span className="block text-xs sm:text-sm md:text-base font-medium text-gray-900 dark:text-white">
+                  <span className="block text-xs font-medium text-gray-900 sm:text-sm md:text-base dark:text-white">
                     {user && user.name}
                   </span>
                   <span className="block text-[10px] sm:text-xs md:text-sm text-gray-500 truncate dark:text-gray-400">
                     {user && user.isAdmin ? "Admin" : "User"}
+                  </span>
+                  <span onClick={()=>handelForgotPassword()} className="block text-[10px]  hover:underline hover:cursor-pointer hover:text-blue-600 sm:text-xs md:text-sm text-gray-500 truncate dark:text-gray-400">
+                  {user && user.isAdmin ? "logOut" : " logOut"}
                   </span>
                 </div>
               </div>

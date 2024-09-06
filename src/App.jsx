@@ -24,6 +24,8 @@ import ApplicantPreview from "./Pages/Applicants/Preview";
 import EnquiriesContainer from "./Pages/Enquiries/Container";
 import EnquiriesList from "./Pages/Enquiries/List";
 import EnquiriesPreview from "./Pages/Enquiries/Preview";
+import ForgotPassward from './Components/ForgotPassward'
+import {OTPVerification,CreateNewPassword} from './Components/ForgotPassward'
 
 export const URL = import.meta.env.VITE_BACKEND_API_URL;
 function App() {
@@ -41,6 +43,9 @@ function App() {
         <Routes>
           <Route path="*" element={<Navigate to={`/`} />} />
           <Route path="/" element={<Login />} />
+          <Route path="/ForgotPassward" element={<ForgotPassward/>} />
+          <Route path="/verify" element={<OTPVerification/>} />
+          <Route path="/new_password" element={<CreateNewPassword/>} />
           <Route path="admin" element={<ContainerWrapper />}>
             <Route path="user-access" element={<UserAccessContainer />}>
               <Route path="list" element={<UserAccessList />} />

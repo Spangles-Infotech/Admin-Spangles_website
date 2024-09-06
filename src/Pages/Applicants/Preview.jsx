@@ -33,6 +33,10 @@ function Preview() {
     initFlowbite();
     fetchData();
   }, []);
+
+
+  
+
   const fetchData = async () => {
     try {
       const response = await axios.get(
@@ -66,6 +70,34 @@ function Preview() {
       }
     }
   };
+console.log(Data);
+
+  const updateViewState = async () => {
+    try {
+      await axios.put(
+        `${URL}/api/applicant/${params.id}/status/update`,
+        {
+          status: "Seen",
+        },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+    } catch (error) {
+      console.error(error);
+      
+    }
+  }
+
+if (Data && Data.status==="View") {
+  updateViewState()
+  console.log("updateViewState Called");
+  
+}
+
+
   const handleStatus = async () => {
     try {
       const response = await axios.put(
@@ -114,16 +146,16 @@ function Preview() {
 
   return (
     <React.Fragment>
-      <div className="flex flex-col bg-white p-5 mb-20 space-y-10 rounded-t-lg">
+      <div className="flex flex-col p-5 mb-20 space-y-10 bg-white rounded-t-lg">
         <Link to={"/admin/applicant/list"}>
-          <i className="fa-solid fa-arrow-left-long text-2xl"></i>
+          <i className="text-2xl fa-solid fa-arrow-left-long"></i>
         </Link>
         <div className="flex items-center justify-between">
-          <h3 className="font-semibold text-lg text-spangles-700">
+          <h3 className="text-lg font-semibold text-spangles-700">
             Applicant Summary
           </h3>
         </div>
-        <table className="w-fit text-xs text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <table className="text-xs text-left text-gray-500 w-fit rtl:text-right dark:text-gray-400">
           <tbody className="">
             <tr className="align-top">
               <td className="px-4 py-3 text-base font-medium text-gray-700">
@@ -166,7 +198,7 @@ function Preview() {
               <td className="px-4 py-3 text-sm">{Data && Data.designation}</td>
             </tr>
             <tr className="align-top">
-              <td className="px-4 py-3 text-base font-medium  text-gray-700">
+              <td className="px-4 py-3 text-base font-medium text-gray-700">
                 Experience
               </td>
               <td className="px-4 py-3 text-sm ">{Data && Data.experience}</td>
@@ -178,10 +210,10 @@ function Preview() {
               <td className="px-4 py-3 text-sm">{Data && Data.skills}</td>
             </tr>
             <tr className="align-top">
-              <td className="px-4 py-3 text-base font-medium  text-gray-700">
+              <td className="px-4 py-3 text-base font-medium text-gray-700">
                 Resume
               </td>
-              <td className="px-4 py-3 text-sm underline text-spangles-700 font-medium">
+              <td className="px-4 py-3 text-sm font-medium underline text-spangles-700">
                 <button
                   data-modal-target="resume-modal"
                   data-modal-toggle="resume-modal"
@@ -193,7 +225,7 @@ function Preview() {
               </td>
             </tr>
             <tr className="align-top">
-              <td className="px-4 py-3 text-base font-medium  text-gray-700">
+              <td className="px-4 py-3 text-base font-medium text-gray-700">
                 Salary Expectation
               </td>
               <td className="px-4 py-3 text-sm ">
@@ -214,12 +246,12 @@ function Preview() {
               </td>
               <td className="px-4 py-3 text-sm ">{Data && Data.description}</td>
             </tr>
-            <tr className=" dark:bg-gray-800 dark:border-gray-700 align-middle">
+            <tr className="align-middle dark:bg-gray-800 dark:border-gray-700">
               <td className="px-4 py-3 text-base font-medium text-gray-700">
                 Status
               </td>
-              {Data && (Data.status === "View" || Data.status === "On Hold") ? (
-                <td className="px-4 py-3 text-sm max-w-2xl">
+              {Data && (Data.status === "View" || Data.status === "Seen" || Data.status === "On Hold") ? (
+                <td className="max-w-2xl px-4 py-3 text-sm">
                   <ul class="w-full inline-flex items-center space-x-20 text-base font-medium text-gray-900 bg-white border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                     <li class="">
                       <div class="flex items-center">
@@ -294,8 +326,8 @@ function Preview() {
             </tr>
           </tbody>
         </table>
-        {Data && (Data.status === "View" || Data.status === "On Hold") && (
-          <div className="w-full flex items-center justify-end space-x-5">
+        {Data && (Data.status === "View" || Data.status === "Seen" || Data.status === "On Hold") && (
+          <div className="flex items-center justify-end w-full space-x-5">
             <button
               onClick={() => handleStatus()}
               type="button"

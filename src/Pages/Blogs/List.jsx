@@ -104,9 +104,9 @@ function List() {
 
   return (
     <React.Fragment>
-      <div className="w-full flex flex-col bg-white p-5 space-y-10 rounded-t-lg">
-        <div className="w-full flex flex-wrap gap-5 items-end justify-between">
-          <h1 className="font-semibold text-lg text-spangles-700">Blogs</h1>
+      <div className="flex flex-col w-full p-5 space-y-10 bg-white rounded-t-lg">
+        <div className="flex flex-wrap items-end justify-between w-full gap-5">
+          <h1 className="text-lg font-semibold text-spangles-700">Blogs</h1>
           <div className="flex items-center space-x-5">
             <div>
               <label
@@ -116,7 +116,7 @@ function List() {
                 Search
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                <div className="absolute inset-y-0 flex items-center pointer-events-none start-0 ps-3">
                   <svg
                     className="w-3 h-3 text-gray-500 dark:text-gray-400"
                     aria-hidden="true"
@@ -136,7 +136,7 @@ function List() {
                 <input
                   type="search"
                   id="default-search"
-                  className="block w-40 py-1 ps-8 text-sm text-gray-900 rounded bg-gray-50 focus:ring-spangles-800 focus:border-spangles-800 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-800 dark:focus:border-spangles-800"
+                  className="block w-40 py-1 text-sm text-gray-900 rounded ps-8 bg-gray-50 focus:ring-spangles-800 focus:border-spangles-800 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-800 dark:focus:border-spangles-800"
                   placeholder="Search..."
                   onChange={(e) => setSearch(e.target.value)}
                 />
@@ -144,7 +144,7 @@ function List() {
             </div>
             <Link
               to="/admin/blogs/add/new"
-              className="px-3 py-1 text-white bg-spangles-700 rounded text-sm space-x-2 hover:bg-spangles-800 focus:ring-4 focus:ring-spangles-200"
+              className="px-3 py-1 space-x-2 text-sm text-white rounded bg-spangles-700 hover:bg-spangles-800 focus:ring-4 focus:ring-spangles-200"
             >
               <span>
                 <i className="fa-solid fa-plus"></i> New Blog
@@ -157,49 +157,48 @@ function List() {
         ) : Data.length === 0 ? (
           <div>No Records Found</div>
         ) : (
-          <div className="w-full grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-5">
+          <div className="relative grid w-full grid-cols-1 gap-5 md:grid-cols-2 2xl:grid-cols-3">
             {Data &&
               Data.map((item, index) => (
                 <div
-                  key={index}
-                  className="h-full flex flex-col items-start bg-white border border-gray-200 rounded-lg hover:shadow-xl md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
-                >
-                  <img
-                    onClick={() => navigate(`/admin/blogs/${item._id}/preview`)}
-                    className="hover:cursor-pointer object-cover w-full max-w-56 rounded-t-lg h-56"
-                    src={`${URL}/${item.image}`}
-                    alt=""
-                  />
-                  <div className="h-full w-full flex flex-col justify-between leading-normal">
-                    <p className="mt-5 px-5 font-normal text-gray-700 dark:text-gray-400">
-                      <i className="fa-regular fa-clock"></i>
-                      &nbsp;&nbsp;&nbsp;&nbsp;
-                      {moment(new Date(item.posted_on)).format("DD MMMM YYYY")}
-                    </p>
-                    <h6
-                      onClick={() =>
-                        navigate(`/admin/blogs/${item._id}/preview`)
-                      }
-                      className="hover:cursor-pointer mt-2 px-5 text-base font-semibold tracking-tight text-gray-900 dark:text-white line-clamp-2 text-wrap truncate"
-                    >
-                      {item.title}
-                    </h6>
-                    <div className="flex justify-end px-5 py-2 space-x-2">
-                      <button
-                        onClick={() => setDelete(item._id)}
-                        className="text-center py-2.5 px-5 text-sm font-medium text-red-500 focus:outline-none rounded-lg bg-white border border-gray-200 hover:bg-red-100 hover:text-red-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-                      >
-                        <i className="fa-solid fa-trash-can"></i> Delete
-                      </button>
-                      <Link
-                        to={`/admin/blogs/${item._id}/edit`}
-                        className="text-center py-2.5 px-5 text-sm font-medium text-spangles-700 focus:outline-none rounded-lg bg-white border border-gray-200 hover:bg-spangles-700 hover:text-white focus:z-10 focus:ring-4 focus:ring-spangles-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-                      >
-                        <i className="fa-regular fa-pen-to-square"></i> Edit
-                      </Link>
-                    </div>
-                  </div>
-                </div>
+  key={index}
+  className="flex flex-col w-full h-full bg-white border border-gray-200 rounded-lg hover:shadow-xl dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
+>
+  <img
+    onClick={() => navigate(`/admin/blogs/${item._id}/preview`)}
+    className="object-cover w-full rounded-t-lg hover:cursor-pointer"
+    style={{ height: '14rem', aspectRatio: 1.1 }}
+    src={`${URL}/${item.image}`}
+    alt=""
+  />
+  <div className="flex flex-col justify-between flex-1 p-5">
+    <p className="text-gray-700 dark:text-gray-400">
+      <i className="fa-regular fa-clock"></i>
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      {moment(new Date(item.posted_on)).format("DD MMMM YYYY")}
+    </p>
+    <h6
+      onClick={() => navigate(`/admin/blogs/${item._id}/preview`)}
+      className="mt-2 text-base font-semibold tracking-tight text-gray-900 truncate cursor-pointer dark:text-white"
+    >
+      {item.title}
+    </h6>
+    <div className="flex justify-end mt-5 space-x-2">
+      <button
+        onClick={() => setDelete(item._id)}
+        className="py-2.5 px-5 text-sm font-medium text-red-500 rounded-lg bg-white border border-gray-200 hover:bg-red-100 hover:text-red-700 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+      >
+        <i className="fa-solid fa-trash-can"></i> Delete
+      </button>
+      <Link
+        to={`/admin/blogs/${item._id}/edit`}
+        className="py-2.5 px-5 text-sm font-medium text-spangles-700 rounded-lg bg-white border border-gray-200 hover:bg-spangles-700 hover:text-white focus:outline-none focus:ring-4 focus:ring-spangles-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+      >
+        <i className="fa-regular fa-pen-to-square"></i> Edit
+      </Link>
+    </div>
+  </div>
+</div>
               ))}
           </div>
         )}
@@ -212,7 +211,7 @@ function List() {
           aria-hidden="true"
           className="flex overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
         >
-          <div className="relative p-4 w-full max-w-md max-h-full">
+          <div className="relative w-full max-w-md max-h-full p-4">
             <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
               <button
                 type="button"
@@ -236,9 +235,9 @@ function List() {
                 </svg>
                 <span className="sr-only">Close modal</span>
               </button>
-              <div className="p-4 md:p-5 text-center">
+              <div className="p-4 text-center md:p-5">
                 <svg
-                  className="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200"
+                  className="w-12 h-12 mx-auto mb-4 text-gray-400 dark:text-gray-200"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
