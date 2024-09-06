@@ -29,6 +29,10 @@ const userSchema = new mongoose.Schema({
     required: true,
     default: false,
   },
+  Otp: {
+    type: String
+  },
+  email: { type: String, required: true }, 
 });
 
 const User = mongoose.model(process.env.DB_COLLECTION_ONE, userSchema);

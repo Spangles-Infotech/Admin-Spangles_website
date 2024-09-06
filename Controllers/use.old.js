@@ -1,8 +1,8 @@
 const { generateToken } = require("../Middlewares/authentication.js");
 const User = require("../Models/user.model.js");
 const { comparePassword, hashPassword } = require("../Utilities/hashing.js");
-const sendOtpEmail = require("../Utilities/email.js");
-const generateOtp = require("../Utilities/generateOtp.js");
+const sendOtpEmail= require("../Utilities/email.js")
+const generateOtp= require("../Utilities/generateOtp.js")
 
 const userController = {
   signup: async (req, res) => {
@@ -29,7 +29,6 @@ const userController = {
       });
     }
   },
-  
   login: async (req, res) => {
     const { username, password } = req.body;
     try {
@@ -65,12 +64,13 @@ const userController = {
       });
     }
   },
-  
   getAll: async (req, res) => {
     const { page = 1, limit = 15, search = "" } = req.query;
+    // Ensure page and limit are numbers
     const pageNum = parseInt(page, 10);
     const limitNum = parseInt(limit, 10);
 
+    // Prepare search conditions
     const searchConditions = [{ isAdmin: false }];
 
     if (search) {
@@ -83,18 +83,16 @@ const userController = {
             access_to: {
               $elemMatch: {
                 $regex: search,
-                $options: "i",
+                $options: "i", // Case-insensitive search
               },
             },
           },
         ],
       });
     }
-
     const queryConditions = searchConditions.length
       ? { $and: searchConditions }
       : {};
-    
     try {
       const user = await User.aggregate([
         { $match: queryConditions },
@@ -102,8 +100,7 @@ const userController = {
         { $skip: (pageNum - 1) * limitNum },
         { $limit: limitNum },
       ]);
-
-      const totalItems = await User.countDocuments(queryConditions);
+      const totalItems = await User.countDocuments(queryConditions); // Get total count of matching documents
       const TotalPages = Math.ceil(totalItems / limitNum);
       return res.status(200).json({
         message: "Data Fetched Successfully",
@@ -119,7 +116,6 @@ const userController = {
       });
     }
   },
-
   getSingle: async (req, res) => {
     try {
       const user = await User.findById(req.params.id);
@@ -139,7 +135,6 @@ const userController = {
       });
     }
   },
-
   updateAccess: async (req, res) => {
     const { id } = req.params;
     try {
@@ -162,7 +157,6 @@ const userController = {
       });
     }
   },
-
   deleteUser: async (req, res) => {
     const { id } = req.params;
     try {
@@ -183,117 +177,29 @@ const userController = {
         message: "Internal Server Error",
       });
     }
-  },
-  forgetPassword: async (req, res) => {
-    const { username } = req.body;
-    const otp = generateOtp();
-  
-    try {
-      // Fetch user with the email and isAdmin fields
-      const user = await User.findOne({ username }).select('email isAdmin');
-      // console.log('Fetched user:', user);
-  
-      if (user && user.isAdmin === true) {
-        // Log the value of email before checking
-        // console.log('Email value before check:', user.email);
-  
-        // Check if the email is properly set and not falsy
-        if (!user.email || user.email === '') {
-          // console.log('Email is undefined or empty'); // Debugging log
-          return res.status(400).send('Email not found for the user.');
-        }
-  
-        // Save the OTP to the user's record
-        user.Otp = otp; // Ensure this matches the field in your schema
-        await user.save();
-  
-        const email = user.email;
-        // console.log('User email after check:', email);
-  
-        // Send the OTP via email
-        const mailSent = await sendOtpEmail(email, otp);
-  
-        if (mailSent) {
-          return res.status(200).send({ message: 'OTP sent to email.', email: email });
-        } else {
-          return res.status(500).send('Error while sending OTP email.');
-        }
-      } else {
-        return res.status(404).send('Admin not found.');
-      }
-    } catch (error) {
-      // console.error('Error sending OTP:', error);
-      return res.status(500).send('Error sending OTP');
-    }
-  },
-  
-  
-  
-  VerifyforgetPassword: async (req, res) => {
-    const { username, otp } = req.body;
-    // console.log('Username and OTP:', username, otp);
-  
-    try {
-      const user = await User.findOne({ username });
-      // console.log('Fetched user:', user);
-  
-      if (!user) {
-        return res.status(404).send('User not found.');
-      }
-      // Check if the OTP matches
-      if (user.Otp === otp) {
-        return res.status(200).send('OTP verified.');
-      } else {
-        return res.status(404).send('Wrong OTP.');
-      }
-    } catch (error) {
-      // console.error('Error verifying OTP:', error);
-      return res.status(500).send('Error verifying OTP.');
-    }
-  },
-  
-  
-  Updateforgetpassword: async (req, res) => {
-    const { username, newPassword } = req.body;
-    
-    try {
-      const user = await User.findOne({ username });
-  
-      if (user) {
-        // Encrypt the new password
-        const encryptedPassword = hashPassword(newPassword);
-        user.password = encryptedPassword;
-  
-        // Remove the Otp field from the user document
-        user.Otp = undefined;
-  
-        // Save the updated user record
-        await user.save(); 
-  
-        return res.status(200).send('Password Updated Successfully.');
-      }
-  
-      return res.status(404).send('User not found.');
-    } catch (error) {
-      console.error('Error during password update:', error);
-      return res.status(500).send('Catch Error: Password Update');
-    }
-  },
-  
-
-  getAdmin_forgetpassword: async (req, res) => {
+  };
 
 
-    try {
-    const user = await User.findOne({ isAdmin:true}).select(" isAdmin email username " );
-      if (user) {
-        return res.status(200).send({data:user});
-      }
-    } catch (error) {
-      return res.status(404).send("Admin not Found");
-    }
 
-  },
-
+  // forgetPassword: async (req, res) => {
+  //   const { username } = req.body;
+  //   const otp = generateOtp();
+  
+  //   try {
+  //     const user= await findOne({username});
+  //     console.log();
+      
+  //     // Store OTP in the database associated with the user (for validation later)
+  //     // Example: await User.updateOne({ email }, { otp });
+  
+  //     // Send OTP via email
+  //     sendOtpEmail(user.email, otp);
+  
+  //     res.status(200).send('OTP sent to email.');
+  //   } catch (error) {
+  //     res.status(500).send('Error sending OTP');
+  //   }
+  // };
+  
 };
 module.exports = userController;
