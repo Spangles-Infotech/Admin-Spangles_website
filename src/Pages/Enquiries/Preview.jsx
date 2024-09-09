@@ -95,16 +95,16 @@ function Preview() {
 
   return (
     <React.Fragment>
-      <div className="flex flex-col bg-white p-5 mb-20 space-y-10 rounded-t-lg">
+      <div className="flex flex-col p-5 mb-20 space-y-10 bg-white rounded-t-lg">
         <Link to={"/admin/enquiries&messages/list"}>
-          <i className="fa-solid fa-arrow-left-long text-2xl"></i>
+          <i className="text-2xl fa-solid fa-arrow-left-long"></i>
         </Link>
         <div className="flex items-center justify-between">
-          <h3 className="font-semibold text-lg text-spangles-700">
+          <h3 className="text-lg font-semibold text-spangles-700">
             Enquiry & Message
           </h3>
         </div>
-        <table className="w-fit text-xs text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <table className="text-xs text-left text-gray-500 w-fit rtl:text-right dark:text-gray-400">
           <tbody className="">
             <tr className="align-top">
               <td className="px-4 py-3 text-base font-medium text-gray-700">
@@ -134,8 +134,8 @@ function Preview() {
             </tr>
           </tbody>
         </table>
-        {Data && Data.status === "New" && (
-          <div className="w-full flex items-center justify-end space-x-5">
+        {Data && Data.status === "New" || Data.status === "Seen" && (
+          <div className="flex items-center justify-end w-full space-x-5">
             <Link
               to={"/admin/enquiries&messages/list"}
                class="inline-flex items-center px-16 py-2.5 mt-4 sm:mt-6 font-semibold text-center text-white bg-spangles-700 rounded-lg focus:ring-4 hover:bg-spangles-800  focus:ring-spangles-200"
