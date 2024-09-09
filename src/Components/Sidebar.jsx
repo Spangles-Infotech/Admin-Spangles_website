@@ -26,7 +26,11 @@ function Sidebar() {
 
   // Function to check if a link is active
   const isActive = (path) => location.pathname === path;
-
+ const handelLogOut= () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    navigate("/");
+  };
   return (
     <React.Fragment>
       <aside
@@ -160,7 +164,22 @@ function Sidebar() {
                 </li>
               )}
           </ul>
-          {/* Logout section remains the same */}
+          <div className="mb-10">
+            <button
+              type="button"
+              data-modal-target="logout-modal"
+              data-modal-toggle="logout-modal"
+              className="flex items-center w-full p-2 text-left text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+            >
+              <img
+                src={logout}
+                className="flex-shrink-0 transition duration-75 w-7 h-7 group-hover:text-gray-900 dark:group-hover:text-white"
+                alt="Log Out icon"
+              />
+              <span  onClick={handelLogOut} className="flex-1 ms-3 whitespace-nowrap">Log Out</span>
+            </button>
+         
+        </div>
         </div>
       </aside>
     </React.Fragment>
