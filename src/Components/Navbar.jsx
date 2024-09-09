@@ -18,11 +18,11 @@ function Navbar() {
     initFlowbite();
   }, []);
 
-  const handelForgotPassword = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    navigate("/");
-  };
+  // const handelForgotPassword = () => {
+  //   localStorage.removeItem("token");
+  //   localStorage.removeItem("user");
+  //   navigate("/");
+  // };
 
 
 
@@ -83,9 +83,9 @@ function Navbar() {
                   <span className="block text-[10px] sm:text-xs md:text-sm text-gray-500 truncate dark:text-gray-400">
                     {user && user.isAdmin ? "Admin" : "User"}
                   </span>
-                  <span onClick={()=>handelForgotPassword()} className="block text-[10px]  hover:underline hover:cursor-pointer hover:text-blue-600 sm:text-xs md:text-sm text-gray-500 truncate dark:text-gray-400">
+                  {/* <span onClick={()=>handelForgotPassword()} className="block text-[10px]  hover:underline hover:cursor-pointer hover:text-blue-600 sm:text-xs md:text-sm text-gray-500 truncate dark:text-gray-400">
                   {user && user.isAdmin ? "logOut" : " logOut"}
-                  </span>
+                  </span>  */}
                 </div>
               </div>
             </div>

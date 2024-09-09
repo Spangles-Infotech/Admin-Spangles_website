@@ -24,6 +24,7 @@ function Preview() {
   useEffect(() => {
     initFlowbite();
     fetchData();
+    handleStatus()
   }, []);
   const fetchData = async () => {
     try {
@@ -69,19 +70,12 @@ function Preview() {
           },
         }
       );
-      setResponse({
-        status: "Success",
-        message: response.data.message,
-      });
-      setTimeout(() => {
-        navigate(`/admin/enquiries&messages/list`);
-      }, 5000);
     } catch (error) {
       console.error(error);
-      setResponse({
-        status: "Failed",
-        message: error.response ? error.response.data.message : error.message,
-      });
+      // setResponse({
+      //   status: "Failed",
+      //   message: error.response ? error.response.data.message : error.message,
+      // });
       if (error.response.status === 401) {
         setTimeout(() => {
           window.localStorage.clear();
@@ -142,13 +136,12 @@ function Preview() {
         </table>
         {Data && Data.status === "New" && (
           <div className="w-full flex items-center justify-end space-x-5">
-            <button
-              onClick={() => handleStatus()}
-              type="button"
-              class="inline-flex items-center px-16 py-2.5 mt-4 sm:mt-6 font-semibold text-center text-white bg-spangles-700 rounded-lg focus:ring-4 hover:bg-spangles-800  focus:ring-spangles-200"
+            <Link
+              to={"/admin/enquiries&messages/list"}
+               class="inline-flex items-center px-16 py-2.5 mt-4 sm:mt-6 font-semibold text-center text-white bg-spangles-700 rounded-lg focus:ring-4 hover:bg-spangles-800  focus:ring-spangles-200"
             >
               Done
-            </button>
+            </Link>
           </div>
         )}
       </div>
