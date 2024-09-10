@@ -63,12 +63,12 @@ function Login() {
   return (
     <React.Fragment>
       <section className="bg-[url('./assets/login-bg-min.png')] bg-cover bg-center bg-no-repeat bg-spangles-800 w-screen h-screen flex-col flex items-center justify-center">
-        <div className=" relative w-full max-w-xs 2xl:max-w-lg lg:max-w-sm xl:max-w-md lg:p-10 xl:p-12 p-8 bg-white border border-gray-200 rounded-3xl shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
+        <div className="relative w-full max-w-xs p-8 bg-white border border-gray-200 shadow  2xl:max-w-lg lg:max-w-sm xl:max-w-md lg:p-10 xl:p-12 rounded-3xl sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
           <form
-            className="space-y-6 lg:space-y-8 relative xl:space-y-10 2xl:space-y-12"
+            className="relative space-y-6 lg:space-y-8 xl:space-y-10 2xl:space-y-12"
             onSubmit={handleSubmit}
           >
-            <h5 className="text-xl text-center font-bold text-spangles-900 dark:text-white">
+            <h5 className="text-xl font-bold text-center text-spangles-900 dark:text-white">
               LOG IN
             </h5>
             <div className="relative">
@@ -103,7 +103,7 @@ function Login() {
               >
                 Password
               </label>
-              <div className="absolute inset-y-0 right-0 pr-5 flex items-center text-sm leading-5 hover:cursor-pointer">
+              <div className="absolute inset-y-0 right-0 flex items-center pr-5 text-sm leading-5 hover:cursor-pointer">
                 {PasswordVisible ? (
                   <i
                     onClick={() => setPasswordVisible(false)}
@@ -117,7 +117,7 @@ function Login() {
                 )}
               </div>
             </div>
-            <span className=" forgetpassword  absolute  w-full flex  justify-end  items-start"><span onClick={()=>handelForgotPassword()} className=" hover:cursor-pointerblock text-[10px]  hover:underline hover:cursor-pointer hover:text-blue-600 sm:text-xs md:text-sm text-gray-500 truncate dark:text-gray-400">Forgot Passwords</span></span>
+            <span className="absolute flex items-start justify-end w-full  forgetpassword"><span onClick={()=>handelForgotPassword()} className=" hover:cursor-pointerblock text-[10px]  hover:underline hover:cursor-pointer hover:text-blue-600 sm:text-xs md:text-sm text-gray-500 truncate dark:text-gray-400">Forgot Password</span></span>
             <div className="my-5 text-center">
               {Response && (
                 <p className={`${ResponseColor} font-semibold text-sm`}>
