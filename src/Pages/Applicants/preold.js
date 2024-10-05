@@ -70,10 +70,7 @@ function Preview() {
   useEffect(() => {
     initFlowbite();
     fetchData();
-    setReasonForStatus({
-      status: null,
-      message: "",  
-    })
+   
   }, []);
 
 
@@ -89,6 +86,8 @@ function Preview() {
           },
         }
       );
+    
+      
       setData(response.data.applicants);
     } catch (error) {
       console.error(error);
@@ -116,7 +115,7 @@ console.log(Data);
 
   const updateViewState = async () => {
     try {
-     const response = await axios.put(
+      await axios.put(
         `${URL}/api/applicant/${params.id}/status/update`,
         {
           status: "Seen",
@@ -127,12 +126,7 @@ console.log(Data);
           },
         }
       );
-      if (response.data?.message === "seen updated successfully") {
-        setData(prevData => ({
-          ...prevData,
-          status: "Seen"
-        }));
-      }
+
       // window.location.reload(); 
     } catch (error) {
       console.error(error);
@@ -150,24 +144,56 @@ if (Data && Data.status==="View") {
 
 const handleStatus = async (e) => {
   e.preventDefault();
-  const dataToUpdate = { status:ReasonForStatus.status, ReasonForStatus };
-
+  const data = { status: Status, ReasonForStatus: ReasonForStatus };
+  
   try {
-    const response = await axios.put(`${URL}/api/applicant/${params.id}/applicant_status/update`, dataToUpdate, {
-      headers: { Authorization: token },
-    });
-    if (response.data?.message === "Applicant updated successfully") {
-      notify(response.data.message);
+    const response = await axios.put(
+      `${URL}/api/applicant/${params.id}/status/update`,
+      data,
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    );
+    console.log(response.data.message);
+    
+    if (response.data && response.data.message === "Applicant updated successfully") {
+      await notify(response.data.message) 
+      window.location.reload(); 
+      // window.location.reload(); 
+
+      await window.history.back();
+      }  
+
+
+  } catch (error) {
+    console.log("error enter");
+    
+    // Set the error response state
+    // setResponse({
+    //   status: "Failed",
+    //   message: error.response ? error.response.data.message : error.message,
+    // });
+
+    if (error.response && error.response.status === 401) {
       setTimeout(() => {
-      navigate(-1) || window.history.back();
-      }, 2000);
+        window.localStorage.clear();
+        navigate("/");
+      }, 5000);  // 5-second delay for unauthorized errors
     }
 
- 
-  } catch (error) {
-    // handleError(error);
+    if (error.response && error.response.status === 500) {
+      setTimeout(() => {
+        setResponse({
+          status: null,
+          message: "",
+        });
+      }, 5000);  // 5-second delay for server errors
+    }
   }
 };
+
   useEffect(() => {
     setStatus(Data.status);
   }, [Data]);
@@ -184,17 +210,14 @@ const handleStatus = async (e) => {
     left: 20,
     bottom: 20,
     right: 0,
-  }} toastOptions={{
-   
-    duration: 1000,
   }}
 />
       <div className="flex flex-col p-5 mt-5 space-y-10 bg-white rounded-t-lg">
       <div className=" fixed w-full space-y-4  top-[80px]   bg-white  ">
       <br/>
         <p  className="">
-        <span onClick={() => navigate(-1) || window.history.back()} className="">
-          <i   className="text-2xl hover:cursor-pointer fa-solid fa-arrow-left-long"></i>
+        <span onClick={() => navigate(-1)} className="">
+          <i  onClick={() => navigate(-1)} className="text-2xl hover:cursor-pointer fa-solid fa-arrow-left-long"></i>
           </span>
         </p>
         <div className="flex items-center justify-between">

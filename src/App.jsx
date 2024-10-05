@@ -38,7 +38,7 @@ function App() {
   }, []);
 
   return (
-    <React.Fragment>
+    <>
       <BrowserRouter>
         <Routes>
           <Route path="*" element={<Navigate to={`/`} />} />
@@ -78,7 +78,7 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter>
-    </React.Fragment>
+    </>
   );
 }
 

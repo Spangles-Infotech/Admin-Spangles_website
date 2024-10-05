@@ -64,8 +64,9 @@ function List() {
   };
   return (
     <React.Fragment>
-      <div className="w-full flex flex-col bg-white p-5 space-y-10 rounded-t-lg">
-        <div className="w-full flex flex-wrap gap-5 items-end justify-between">
+      <div className="w-full  flex flex-col bg-white p-5 space-y-10 rounded-t-lg">
+      <div className="fixed md:w-[70%] p-5 top-[80px]  bg-white">
+        <div className="w-full   flex flex-wrap gap-5 items-end justify-between">
           <div className="inline-flex space-x-3">
             <h1 className="font-semibold text-lg text-spangles-700">
               User Access List
@@ -118,6 +119,7 @@ function List() {
               </span>
             </Link>
           </div>
+        </div>
         </div>
         {Loading ? (
           <Spinners />

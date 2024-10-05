@@ -26,10 +26,10 @@ function List() {
   const [Designation, setDesignation] = useState("");
   const [Search, setSearch] = useState("");
   const [Status, setStatus] = useState("");
-  // const [isDate, setDate] = useState({
-  //   from: "",
-  //   to: "",
-  // });
+  const [isDate, setDate] = useState({
+    from: "",
+    to: "",
+  });
 
   useEffect(() => {
     initFlowbite();
@@ -37,20 +37,22 @@ function List() {
 
   useEffect(() => {
     fetchData();
-  }, [CurrentPage, Search, Designation, Category, Status]);
+  }, [CurrentPage, Search, Designation, Category, Status, isDate]);
 
   const fetchData = async () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        `${URL}/api/job/list?category=${Category}&designation=${Designation}&status=${Status}&search=${Search}&page=${CurrentPage}&limit=${15}`,
+        `${URL}/api/applicant/list?category=${Category}&designation=${Designation}&status=${Status}&from=${
+          isDate.from
+        }&to=${isDate.to}&search=${Search}&page=${CurrentPage}&limit=${15}`,
         {
           headers: {
             Authorization: token,
           },
         }
       );
-      setData(response.data.jobs);
+      setData(response.data.applicants);
       setTotalPages(response.data.TotalPages);
       setCurrentPage(response.data.CurrentPage);
       setCategoryList(response.data.categories);
@@ -75,13 +77,14 @@ function List() {
       setLoading(false);
     }
   };
+
   return (
     <React.Fragment>
-      <div className="w-full flex flex-col bg-white p-2 space-y-10 rounded-t-lg">
-        <div className=" fixed  p-5 top-[80px]  bg-white w-[70%] flex flex-wrap gap-5 justify-between">
-          <div className=" flex md:w-[60%] h-auto  space-x-2  bg-white  items-center">
-            <h1 className=" md:w-36 font-semibold text-lg text-spangles-700">
-              Jobs List
+      <div className="flex flex-col w-full p-5 space-y-10 bg-white rounded-t-lg">
+        <div className="flex flex-wrap items-end justify-between w-full gap-5">
+          <div className="inline-flex items-start space-x-3 text-nowrap">
+            <h1 className="text-lg font-semibold text-spangles-700">
+              Applicant List
             </h1>
             <button
               onClick={() => {
@@ -89,18 +92,18 @@ function List() {
                 setCategory("");
                 setDesignation("");
                 setStatus("");
+                setDate({ from: "", to: "" });
               }}
               className="bg-gray-50 border text-spangles-800 text-xs font-semibold rounded focus:ring-spangles-800 focus:border-spangles-800 block w-fit px-2 py-0.5 hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-800 dark:focus:border-spangles-800"
             >
-              <div className="inline-flex w-20 items-center gap-2">
+              <div className="inline-flex items-center gap-2">
                 <img src={filterIcon} alt="" /> Filters
                 {Filter && <i className="fa-solid fa-xmark mt-0.5"></i>}
               </div>
             </button>
             {Filter && (
-              <div className="flex m-1  flex-col">
-              <div className="flex flex-wrap ml-3 space-y-3 items-center">
-                <div className=" w-full flex  justify-evenly  space-x-3 items-center">
+              <div className="flex flex-wrap items-center gap-5">
+                <div className="inline-flex items-center space-x-3">
                   <h6 className="text-sm">Category :</h6>
                   <select
                     id="category"
@@ -109,7 +112,7 @@ function List() {
                       setCategory(e.target.value);
                       setCurrentPage(1);
                     }}
-                    className="bg-gray-50 border text-spangles-800 text-xs font-semibold rounded focus:ring-spangles-800 focus:border-spangles-800 block w-fit px-2 py-1 hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-800 dark:focus:border-spangles-800"
+                    className="block px-2 py-1 text-xs font-semibold border rounded bg-gray-50 text-spangles-800 focus:ring-spangles-800 focus:border-spangles-800 w-fit hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-800 dark:focus:border-spangles-800"
                   >
                     <option value="">All</option>
                     {CategoryList &&
@@ -120,7 +123,7 @@ function List() {
                       ))}
                   </select>
                 </div>
-                <div className=" w-full flex  justify-evenly   items-center ">
+                <div className="inline-flex items-center space-x-3">
                   <h6 className="text-sm">Designation :</h6>
                   <select
                     id="designation"
@@ -129,7 +132,7 @@ function List() {
                       setDesignation(e.target.value);
                       setCurrentPage(1);
                     }}
-                    className="md:w-[60%] bg-gray-50 border text-spangles-800 text-xs font-semibold rounded focus:ring-spangles-800 focus:border-spangles-800 block w-fit px-2 py-1 hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-800 dark:focus:border-spangles-800"
+                    className="block px-2 py-1 text-xs font-semibold border rounded bg-gray-50 text-spangles-800 focus:ring-spangles-800 focus:border-spangles-800 w-fit hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-800 dark:focus:border-spangles-800"
                   >
                     <option value="">All</option>
                     {DesignationList &&
@@ -140,7 +143,7 @@ function List() {
                       ))}
                   </select>
                 </div>
-                <div className=" w-full flex  justify-evenly   items-center">
+                <div className="inline-flex items-center space-x-3">
                   <h6 className="text-sm">Status :</h6>
                   <select
                     id="status"
@@ -149,17 +152,42 @@ function List() {
                       setStatus(e.target.value);
                       setCurrentPage(1);
                     }}
-                    className="bg-gray-50 border text-spangles-800 text-xs font-semibold rounded focus:ring-spangles-800 focus:border-spangles-800 block w-fit px-2 py-1 hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-800 dark:focus:border-spangles-800"
+                    className="block px-2 py-1 text-xs font-semibold border rounded bg-gray-50 text-spangles-800 focus:ring-spangles-800 focus:border-spangles-800 w-fit hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-800 dark:focus:border-spangles-800"
                   >
                     <option value="">All</option>
-                    {["Active", "On Hold", "In Active"].map((items, index) => (
-                      <option value={items} key={index}>
-                        {items}
-                      </option>
-                    ))}
+                    {["View", "Seen", "Shortlisted", "On Hold", "Rejected"].map(
+                      (items, index) => (
+                        <option value={items} key={index}>
+                          {items}
+                        </option>
+                      )
+                    )}
                   </select>
                 </div>
-              </div>
+                <div className="inline-flex items-center space-x-3">
+                  <h6 className="text-sm">From :</h6>
+                  <input
+                    type="date"
+                    name="from"
+                    id="from"
+                    onChange={(e) => {
+                      setDate({ ...isDate, from: e.target.value });
+                      setCurrentPage(1);
+                    }}
+                    className="block px-2 py-1 text-xs font-semibold text-teal-800 border rounded bg-gray-50 focus:ring-teal-800 focus:border-teal-800 w-fit hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-teal-800 dark:focus:border-teal-800"
+                  />
+                  <h6 className="text-sm">To :</h6>
+                  <input
+                    type="date"
+                    name="to"
+                    id="to"
+                    onChange={(e) => {
+                      setDate({ ...isDate, to: e.target.value });
+                      setCurrentPage(1);
+                    }}
+                    className="block px-2 py-1 text-xs font-semibold text-teal-800 border rounded bg-gray-50 focus:ring-teal-800 focus:border-teal-800 w-fit hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-teal-800 dark:focus:border-teal-800"
+                  />
+                </div>
               </div>
             )}
           </div>
@@ -172,7 +200,7 @@ function List() {
                 Search
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                <div className="absolute inset-y-0 flex items-center pointer-events-none start-0 ps-3">
                   <svg
                     className="w-3 h-3 text-gray-500 dark:text-gray-400"
                     aria-hidden="true"
@@ -192,23 +220,12 @@ function List() {
                 <input
                   type="search"
                   id="default-search"
-                  className="block w-40 py-1 ps-8 text-sm text-gray-900 rounded bg-gray-50 focus:ring-spangles-800 focus:border-spangles-800 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-800 dark:focus:border-spangles-800"
+                  className="block w-40 py-1 text-sm text-gray-900 rounded ps-8 bg-gray-50 focus:ring-spangles-800 focus:border-spangles-800 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-800 dark:focus:border-spangles-800"
                   placeholder="Search..."
-                  onChange={(e) => {
-                    setSearch(e.target.value);
-                    setCurrentPage(1);
-                  }}
+                  onChange={(e) => setSearch(e.target.value)}
                 />
               </div>
             </div>
-            <Link
-              to={`/admin/job-post/add/new`}
-              className="px-3 py-1 text-white bg-spangles-700 rounded text-sm space-x-2 hover:bg-spangles-800 focus:ring-4 focus:ring-spangles-200"
-            >
-              <span>
-                <i className="fa-solid fa-plus"></i> New Job
-              </span>
-            </Link>
           </div>
         </div>
         {Loading ? (
@@ -216,19 +233,17 @@ function List() {
         ) : Data.length === 0 ? (
           <div>No Records Found</div>
         ) : (
-          
           <div className="overflow-x-auto">
-          <br/>
-          <br/>
-            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <table className="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
               <thead className="text-sm text-gray-700 bg-white dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                   {[
                     "Sl.No",
+                    "Name",
                     "Category",
                     "Designation",
                     "Experience",
-                    "Posted On",
+                    "Applied On",
                     "Status",
                     "Action",
                   ].map((item, index) => (
@@ -251,25 +266,30 @@ function List() {
                       >
                         {(CurrentPage - 1) * 15 + (index + 1)}
                       </th>
+                      <td className="px-6 py-4">{elem.name}</td>
                       <td className="px-6 py-4">{elem.category}</td>
                       <td className="px-6 py-4">{elem.designation}</td>
-                      <td className="px-6 py-4">{elem.work_experience}</td>
+                      <td className="px-6 py-4">{elem.experience}</td>
                       <td className="px-6 py-4">
-                        {moment(elem.posted_on).format("DD-MM-YYYY")}
+                        {moment(elem.applied_on).format("DD-MM-YYYY")}
                       </td>
                       <td
                         className={`${
-                          elem.status === "Active"
+                          elem.status === "Shortlisted"
                             ? "text-green-600"
                             : elem.status === "On Hold"
                             ? "text-orange-500"
-                            : "text-red-600"
+                            : elem.status === "Rejected"
+                            ? "text-red-600"
+                            :elem.status === "View"
+                            ?"text-blue-600"
+                            :"text-green-500"
                         } px-6 py-4 font-medium`}
                       >
                         {elem.status}
                       </td>
                       <td className="px-6 py-4">
-                        <Link to={`/admin/job-post/${elem._id}/preview`}>
+                        <Link to={`/admin/applicant/${elem._id}/preview`}>
                           <i className="fa-solid fa-eye"></i>
                         </Link>
                       </td>
@@ -279,17 +299,18 @@ function List() {
             </table>
           </div>
         )}
-        <div className="flex justify-center items-center space-x-3 mt-4">
+
+        <div className="flex items-center justify-center mt-4 space-x-2">
           <button
             onClick={() => setCurrentPage(CurrentPage - 1)}
             disabled={CurrentPage === 1}
-            className="px-4 py-2 w-[100px]  bg-gray-200 text-gray-700 rounded disabled:opacity-50"
+            className="px-4 py-2 w-[100px] bg-gray-200 text-gray-700 rounded disabled:opacity-50"
           >
             Previous
           </button>
           <button
             disabled
-            className={`px-4 py-2  rounded ${
+            className={`px-4 py-2 rounded ${
               CurrentPage
                 ? "bg-spangles-600 text-white"
                 : "bg-gray-200 text-gray-700"
@@ -306,14 +327,15 @@ function List() {
           </button>
         </div>
       </div>
+
       {Response.status !== null ? (
         Response.status === "Success" ? (
           <SuccessMessage Message={Response.message} />
         ) : Response.status === "Failed" ? (
           <FailedMessage Message={Response.message} />
         ) : null
-      ) : null}    
-    </React.Fragment>   
+      ) : null}
+    </React.Fragment>
   );
 }
 

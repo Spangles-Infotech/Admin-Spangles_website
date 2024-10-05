@@ -77,9 +77,9 @@ function List() {
   };
   return (
     <React.Fragment>
-      <div className="w-full flex flex-col bg-white p-2 space-y-10 rounded-t-lg">
-        <div className=" fixed  p-5 top-[80px]  bg-white w-[70%] flex flex-wrap gap-5 justify-between">
-          <div className=" flex md:w-[60%] h-auto  space-x-2  bg-white  items-center">
+      <div className="w-full flex flex-col bg-white p-5 space-y-10 rounded-t-lg">
+        <div className=" fixed  p-5 top-[80px] h-70 bg-black w-[70%] flex flex-wrap gap-5 justify-between">
+          <div className=" flex w-[60%] h-auto   bg-white space-x-5 items-center">
             <h1 className=" md:w-36 font-semibold text-lg text-spangles-700">
               Jobs List
             </h1>
@@ -98,9 +98,8 @@ function List() {
               </div>
             </button>
             {Filter && (
-              <div className="flex m-1  flex-col">
-              <div className="flex flex-wrap ml-3 space-y-3 items-center">
-                <div className=" w-full flex  justify-evenly  space-x-3 items-center">
+              <div className="flex flex-wrap space-x-5 space-y-5 items-center">
+                <div className="inline-flex items-center space-x-3">
                   <h6 className="text-sm">Category :</h6>
                   <select
                     id="category"
@@ -120,7 +119,7 @@ function List() {
                       ))}
                   </select>
                 </div>
-                <div className=" w-full flex  justify-evenly   items-center ">
+                <div className="inline-flex items-center space-x-3">
                   <h6 className="text-sm">Designation :</h6>
                   <select
                     id="designation"
@@ -140,7 +139,7 @@ function List() {
                       ))}
                   </select>
                 </div>
-                <div className=" w-full flex  justify-evenly   items-center">
+                <div className="inline-flex items-center space-x-3">
                   <h6 className="text-sm">Status :</h6>
                   <select
                     id="status"
@@ -159,7 +158,6 @@ function List() {
                     ))}
                   </select>
                 </div>
-              </div>
               </div>
             )}
           </div>

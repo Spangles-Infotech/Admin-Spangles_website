@@ -75,8 +75,9 @@ function List() {
   return (
     <React.Fragment>
       <div className="w-full flex flex-col bg-white p-5 space-y-10 rounded-t-lg">
-        <div className="w-full flex flex-wrap gap-5 items-end justify-between">
-          <div className="inline-flex space-x-3 items-center">
+      <div className=" fixed  p-5 top-[80px]  bg-white w-[70%] flex flex-wrap gap-5 justify-between">
+          <div className=" flex md:w-[60%] h-auto  space-x-2  bg-white  items-center">
+          
             <h1 className="font-semibold text-lg text-spangles-700">
               Enquiries & Messages
             </h1>
@@ -88,15 +89,16 @@ function List() {
               }}
               className="bg-gray-50 border text-spangles-800 text-xs font-semibold rounded focus:ring-spangles-800 focus:border-spangles-800 block w-fit px-2 py-0.5 hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-800 dark:focus:border-spangles-800"
             >
-              <div className="inline-flex items-center gap-2">
+              <div className="inline-flex w-20 items-center gap-2">
                 <img src={filterIcon} alt="" /> Filters
                 {Filter && <i className="fa-solid fa-xmark mt-0.5"></i>}
               </div>
             </button>
             {Filter && (
-              <div className="flex flex-wrap space-x-5 items-center">
-                <div className="inline-flex items-center space-x-3">
-                  <h6 className="text-sm">Status :</h6>
+              <div className="flex m-1 w-full flex-col">
+              <div className="flex flex-col  justify-center m-1 rounded focus:ring-spangles-800 focus:border-spangles-800 block w-fit px-2 py-0.5 hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-800 dark:focus:border-spangles-800 h-auto space-y-3 items-center">
+                <div className="flex items-center space-x-3">
+                  <h6 className=" w-[50px]   text-sm">Status :</h6>
                   <select
                     id="status"
                     value={Status}
@@ -114,8 +116,8 @@ function List() {
                     ))}
                   </select>
                 </div>
-                <div className="inline-flex items-center space-x-3">
-                  <h6 className="text-sm">From :</h6>
+                <div className="flex items-center space-x-3">
+                  <h6 className="w-[50px]  text-sm">From :</h6>
                   <input
                     type="date"
                     name="from"
@@ -126,7 +128,7 @@ function List() {
                     }}
                     className="bg-gray-50 border text-teal-800 text-xs font-semibold rounded focus:ring-teal-800 focus:border-teal-800 block w-fit px-2 py-1 hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-teal-800 dark:focus:border-teal-800"
                   />
-                  <h6 className="text-sm">To :</h6>
+                  <h6 className="w-[50px]  text-sm">To :</h6>
                   <input
                     type="date"
                     name="to"
@@ -138,6 +140,7 @@ function List() {
                     className="bg-gray-50 border text-teal-800 text-xs font-semibold rounded focus:ring-teal-800 focus:border-teal-800 block w-fit px-2 py-1 hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-teal-800 dark:focus:border-teal-800"
                   />
                 </div>
+              </div>
               </div>
             )}
           </div>
@@ -187,6 +190,8 @@ function List() {
           <div>No Records Found</div>
         ) : (
           <div className="overflow-x-auto">
+          <br/>
+          <br/>
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
               <thead className="text-sm text-gray-700 bg-white dark:bg-gray-700 dark:text-gray-400">
                 <tr>
