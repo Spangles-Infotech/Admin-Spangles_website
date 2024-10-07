@@ -148,23 +148,59 @@ const applicantController = {
       });
     }
   },
-  update: async (req, res) => {
+  applicant_status: async (req, res) => {
+    const { status, ReasonForStatus } = req.body;
+  
     try {
-      const applicants = await Applicant.findById(req.params.id);
-      if (!applicants) {
+      const applicant = await Applicant.findById({_id:req.params.id});
+      if (!applicant) {
         return res.status(404).json({
           message: "Applicant not found",
         });
       }
-      const updateApplicant = await Applicant.findByIdAndUpdate(
-        applicants._id,
-        req.body
-      );
+ 
+  
+      // Push new ReasonForStatus object into the array
+      if (ReasonForStatus) {
+        applicant.ReasonForStatus.push({
+          status:ReasonForStatus.status,
+          message:ReasonForStatus.message,
+        });
+      }
+  
+      // Update other applicant fields
+      applicant.status = status ;
+      console.log(applicant.status);
+      
+      await applicant.save();
+  
       return res.status(201).json({
         message: "Applicant updated successfully",
       });
     } catch (error) {
       console.log(error);
+      return res.status(500).json({
+        message: "Internal Server Error",
+      });
+    }
+  },
+  update: async (req, res) => {
+    const { status } = req.body;
+ 
+    try {
+      const applicant = await Applicant.findByIdAndUpdate(
+        {_id:req.params.id},
+        { status: status },
+        { new: true }
+      );
+      
+      await applicant.save();
+  
+      return res.status(201).json({
+        message: "seen updated successfully",
+      });
+    } catch (error) {
+      // console.log(error);
       return res.status(500).json({
         message: "Internal Server Error",
       });

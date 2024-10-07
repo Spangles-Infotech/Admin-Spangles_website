@@ -214,6 +214,8 @@ const userController = {
         const mailSent = await sendOtpEmail(email, otp);
   
         if (mailSent) {
+          console.log(mailSent);
+          
           return res.status(200).send({ message: 'OTP sent to email.', email: email });
         } else {
           return res.status(500).send('Error while sending OTP email.');

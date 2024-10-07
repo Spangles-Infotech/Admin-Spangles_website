@@ -16,5 +16,10 @@ applicantRouter.put(
   authentication,
   applicantController.update
 );
+applicantRouter.put(
+  "/:id/applicant_status/update",
+  authentication,
+  applicantController.applicant_status
+);
 
 module.exports = applicantRouter;
