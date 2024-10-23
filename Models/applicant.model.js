@@ -15,9 +15,9 @@ const applicantSchema = new mongoose.Schema({
   salary_expectation: String,
   description: String,
   applied_on: { type: Date, default: new Date() },
-   status: {
+  status: {
     type: String,
-    enum: ['On Hold', 'Shortlisted', 'Rejected','Seen'], // Make sure "Rejected" is a valid value
+    enum: ['On Hold', 'Shortlisted', 'Rejected','Seen', "View"], // Make sure "Rejected" is a valid value
     default: "View" 
   },
 ReasonForStatus: [{ type: Object }]
