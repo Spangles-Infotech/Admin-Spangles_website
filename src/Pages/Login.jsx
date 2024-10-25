@@ -46,7 +46,7 @@ function Login() {
             : " ";
         setTimeout(() => {
           navigate(`/admin/${access}/list`);
-        }, 2000);
+        }, 1000);
       }
     } catch (error) {
       console.error(error);

@@ -52,7 +52,7 @@ function List() {
         setTimeout(() => {
           window.localStorage.clear();
           navigate("/");
-        }, 5000);
+        }, 500);
       }
     } finally {
       setResponse({
@@ -170,32 +170,35 @@ function List() {
             </tbody>
           </table>
         )}
-        <div className="flex justify-center items-center space-x-3 mt-4">
-          <button
-            onClick={() => setCurrentPage(CurrentPage - 1)}
-            disabled={CurrentPage === 1}
-            className="px-4 py-2 w-[100px] bg-gray-200 text-gray-700 rounded disabled:opacity-50"
-          >
-            Previous
-          </button>
-          <button
-            disabled
-            className={`px-4 py-2 rounded ${
-              CurrentPage
-                ? "bg-spangles-600 text-white"
-                : "bg-gray-200 text-gray-700"
-            }`}
-          >
-            {CurrentPage}
-          </button>
-          <button
-            onClick={() => setCurrentPage(CurrentPage + 1)}
-            disabled={CurrentPage === TotalPages || TotalPages === 0}
-            className="px-4 py-2 w-[100px] bg-gray-200 text-gray-700 rounded disabled:opacity-50"
-          >
-            Next
-          </button>
-        </div>
+        {
+          Data.length > 0 && !Loading &&
+          <div className="flex justify-center items-center space-x-2 mt-4">
+            <button
+              onClick={() => setCurrentPage(CurrentPage - 1)}
+              disabled={CurrentPage === 1}
+              className="px-4 py-2 w-[100px] bg-gray-200 text-gray-700 rounded disabled:opacity-50"
+            >
+              Previous
+            </button>
+            <button
+              disabled
+              className={`px-4 py-2 rounded ${
+                CurrentPage
+                  ? "bg-spangles-600 text-white"
+                  : "bg-gray-200 text-gray-700"
+              }`}
+            >
+              {CurrentPage}
+            </button>
+            <button
+              onClick={() => setCurrentPage(CurrentPage + 1)}
+              disabled={CurrentPage === TotalPages || TotalPages === 0}
+              className="px-4 w-[100px] py-2 bg-gray-200 text-gray-700 rounded disabled:opacity-50"
+            >
+              Next
+            </button>
+          </div>
+        }
       </div>
       {Response.status !== null ? (
         Response.status === "Success" ? (

@@ -51,7 +51,7 @@ function ForgotPassward() {
         // notify(result.message);
         setTimeout(() => {
           navigate("/verify", { state: { username: user.username, email: user.email } });
-        }, 1000);
+        }, 0);
       }
     } catch (error) {
       setResponseColor("text-red-600");
