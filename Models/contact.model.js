@@ -10,7 +10,7 @@ const enquiriesSchema = new mongoose.Schema({
   received_on: { type: Date, default: new Date() },
   type:{ 
     type:String, 
-    enum: ["contact", "service", "schedule demo"],
+    enum: ["contact", "service", "schedule demo", "buy now"],
     default:"contact"
   },
   status: { type: String, default: "New" },
