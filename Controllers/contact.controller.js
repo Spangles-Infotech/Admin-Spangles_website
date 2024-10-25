@@ -2,7 +2,7 @@ const Enquiries = require("../Models/contact.model.js");
 
 const enquiresController = {
   getAll: async (req, res) => {
-    const { page = 1, limit = 15, search = "", status, from, to } = req.query;
+    const { page = 1, limit = 15, search = "", status, from, to, type } = req.query;
 
     // Prepare search conditions
     const searchConditions = [];
@@ -14,6 +14,8 @@ const enquiresController = {
           { email: { $regex: search, $options: "i" } },
           { status: { $regex: search, $options: "i" } },
           { recieved_on_str: { $regex: search, $options: "i" } },
+          { type: { $regex: search, $options: "i" } },
+          { type: { $regex: type, $options: "i" } },
         ],
       });
     }

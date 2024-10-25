@@ -6,7 +6,13 @@ const enquiriesSchema = new mongoose.Schema({
   name: String,
   email: String,
   message: String,
+  mobile:{type:String},
   received_on: { type: Date, default: new Date() },
+  type:{ 
+    type:String, 
+    enum: ["contact", "service", "schedule demo"],
+    default:"contact"
+  },
   status: { type: String, default: "New" },
 });
 
