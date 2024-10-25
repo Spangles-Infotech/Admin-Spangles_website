@@ -15,12 +15,14 @@ const enquiresController = {
           { status: { $regex: search, $options: "i" } },
           { recieved_on_str: { $regex: search, $options: "i" } },
           { type: { $regex: search, $options: "i" } },
-          { type: { $regex: type, $options: "i" } },
         ],
       });
     }
     if (status) {
       searchConditions.push({ status });
+    }
+    if(type){
+      searchConditions.push({type});
     }
     if (from && to) {
       const fromDate = new Date(from);
@@ -47,6 +49,7 @@ const enquiresController = {
     const queryConditions = searchConditions.length
       ? { $and: searchConditions }
       : {};
+    console.log("queryCondition",queryConditions)
     const pageNum = parseInt(page, 10);
     const limitNum = parseInt(limit, 10);
     try {
