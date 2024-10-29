@@ -26,10 +26,10 @@ function List() {
   const [Designation, setDesignation] = useState("");
   const [Search, setSearch] = useState("");
   const [Status, setStatus] = useState("");
-  // const [isDate, setDate] = useState({
-  //   from: "",
-  //   to: "",
-  // });
+  const [isDate, setDate] = useState({
+    from: "",
+    to: "",
+  });
 
   useEffect(() => {
     initFlowbite();
@@ -50,6 +50,7 @@ function List() {
           },
         }
       );
+
       setData(response.data.jobs);
       setTotalPages(response.data.TotalPages);
       setCurrentPage(response.data.CurrentPage);
@@ -75,11 +76,12 @@ function List() {
       setLoading(false);
     }
   };
+  
   return (
     <React.Fragment>
       <div className="w-full flex flex-col bg-white p-2 space-y-10 rounded-t-lg">
         <div className=" fixed  p-5 top-[80px]  bg-white w-[70%] flex flex-wrap gap-5 justify-between">
-          <div className=" flex md:w-[60%] h-auto  space-x-2  bg-white  items-center">
+          <div className=" flex md:w-[60%] h-auto   space-x-2  bg-white  items-center">
             <h1 className=" md:w-36 font-semibold text-lg text-spangles-700">
               Jobs List
             </h1>

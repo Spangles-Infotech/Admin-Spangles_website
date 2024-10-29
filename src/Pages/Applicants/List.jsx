@@ -90,9 +90,9 @@ function List() {
 
   return (
     <React.Fragment>
-      <div className="flex flex-col w-full p-5 space-y-10 bg-white rounded-t-lg">
-        <div className="flex fixed space-y-4 p-5 top-[80px] h-20 bg-white  flex-wrap items-end justify-between w-full gap-5">
-          <div className="inline-flex items-start space-x-3 text-nowrap">
+      <div className="flex flex-col w-full p-5 space-y-10 bg-white  rounded-t-lg">
+        <div className="flex fixed space-y-4   p-1 top-[80px] h-30 bg-white  flex-wrap items-center  gap-5 w-full  ">
+          <div className="flex w-[55%] items-center space-x-3 text-nowrap">
             <h1 className="text-lg font-semibold text-spangles-700">
               Applicant List
             </h1>
@@ -104,7 +104,7 @@ function List() {
                 setStatus("");
                 setDate({ from: "", to: "" });
               }}
-              className="bg-gray-50 border text-spangles-800 text-xs font-semibold rounded focus:ring-spangles-800 focus:border-spangles-800 block w-fit px-2 py-0.5 hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-800 dark:focus:border-spangles-800"
+              className="bg-gray-50 border text-spangles-800 text-xs font-semibold rounded focus:ring-spangles-800 focus:border-spangles-800 block w-[100px] px-2 py-0.5 hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-800 dark:focus:border-spangles-800"
             >
               <div className="inline-flex items-center gap-2">
                 <img src={filterIcon} alt="" /> Filters
@@ -112,10 +112,10 @@ function List() {
               </div>
             </button>
             {Filter && (
-              <div className="flex flex-wrap items-center gap-5">
+              <div className="flex flex-wrap items-center  relative   gap-2 w-[550px]">
                 {/* Filters for Category, Designation, Status, and Date */}
                 {/* Category */}
-                <div className="inline-flex items-center space-x-3">
+                <div className=" flex items-center space-x-3">
                   <h6 className="text-sm">Category :</h6>
                   <select
                     id="category"
@@ -124,7 +124,7 @@ function List() {
                       setCategory(e.target.value);
                       setCurrentPage(1);
                     }}
-                    className="block px-2 py-1 text-xs font-semibold border rounded bg-gray-50 text-spangles-800 focus:ring-spangles-800 focus:border-spangles-800 w-fit hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-800 dark:focus:border-spangles-800"
+                    className="block px-2 py-1 text-xs font-semibold border rounded bg-gray-50 text-spangles-800 focus:ring-spangles-800 focus:border-spangles-800 w-[100px]  hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-800 dark:focus:border-spangles-800"
                   >
                     <option value="">All</option>
                     {CategoryList.map((item, index) => (
@@ -134,12 +134,113 @@ function List() {
                     ))}
                   </select>
                 </div>
-                {/* More filter options for Designation, Status, and Date */}
-                {/* ... */}
+                <div className="inline-flex items-center space-x-3">
+                  <h6 className="text-sm">Designation :</h6>
+                  <select
+                    id="designation"
+                    value={Designation}
+                    onChange={(e) => {
+                      setDesignation(e.target.value);
+                      setCurrentPage(1);
+                    }}
+                    className="block px-2 py-1 w-[100px] text-xs font-semibold border rounded bg-gray-50 text-spangles-800 focus:ring-spangles-800 focus:border-spangles-800  hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-800 dark:focus:border-spangles-800"
+                  >
+                    <option value="">All</option>
+                    {DesignationList &&
+                      DesignationList.map((items, index) => (
+                        <option value={items} key={index}>
+                          {items}
+                        </option>
+                      ))}
+                  </select>
+                </div>
+                <div className="inline-flex items-center space-x-3">
+                  <h6 className="text-sm">Status :</h6>
+                  <select
+                    id="status"
+                    value={Status}
+                    onChange={(e) => {
+                      setStatus(e.target.value);
+                      setCurrentPage(1);
+                    }}
+                    className="block px-2 py-1 text-xs font-semibold border rounded bg-gray-50 text-spangles-800 focus:ring-spangles-800 focus:border-spangles-800 w-fit hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-800 dark:focus:border-spangles-800"
+                  >
+                    <option value="">All</option>
+                    {["View", "Seen", "Shortlisted", "On Hold", "Rejected"].map(
+                      (items, index) => (
+                        <option value={items} key={index}>
+                          {items}
+                        </option>
+                      )
+                    )}
+                  </select>
+                </div>
+                <div className="inline-flex items-center space-x-3">
+                  <h6 className="text-sm">From :</h6>
+                  <input
+                    type="date"
+                    name="from"
+                    id="from"
+                    onChange={(e) => {
+                      setDate({ ...isDate, from: e.target.value });
+                      setCurrentPage(1);
+                    }}
+                    className="block px-2 py-1 text-xs font-semibold text-teal-800 border rounded bg-gray-50 focus:ring-teal-800 focus:border-teal-800 w-fit hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-teal-800 dark:focus:border-teal-800"
+                  />
+                  <h6 className="text-sm">To :</h6>
+                  <input
+                    type="date"
+                    name="to"
+                    id="to"
+                    onChange={(e) => {
+                      setDate({ ...isDate, to: e.target.value });
+                      setCurrentPage(1);
+                    }}
+                    className="block px-2 py-1 text-xs font-semibold text-teal-800 border rounded bg-gray-50 focus:ring-teal-800 focus:border-teal-800 w-fit hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-teal-800 dark:focus:border-teal-800"
+                  />
+                </div>
               </div>
             )}
           </div>
+          <div className="flex  bg-slate-400 space-x-5">
+            <div className="bg-slate-400 ">
+              <label
+                htmlFor="default-search"
+                className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
+              >
+                Search
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 flex items-center pointer-events-none start-0 ps-3">
+                  <svg
+                    className="w-3 h-3 cursor-pointer text-gray-500 dark:text-gray-400"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                    />
+                  </svg>
+                </div>
+                <input
+                  type="search"
+                  id="default-search"
+                  className="block w-40 py-1 text-sm text-gray-900 rounded ps-8 bg-gray-50 focus:ring-spangles-800 focus:border-spangles-800 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-800 dark:focus:border-spangles-800"
+                  placeholder="Search..."
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+              </div>
+            </div>
+          </div>
         </div>
+
+
 
         {/* Data Loading and Display */}
         {Loading ? (
@@ -147,12 +248,12 @@ function List() {
         ) : Data.length === 0 ? (
           <div>No Records Found</div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
-              <thead className="text-sm text-gray-700 bg-white dark:bg-gray-700 dark:text-gray-400">
+          <div className="overflow-x-auto  pt-5">
+            <table className="w-full  text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
+              <thead className="text-sm  text-gray-700 bg-white dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                   {["Sl.No", "Name", "Category", "Designation", "Experience", "Applied On", "Status", "Action"].map((item, index) => (
-                    <th scope="col" className="px-6 py-3" key={index}>
+                    <th scope="col" className="px-6 mt-5 py-3" key={index}>
                       {item}
                     </th>
                   ))}
