@@ -21,6 +21,7 @@ function List() {
   const [TotalPages, setTotalPages] = useState(1);
   const [Filter, setFilter] = useState(false);
   const [Search, setSearch] = useState("");
+  const [type, setType] = useState("")
   const [Status, setStatus] = useState("");
   const [isDate, setDate] = useState({
     from: "",
@@ -33,13 +34,13 @@ function List() {
 
   useEffect(() => {
     fetchData();
-  }, [CurrentPage, Search, Status, isDate]);
+  }, [CurrentPage, Search, Status, isDate, type]);
 
   const fetchData = async () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        `${URL}/api/enquiries&messages/list?status=${Status}&from=${
+        `${URL}/api/enquiries&messages/list?status=${Status}&type=${type}&from=${
           isDate.from
         }&to=${isDate.to}&search=${Search}&page=${CurrentPage}&limit=${15}`,
         {
@@ -61,7 +62,7 @@ function List() {
         setTimeout(() => {
           window.localStorage.clear();
           navigate("/");
-        }, 5000);
+        }, 0);
       }
     } finally {
       setResponse({
@@ -111,6 +112,25 @@ function List() {
                     <option value="">All</option>
                     {["New", "Seen"].map((items, index) => (
                       <option value={items} key={index}>
+                        {items}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <h6 className=" w-[50px]   text-sm">Type :</h6>
+                  <select
+                    id="status"
+                    value={type}
+                    onChange={(e) => {
+                      setType(e.target.value);
+                      setCurrentPage(1);
+                    }}
+                    className="bg-gray-50 border text-spangles-800 text-xs font-semibold rounded focus:ring-spangles-800 focus:border-spangles-800 block w-fit px-2 py-1 hover:cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-spangles-800 dark:focus:border-spangles-800"
+                  >
+                    <option value="">All</option>
+                    {["schedule demo", "contact", "service", "buy now"].map((items, index) => (
+                      <option value={items} key={index} className="capitalize">
                         {items}
                       </option>
                     ))}
@@ -195,7 +215,7 @@ function List() {
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
               <thead className="text-sm text-gray-700 bg-white dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                  {["Sl.No", "Name", "Email", "Date", "Status", "Action"].map(
+                  {["Sl.No", "Name", "Email", "Date", "Type", "Status", "Action"].map(
                     (item, index) => (
                       <th scope="col" className="px-6 py-3" key={index}>
                         {item}
@@ -222,6 +242,7 @@ function List() {
                       <td className="px-6 py-4">
                         {moment(elem.received_on).format("DD-MM-YYYY")}
                       </td>
+                      <td className="px-6 py-4">{elem.type || "-"}</td>
                       <td
                         className={`${
                           elem.status === "Seen"
@@ -244,33 +265,35 @@ function List() {
             </table>
           </div>
         )}
-
-        <div className="flex justify-center items-center space-x-2 mt-4">
-          <button
-            onClick={() => setCurrentPage(CurrentPage - 1)}
-            disabled={CurrentPage === 1}
-            className="px-4 py-2 w-[100px] bg-gray-200 text-gray-700 rounded disabled:opacity-50"
-          >
-            Previous
-          </button>
-          <button
-            disabled
-            className={`px-4 py-2 rounded ${
-              CurrentPage
-                ? "bg-spangles-600 text-white"
-                : "bg-gray-200 text-gray-700"
-            }`}
-          >
-            {CurrentPage}
-          </button>
-          <button
-            onClick={() => setCurrentPage(CurrentPage + 1)}
-            disabled={CurrentPage === TotalPages || TotalPages === 0}
-            className="px-4 w-[100px] py-2 bg-gray-200 text-gray-700 rounded disabled:opacity-50"
-          >
-            Next
-          </button>
-        </div>
+        {
+          Data.length > 0 && !Loading &&
+          <div className="flex justify-center items-center space-x-2 mt-4">
+            <button
+              onClick={() => setCurrentPage(CurrentPage - 1)}
+              disabled={CurrentPage === 1}
+              className="px-4 py-2 w-[100px] bg-gray-200 text-gray-700 rounded disabled:opacity-50"
+            >
+              Previous
+            </button>
+            <button
+              disabled
+              className={`px-4 py-2 rounded ${
+                CurrentPage
+                  ? "bg-spangles-600 text-white"
+                  : "bg-gray-200 text-gray-700"
+              }`}
+            >
+              {CurrentPage}
+            </button>
+            <button
+              onClick={() => setCurrentPage(CurrentPage + 1)}
+              disabled={CurrentPage === TotalPages || TotalPages === 0}
+              className="px-4 w-[100px] py-2 bg-gray-200 text-gray-700 rounded disabled:opacity-50"
+            >
+              Next
+            </button>
+          </div>
+        }
       </div>
 
       {Response.status !== null ? (
