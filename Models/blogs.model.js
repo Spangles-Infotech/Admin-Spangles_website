@@ -18,7 +18,6 @@ const blogsSchema = new mongoose.Schema({
   posted_on: {
     type: Date,
     required: true,
-    default: new Date(),
   },
 });
 

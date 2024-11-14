@@ -53,6 +53,7 @@ const blogsController = {
   },
   addNew: async (req, res) => {
     try {
+      console.log("creating")
       if (req.file == undefined) {
         return res.status(400).json({ message: "No file selected" });
       }
@@ -71,6 +72,7 @@ const blogsController = {
   },
   update: async (req, res) => {
     try {
+      console.log("updating")
       const blogs = await Blogs.findById(req.params.id);
       if (!blogs) {
         return res.status(404).json({
@@ -89,8 +91,12 @@ const blogsController = {
         req.body.image = req.body.files;
         delete req.body.files;
       }
+      const updatedData = {
+        ...req.body,     
+        posted_on: new Date()
+      }
 
-      const updateBlog = await Blogs.findByIdAndUpdate(blogs._id, req.body);
+      const updateBlog = await Blogs.findByIdAndUpdate(blogs._id, updatedData,{ new: true });
       return res.status(201).json({
         message: "Blog updated successfully",
       });
