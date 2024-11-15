@@ -19,6 +19,15 @@ const blogsSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
+  altTag:{
+    type:[String],
+  },
+  keyWord:{
+    type:[String],
+  },
+  metaDescription:{
+    type:String,
+  },
 });
 
 const Blogs = mongoose.model(process.env.DB_COLLECTION_THREE, blogsSchema);
