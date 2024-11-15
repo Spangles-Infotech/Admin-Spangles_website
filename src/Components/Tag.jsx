@@ -9,9 +9,9 @@ export const Tag = ({keyWord, setFunction}) => {
     }
 
   return (
-    <div className={`flex flex-row gap-3 ps-2 items-center transition-all duration-500 ease-in-out ${keyWord.length > 0 ? " opacity-100 h-[40px]" : "h-[0px] w-[0px] opacity-0"}`}>
+    <div className={`flex flex-row gap-3 ps-2 items-center transition-all duration-500 ease-in-out ${keyWord?.length > 0 ? " opacity-100 h-[40px]" : "h-[0px] w-[0px] opacity-0"}`}>
         {
-        keyWord.map((item, index) => (
+        keyWord?.map((item, index) => (
             <div className="flex gap-2 items-center h-[30px] p-2 bg-[#ECF3FF] rounded-lg text-[#3474EB] ">
             <p key={index}>{item}</p>
             <img src={deleteIcon} alt="delete-icon" width={"13px"} height={"10px"} className="cursor-pointer" onClick={()=>handleRemoveWord(item)}/>

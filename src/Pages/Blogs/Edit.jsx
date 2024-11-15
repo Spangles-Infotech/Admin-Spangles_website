@@ -6,6 +6,7 @@ import { FailedMessage, SuccessMessage } from "../../Components/ToastMessage";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useDropzone } from "react-dropzone";
+import { Tag } from "../../Components/Tag";
 
 function AddNew() {
   const token = window.localStorage.getItem("token");
@@ -19,6 +20,11 @@ function AddNew() {
   const [Files, setFiles] = useState([]);
   const [FileSrc, setFileSrc] = useState("");
   const [value, setValue] = useState("");
+  const [altTag, setAltTag] = useState([]);
+  const [altInput, setAltInput] = useState("")
+  const [inputValue, setInputValue] = useState("")
+  const [keyWord, setKeyWord] = useState([]);
+  const [metaDescription, setMetaDescription] = useState("");
 
   useEffect(() => {
     fetchData();
@@ -156,7 +162,30 @@ function AddNew() {
       setFileSrc(`${URL}/${Data && Data.image}`);
     }
     setValue(Data.content);
+    setKeyWord(Data.keyWord)
+    setAltTag(Data.altTag)
+    setMetaDescription(metaDescription)
   }, [Data]);
+
+  useEffect(()=>{
+    const handleKeyDown = (e)=>{
+      if(e.key === "Enter"){
+        if(altInput !== ""){
+          setAltTag((prev)=>([...prev, altInput]))
+          setAltInput("")
+        }else{
+          setKeyWord((prev)=> ([...prev, inputValue]))
+          setInputValue("")
+        }
+      }
+    }
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  },[inputValue, altInput])
+
+  console.log("data", Data)
 
   return (
     <React.Fragment>
@@ -227,6 +256,36 @@ function AddNew() {
                 <img src={FileSrc} alt="" className="w-64 h-64" />
               </div>
             </div>
+            <div className={`flex flex-col gap-2 transition-all duration-500 ease-in-out ${keyWord?.length > 0 ? "h-[120px]" : "h-[80px]"}}`}>
+              <label>Image Alt Tag</label>
+              <input
+                value={altInput}
+                onChange={(e) => setAltInput(e.target.value)}
+                placeholder="Image Alt Tag"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-spangles-500 focus:border-spangles-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+              />
+              <Tag keyWord={altTag} setFunction={setAltTag}/>
+            </div>
+            <div className={`flex flex-col gap-2 transition-all duration-500 ease-in-out ${keyWord?.length > 0 ? "h-[120px]" : "h-[80px]"}}`}>
+              <label>Key Words</label>
+              <input
+                value={inputValue}
+                placeholder="Key Words"
+                onChange={(e) => setInputValue(e.target.value)}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-spangles-500 focus:border-spangles-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+              />
+              <Tag keyWord={keyWord} setFunction={setKeyWord}/>
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <label>Meta Description</label>
+              <input
+                value={metaDescription}
+                placeholder="Meta Description"
+                onChange={(e) => setMetaDescription(e.target.value)}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-spangles-500 focus:border-spangles-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+              />
+            </div>
           </div>
           <div className="w-full flex items-center justify-end space-x-5">
             <Link
@@ -236,7 +295,7 @@ function AddNew() {
               Discard
             </Link>
             <button
-              disabled={value === ""}
+              disabled={value === "" || Files.length === 0 || altTag?.length === 0 || keyWord?.length === 0 || metaDescription === ""}
               type="submit"
               className="inline-flex items-center disabled:bg-spangles-400 px-14 py-2.5 mt-4 sm:mt-6 text-base font-semibold text-center text-white bg-spangles-700 rounded-lg focus:ring-4 hover:bg-spangles-800  focus:ring-spangles-200"
             >
