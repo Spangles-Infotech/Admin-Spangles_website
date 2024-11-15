@@ -6,6 +6,7 @@ import { FailedMessage, SuccessMessage } from "../../Components/ToastMessage";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useDropzone } from "react-dropzone";
+import { Tag } from "../../Components/Tag";
 
 function AddNew() {
   const token = window.localStorage.getItem("token");
@@ -17,6 +18,11 @@ function AddNew() {
   const [Files, setFiles] = useState([]);
   const [FileSrc, setFileSrc] = useState("");
   const [value, setValue] = useState("");
+  const [altTag, setAltTag] = useState([]);
+  const [altInput, setAltInput] = useState("")
+  const [inputValue, setInputValue] = useState("")
+  const [keyWord, setKeyWord] = useState([]);
+  const [metaDescription, setMetaDescription] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -25,6 +31,9 @@ function AddNew() {
       content: value,
       files: Files[0],
       posted_on: new Date(),
+      altTag:altTag,
+      keyWord:keyWord,
+      metaDescription:metaDescription,
     };
     const formData = new FormData();
 
@@ -44,7 +53,7 @@ function AddNew() {
       });
       setTimeout(() => {
         navigate("/admin/blogs/list");
-      }, 5000);
+      }, 0);
     } catch (error) {
       console.error(error);
       setResponse({
@@ -62,7 +71,7 @@ function AddNew() {
           status: null,
           message: "",
         });
-      }, 5000);
+      }, 0);
     }
   };
   const modules = {
@@ -101,12 +110,32 @@ function AddNew() {
     }
   }, [Files]);
 
+  useEffect(()=>{
+    const handleKeyDown = (e)=>{
+      if(e.key === "Enter"){
+        if(altInput !== ""){
+          setAltTag((prev)=>([...prev, altInput]))
+          setAltInput("")
+        }else{
+          setKeyWord((prev)=> ([...prev, inputValue]))
+          setInputValue("")
+        }
+      }
+    }
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  },[inputValue, altInput])
+
+  
+
   return (
     <React.Fragment>
       <div className="flex flex-col bg-white p-5 space-y-10 rounded-t-lg">
         <h1 className="font-semibold text-lg text-spangles-700">New Blog</h1>
         <form onSubmit={handleSubmit} className="space-y-20">
-          <div className="flex flex-col space-y-8">
+          <div className="flex flex-col space-y-8  transition-all duration-500 ease-in-out">
             <div className="w-full">
               <label
                 htmlFor="title"
@@ -172,6 +201,36 @@ function AddNew() {
                   />
                 )}
               </div>
+            </div>
+            <div className="flex flex-col gap-2">
+              <label>Image Alt Tag</label>
+              <input
+                value={altInput}
+                onChange={(e) => setAltInput(e.target.value)}
+                placeholder="Image Alt Tag"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-spangles-500 focus:border-spangles-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+              />
+              <Tag keyWord={altTag} setFunction={setAltTag}/>
+            </div>
+            <div className={`flex flex-col gap-2 transition-all duration-500 ease-in-out ${keyWord.length > 0 ? "h-[120px]" : "h-[80px]"}}`}>
+              <label>Key Words</label>
+              <input
+                value={inputValue}
+                placeholder="Key Words"
+                onChange={(e) => setInputValue(e.target.value)}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-spangles-500 focus:border-spangles-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+              />
+              <Tag keyWord={keyWord} setFunction={setKeyWord}/>
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <label>Meta Description</label>
+              <input
+                value={metaDescription}
+                placeholder="Meta Description"
+                onChange={(e) => setMetaDescription(e.target.value)}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-spangles-500 focus:border-spangles-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+              />
             </div>
           </div>
           <div className="w-full flex items-center justify-end space-x-5">
