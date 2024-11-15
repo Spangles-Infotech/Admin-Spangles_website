@@ -164,7 +164,7 @@ function AddNew() {
     setValue(Data.content);
     setKeyWord(Data.keyWord)
     setAltTag(Data.altTag)
-    setMetaDescription(metaDescription)
+    setMetaDescription(Data.metaDescription)
   }, [Data]);
 
   useEffect(()=>{
