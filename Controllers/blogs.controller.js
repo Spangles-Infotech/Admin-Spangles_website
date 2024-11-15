@@ -58,6 +58,12 @@ const blogsController = {
         return res.status(400).json({ message: "No file selected" });
       }
       req.body.image = req.file.path;
+      if (req.body.keyWord) {
+        req.body.keyWord = req.body.keyWord.split(','); 
+      }
+      if (req.body.altTag) {
+        req.body.altTag = req.body.altTag.split(',');  
+      }
       const newBlog = new Blogs(req.body);
       await newBlog.save();
       return res.status(201).json({
