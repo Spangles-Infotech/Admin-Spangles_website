@@ -141,13 +141,12 @@ export const OTPVerification = () => {
     try {
       const response = await axios.post(`${URL}/api/user/verify-otp`, {username ,otp });
       if (response && response.data==='OTP verified.') {
-        console.log(response);
         setResponseColor("text-green-600");
         setResponseMessage(response.data);
 setTimeout(() => {
     navigate("/new_password", { state: { username:username} });
 
-      }, 1000);
+      }, 500);
     }
 
      
@@ -255,7 +254,6 @@ export const  CreateNewPassword=()=>{
   
   const { username } = state;
 
-  console.log(username);
 
 
 
@@ -279,7 +277,6 @@ export const  CreateNewPassword=()=>{
     try {
       // Send the password to your backend for saving
       const response = await axios.post(`${URL}/api/user/reset-password`, {username, newPassword });
-      console.log(response.data);
       if (response &&response.data==='Password Updated Successfully.') {
         setResponseMessage(response.data);
       setResponseColor("text-green-600");

@@ -47,7 +47,6 @@ function Preview() {
   const handleReasonStatus = (e) => {
     // Check if Data is available and the input isn't empty
     if (Data && Data.status !== Status ) {
-      console.log(Status);
       setReasonForStatus({
         ...ReasonForStatus,
         message: e.target.value,  // Correct field name
@@ -55,9 +54,7 @@ function Preview() {
       });
     }
   };
-  useEffect(() => {
-    console.log(ReasonForStatus);  // Will log the updated state after re-render
-  }, [ReasonForStatus]);
+
   
 
 
@@ -112,7 +109,6 @@ function Preview() {
       }
     }
   };
-console.log(Data);
 
   const updateViewState = async () => {
     try {
@@ -142,7 +138,6 @@ console.log(Data);
 
 if (Data && Data.status==="View") {
   updateViewState()
-  console.log("updateViewState Called");
   
 }
 
@@ -172,7 +167,6 @@ const handleStatus = async (e) => {
     setStatus(Data.status);
   }, [Data]);
 
-  console.log(Data);
   
 
   return (
