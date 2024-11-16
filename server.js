@@ -25,6 +25,8 @@ server.use(
       process.env.FRONTEND_URL_4,
       process.env.FRONTEND_LOCAL_URL_1,
       process.env.FRONTEND_LOCAL_URL_2,
+      "https://www.spanglesinfotech.com",
+      "https://www.admin.spanglesinfotech.com",
     ],
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     preflightContinue: false,
