@@ -193,7 +193,7 @@ function AddNew() {
         <h1 className="font-semibold text-lg text-spangles-700">
           Update Blog Details
         </h1>
-        <form onSubmit={handleSubmit} className="space-y-20">
+        <form className="space-y-20">
           <div className="flex flex-col space-y-8">
             <div className="w-full">
               <label
@@ -295,8 +295,8 @@ function AddNew() {
               Discard
             </Link>
             <button
-              disabled={value === "" || Files.length === 0 || altTag?.length === 0 || keyWord?.length === 0 || metaDescription === ""}
-              type="submit"
+              disabled={value === "" || FileSrc === "" || altTag?.length === 0 || keyWord?.length === 0 || metaDescription === ""}
+              onClick={handleSubmit}
               className="inline-flex items-center disabled:bg-spangles-400 px-14 py-2.5 mt-4 sm:mt-6 text-base font-semibold text-center text-white bg-spangles-700 rounded-lg focus:ring-4 hover:bg-spangles-800  focus:ring-spangles-200"
             >
               Upload
