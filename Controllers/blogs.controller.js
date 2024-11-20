@@ -97,11 +97,18 @@ const blogsController = {
         req.body.image = req.body.files;
         delete req.body.files;
       }
+      
+      if (req.body.keyWord) {
+        req.body.keyWord = req.body.keyWord.split(','); 
+      }
+      if (req.body.altTag) {
+        req.body.altTag = req.body.altTag.split(',');  
+      }
+      
       const updatedData = {
         ...req.body,     
         posted_on: new Date()
       }
-
       const updateBlog = await Blogs.findByIdAndUpdate(blogs._id, updatedData,{ new: true });
       return res.status(201).json({
         message: "Blog updated successfully",
