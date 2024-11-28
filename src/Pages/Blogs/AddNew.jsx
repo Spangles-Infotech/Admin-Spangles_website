@@ -116,7 +116,7 @@ function AddNew() {
         if(altInput !== ""){
           setAltTag((prev)=>([...prev, altInput]))
           setAltInput("")
-        }else{
+        }else if(inputValue !== ""){
           setKeyWord((prev)=> ([...prev, inputValue]))
           setInputValue("")
         }

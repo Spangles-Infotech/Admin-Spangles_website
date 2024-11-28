@@ -173,7 +173,7 @@ function AddNew() {
         if(altInput !== ""){
           setAltTag((prev)=>([...prev, altInput]))
           setAltInput("")
-        }else{
+        }else if(inputValue !== ""){
           setKeyWord((prev)=> ([...prev, inputValue]))
           setInputValue("")
         }
@@ -185,7 +185,6 @@ function AddNew() {
     };
   },[inputValue, altInput])
 
-  console.log("data", Data)
 
   return (
     <React.Fragment>
