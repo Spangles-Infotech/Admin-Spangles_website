@@ -65,6 +65,9 @@ function AddNew() {
       ...Data,
       content: value,
       files: Files.length !== 0 ? Files[0] : Data && Data.image,
+      altTag:altTag,
+      keyWord:keyWord,
+      metaDescription:metaDescription,
     };
     const formData = new FormData();
     for (const key in data) {
