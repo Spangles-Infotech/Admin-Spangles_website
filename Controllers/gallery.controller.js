@@ -36,14 +36,18 @@ const galleryController = {
   },
   addNewFiles: async (req, res) => {
     try {
-      if (req.file == undefined) {
+
+      if (req.files == undefined) {
         return res.status(400).json({ message: "No file selected" });
       }
       const newGallery = new gallery({
-        name: req.file.originalname,
-        path: req.file.path,
-        size: req.file.size,
-        mimetype: req.file.mimetype,
+        name: req.files.files[0].originalname,
+        path: req.files.files[0].path,
+        size: req.files.files[0].size,
+        mimetype: req.files.files[0].mimetype,
+        thumbnailName:req.files.thumbnail[0].originalname,
+        thumbnailPath:req.files.thumbnail[0].path,
+        thumbnailSize:req.files.thumbnail[0].size,
       });
       await newGallery.save();
       const galleryData = await gallery.find().sort({ _id: -1 });

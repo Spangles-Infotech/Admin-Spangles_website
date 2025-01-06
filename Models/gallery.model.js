@@ -20,6 +20,15 @@ const gallerySchema = new mongoose.Schema({
     required: true,
     default: new Date(),
   },
+  thumbnailName:{
+    type:String
+  },
+  thumbnailPath:{
+    type:String
+  },
+  thumbnailSize:{
+    type:Number
+  }
 });
 
 const gallery = mongoose.model(process.env.DB_COLLECTION_FOUR, gallerySchema);

@@ -9,7 +9,10 @@ galleryRouter.get("/:id/data", galleryController.getSingle);
 galleryRouter.post(
   "/files/add/new",
   authentication,
-  upload.single("files"),
+  upload.fields([
+    { name: "files" }, 
+    { name: "thumbnail" }
+  ]),
   galleryController.addNewFiles
 );
 galleryRouter.post(
