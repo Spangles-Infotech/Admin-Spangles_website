@@ -160,6 +160,7 @@ function List() {
                       controls
                       width="100%"
                       height="100%"
+                      light={`${URL}/${item?.thumbnailPath}`}
                     />
                   </div>
                 )}

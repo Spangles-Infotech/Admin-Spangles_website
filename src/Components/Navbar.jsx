@@ -6,7 +6,6 @@ import { Link, useNavigate } from "react-router-dom";
 
 function Navbar() {
   const user = JSON.parse(window.localStorage.getItem("user"));
-  console.log(user);
   
   const navigate = useNavigate();
   useEffect(() => {

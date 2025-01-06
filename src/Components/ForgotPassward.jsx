@@ -166,7 +166,6 @@ setTimeout(() => {
     const response = await axios.post(`${URL}/api/user/forget_password`, data);
     const users = response.data;
     if (users.message) {
-      console.log(users.message);
       
       // notify(users.message);
       setIsResending(true);

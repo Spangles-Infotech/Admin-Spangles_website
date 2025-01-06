@@ -10,18 +10,30 @@ function UploadFiles({ setData }) {
   const token = window.localStorage.getItem("token");
   const navigate = useNavigate();
   const [files, setFiles] = useState([]);
+  const [thumbnail, setThumbnail] = useState([]);
   const [FileSrc, setFileSrc] = useState("");
+  const [thumbnailSrc, setThumbnailSrc] = useState("");
   const [Response, setResponse] = useState({
     status: null,
     message: "",
   });
-  const onDrop = useCallback((acceptedFiles) => {
+
+  const fileOnDrop = useCallback((acceptedFiles) => {
     setFiles(acceptedFiles);
   }, []);
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
+
+  const thumbnailOnDrop = useCallback((acceptedFiles) => {
+    setThumbnail(acceptedFiles);
+  }, []);
+
+  const { getRootProps: getFileRootProps, getInputProps: getFileInputProps, isDragActive: isDragFileActive } = useDropzone({
+    onDrop:fileOnDrop,
     multiple: false,
-    //
+  });
+  
+  const { getRootProps: getThumbnailRootProps, getInputProps: getThumbnailInputProps, isDragActive: isDragThumbnailActive } = useDropzone({
+    onDrop:thumbnailOnDrop,
+    multiple: false,
   });
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -29,6 +41,7 @@ function UploadFiles({ setData }) {
     for (let i = 0; i < files.length; i++) {
       formData.append("files", files[i]);
     }
+    formData.append("thumbnail", thumbnail[0])
     try {
       const closeBtn = document.getElementById("files-modal-btn");
       closeBtn.click();
@@ -46,13 +59,12 @@ function UploadFiles({ setData }) {
         status: "Success",
         message: "Uploaded Successfully.",
       });
-      setTimeout(() => {
-        setResponse({
-          status: null,
-          message: "",
-        });
-        setFiles([]);
-      }, 5000);
+      setResponse({
+        status: null,
+        message: "",
+      });
+      setFiles([]);
+      setThumbnail([]);
     } catch (error) {
       console.error(error);
       if (error.response.status === 401) {
@@ -60,22 +72,18 @@ function UploadFiles({ setData }) {
           status: "Failed",
           message: error.response.data.message,
         });
-        setTimeout(() => {
-          window.localStorage.clear();
-          navigate("/");
-        }, 5000);
+        window.localStorage.clear();
+        navigate("/");
       }
       if (error.response.status === 500) {
         setResponse({
           status: "Failed",
           message: error.response.data.message,
         });
-        setTimeout(() => {
-          setResponse({
-            status: null,
-            message: "",
-          });
-        }, 5000);
+        setResponse({
+          status: null,
+          message: "",
+        });
       }
     }
   };
@@ -92,6 +100,25 @@ function UploadFiles({ setData }) {
       };
     }
   }, [files]);
+  
+  useEffect(() => {
+    if (thumbnail.length > 0) {
+      const reader = new FileReader();
+      reader.readAsDataURL(thumbnail[0]);
+      reader.onloadend = () => {
+        setThumbnailSrc(reader.result)
+      };
+      reader.onerror = (error) => {
+        console.error("Error: ", error);
+      };
+    }
+  }, [thumbnail]);
+
+  const handleClickDiscard = ()=>{
+    setFiles([]);
+    setThumbnail([]);
+  }
+  
 
   return (
     <React.Fragment>
@@ -155,19 +182,37 @@ function UploadFiles({ setData }) {
                 Drag and Drop File Upload
               </h1>
               <div
-                {...getRootProps()}
+                {...getFileRootProps()}
                 className={`border-2 border-dashed border-spangles-500 rounded p-20 text-center cursor-pointer ${
-                  isDragActive ? "bg-spangles-100" : ""
+                  isDragFileActive ? "bg-spangles-100" : ""
                 }`}
               >
-                <input {...getInputProps({ multiple: false })} />
+                <input {...getFileInputProps({ multiple: false })} />
                 <p className="m-0 text-base font-medium">
-                  {isDragActive
+                  {isDragFileActive
                     ? "Drop the files here..."
                     : "Drop your images/videos here, or click to select files"}
                 </p>
               </div>
-              <div className="w-full">
+              <div className="flex flex-col gap-3">
+                <h1 className="text-xl font-semibold mb-5">
+                  Thumbnail
+                </h1>
+                <div
+                  {...getThumbnailRootProps()}
+                  className={`border-2 border-dashed border-spangles-500 rounded p-20 text-center cursor-pointer ${
+                    isDragThumbnailActive ? "bg-spangles-100" : ""
+                  }`}
+                >
+                  <input {...getThumbnailInputProps({ multiple: false })} />
+                  <p className="m-0 text-base font-medium">
+                    {isDragThumbnailActive
+                      ? "Drop the files here..."
+                      : "Drop your thumbnail for a video here, or click to select files"}
+                  </p>
+                </div>
+              </div>
+              <div className="w-full flex flex-wrap gap-[10px]">
                 {files.length > 0 ? (
                   files[0].type.includes("image") ? (
                     <img src={FileSrc} alt="" className="w-20 h-20" />
@@ -180,12 +225,17 @@ function UploadFiles({ setData }) {
                     />
                   )
                 ) : null}
+                {
+                  thumbnail.length > 0 && thumbnail[0].type.includes("image") && 
+                    <img src={thumbnailSrc} alt="" className="w-20 h-20" />
+                }
+
               </div>
             </div>
             {/* <!-- Modal footer --> */}
             <div className="flex justify-end items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
               <button
-                onClick={() => setFiles([])}
+                onClick={handleClickDiscard}
                 id="files-modal-btn"
                 data-modal-hide="files-modal"
                 type="button"
@@ -194,7 +244,7 @@ function UploadFiles({ setData }) {
                 Discard
               </button>
               <button
-                disabled={files.length === 0}
+                disabled={files.length === 0} 
                 type="submit"
                 className="text-white ms-3 disabled:bg-opacity-70 bg-spangles-700 hover:bg-spangles-800 focus:ring-4 focus:outline-none focus:ring-spangles-300 font-medium rounded-lg text-sm px-10 py-2.5 text-center dark:bg-spangles-600 dark:hover:bg-spangles-700 dark:focus:ring-spangles-800"
               >
