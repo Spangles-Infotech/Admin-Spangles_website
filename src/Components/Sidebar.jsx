@@ -163,6 +163,29 @@ function Sidebar() {
                   </Link>
                 </li>
               )}
+
+        {user &&
+              (user.access_to.includes("Register") || user.isAdmin) && (
+                <li>
+                  <Link
+                    to="/admin/register/list"
+                    className={`flex items-center p-2 rounded-lg group ${
+                      isActive("/admin/register/list")
+                        ? "bg-gray-200 dark:bg-gray-700"
+                        : "text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                    }`}
+                  >
+                    <img
+                      src={ApplicantsIcon}
+                      className="flex-shrink-0 w-7 h-7"
+                      alt="Applicants icon"
+                    />
+                    <span className="flex-1 ms-3 whitespace-nowrap">
+                    Registration Forms 
+                    </span>
+                  </Link>
+                </li>
+              )}
           </ul>
           <div className="mb-10">
             <button

@@ -24,6 +24,9 @@ import ApplicantPreview from "./Pages/Applicants/Preview";
 import EnquiriesContainer from "./Pages/Enquiries/Container";
 import EnquiriesList from "./Pages/Enquiries/List";
 import EnquiriesPreview from "./Pages/Enquiries/Preview";
+import RegistrationContainer from "./Pages/Register/Container";
+import RegistrationList from "./Pages/Register/List";
+import RegistrationPreview from "./Pages/Register/Preview";
 import ForgotPassward from './Components/ForgotPassward'
 import {OTPVerification,CreateNewPassword} from './Components/ForgotPassward'
 
@@ -74,6 +77,10 @@ function App() {
             <Route path="enquiries&messages" element={<EnquiriesContainer />}>
               <Route path="list" element={<EnquiriesList />} />
               <Route path=":id/preview" element={<EnquiriesPreview />} />
+            </Route>
+            <Route path="register" element={<RegistrationContainer />}>
+              <Route path="list" element={<RegistrationList />} />
+              <Route path=":id/preview" element={<RegistrationPreview />} />
             </Route>
           </Route>
         </Routes>
