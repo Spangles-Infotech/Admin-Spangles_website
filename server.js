@@ -9,6 +9,8 @@ const jobRouter = require("./Routers/job.router.js");
 const galleryRouter = require("./Routers/gallery.router.js");
 const blogsRouter = require("./Routers/blogs.router.js");
 const applicantRouter = require("./Routers/applicant.router.js");
+const spanglesApplicantRouter = require("./Routers/spanglesApplicant.router.js");
+
 const enquiriesRouter = require("./Routers/contact.router.js");
 
 dotenv.config();
@@ -45,6 +47,7 @@ server.get("/", (req, res) => {
 server.use("/api/user", userRouter);
 server.use("/api/job", jobRouter);
 server.use("/api/applicant", applicantRouter);
+server.use("/api/spanglesApplicant", spanglesApplicantRouter);
 server.use("/api/enquiries&messages", enquiriesRouter);
 server.use("/api/blog", blogsRouter);
 server.use("/api/gallery", galleryRouter);
