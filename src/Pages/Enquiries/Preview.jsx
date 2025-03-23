@@ -126,6 +126,12 @@ function Preview() {
             </tr>
             <tr className="align-top">
               <td className="px-4 py-3 text-base font-medium text-gray-700">
+              Mobile
+              </td>
+              <td className="px-4 py-3 text-sm">{Data && Data.mobile}</td>
+            </tr>
+            <tr className="align-top">
+              <td className="px-4 py-3 text-base font-medium text-gray-700">
                 Received On
               </td>
               <td className="px-4 py-3 text-sm ">
@@ -134,7 +140,7 @@ function Preview() {
             </tr>
           </tbody>
         </table>
-        {Data && Data.status === "New" || Data.status === "Seen" && (
+        {/* {Data && Data.status === "New" || Data.status === "Seen" && (
           <div className="flex items-center justify-end w-full space-x-5">
             <Link
               to={"/admin/enquiries&messages/list"}
@@ -143,7 +149,7 @@ function Preview() {
               Done
             </Link>
           </div>
-        )}
+        )} */}
       </div>
       {Response.status !== null ? (
         Response.status === "Success" ? (

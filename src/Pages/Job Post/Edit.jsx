@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { URL } from "../../App";
 import axios from "axios";
 import { FailedMessage, SuccessMessage } from "../../Components/ToastMessage";
 import { initFlowbite } from "flowbite";
+import { URL } from "../../App";
 
 function Edit() {
   const token = window.localStorage.getItem("token");

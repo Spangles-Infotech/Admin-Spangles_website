@@ -215,7 +215,7 @@ function List() {
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
               <thead className="text-sm text-gray-700 bg-white dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                  {["Sl.No", "Name", "Email", "Date", "Type", "Status", "Action"].map(
+                  {["Sl.No", "Name", "Email", "Date","Mobile", "Type", "Status", "Action"].map(
                     (item, index) => (
                       <th scope="col" className="px-6 py-3" key={index}>
                         {item}
@@ -242,6 +242,9 @@ function List() {
                       <td className="px-6 py-4">
                         {moment(elem.received_on).format("DD-MM-YYYY")}
                       </td>
+                      
+                      <td className="px-6 py-4">{elem.mobile || "-"}</td>
+
                       <td className="px-6 py-4">{elem.type || "-"}</td>
                       <td
                         className={`${
