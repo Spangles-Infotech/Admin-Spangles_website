@@ -50,6 +50,7 @@ function App() {
           <Route path="/verify" element={<OTPVerification/>} />
           <Route path="/new_password" element={<CreateNewPassword/>} />
           <Route path="admin" element={<ContainerWrapper />}>
+          <Route index element={<Navigate to="job-post/list" replace />} />
             <Route path="user-access" element={<UserAccessContainer />}>
               <Route path="list" element={<UserAccessList />} />
               <Route path="add/new" element={<UserAccessAddNew />} />
