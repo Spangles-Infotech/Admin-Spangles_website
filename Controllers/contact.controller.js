@@ -114,9 +114,10 @@ const enquiresController = {
   addNew: async (req, res) => {
     try {
       const newEnquiries = new Enquiries(req.body);
-      await newEnquiries.save();
+      const savedEnquiry = await newEnquiries.save(); 
       return res.status(201).json({
         message: "Message Sented successfully",
+        data:savedEnquiry,
       });
     } catch (error) {
       console.log(error);

@@ -208,6 +208,7 @@ const userController = {
         await user.save();
   
         const email = user.email;
+        console.log(email,"email")
         // console.log('User email after check:', email);
   
         // Send the OTP via email
